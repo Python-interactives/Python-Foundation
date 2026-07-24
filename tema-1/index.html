@@ -1,53 +1,76 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem('pf-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <title>Python · Тема 1 — інтерактиви</title>
 <style>
-  :root{
-    --bg:#0D1117;--panel:#161B22;--panel2:#1C2330;--border:#30363D;
-    --white:#F0F6FC;--muted:#8B949E;--green:#3FB950;--greenbg:#11331c;
-    --red:#f85149;--redbg:#3a1414;--blue:#58a6ff;--bluebg:#102a43;--violetbg:#1c1740;
+  :root, [data-theme="light"]{
+    --bg:#FFFFFF;--panel:#F6F7F9;--panel2:#ECEEF1;--border:#E4E5EA;
+    --white:#1F2430;--muted:#7C828F;--accent:#F2661F;--accent-ink:#D1550F;
+    --green:#1E9E52;--greenbg:#E6F4EA;--red:#D64545;--redbg:#FBE9E8;
+    --blue:#F2661F;--bluebg:#FCEBE0;--violet:#7C5CD6;--violetbg:#EFE9FC;
+    --code-bg:#ECEDF1;--code-fg:#33353b;--code-bd:#DEDFE4;
+  }
+  [data-theme="dark"]{
+    --bg:#171A22;--panel:#1E222C;--panel2:#262B38;--border:#2B303C;
+    --white:#E7EAF1;--muted:#828A99;--accent:#FF7D45;--accent-ink:#FF9160;
+    --green:#3FB950;--greenbg:#123420;--red:#f85149;--redbg:#3a1414;
+    --blue:#FF7D45;--bluebg:#3a2418;--violet:#b9a4ff;--violetbg:#241d40;
+    --code-bg:#2A2F3B;--code-fg:#CFD5E0;--code-bd:#39404E;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--white);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;font-size:15px}
+  body{margin:0;background:var(--bg);color:var(--white);font-family:"Montserrat",-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;font-size:15px;transition:background .25s,color .25s}
   .wrap{max-width:740px;margin:0 auto;padding:20px 16px 80px}
   header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-  h1{font-size:19px;margin:0}
-  .badge{font-size:12px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:4px 10px}
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
-  .meta{font-size:12px;color:var(--muted);margin-bottom:10px}
+  h1{font-size:19px;margin:0;font-weight:700;letter-spacing:-.3px}
+  .badge{font-size:12px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-weight:500}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+  .meta{font-size:12px;color:var(--muted);margin-bottom:10px;font-weight:600}
   .tag{border-radius:4px;padding:1px 8px;font-weight:600}
-  .tag.q{background:var(--bluebg);color:var(--blue)}
+  .tag.q{background:var(--bluebg);color:var(--accent-ink)}
+  [data-theme="dark"] .tag.q{color:var(--blue)}
   .tag.g{background:var(--greenbg);color:var(--green)}
-  .tag.c{background:var(--violetbg);color:#b9a4ff}
-  pre{background:#07090e;color:#c9d1d9;padding:14px;border-radius:8px;overflow:auto;font-size:14px;margin:0 0 14px}
-  code{font-family:"SF Mono",Consolas,Menlo,monospace}
+  .tag.c{background:var(--violetbg);color:var(--violet)}
+  pre{background:#0F141A;color:#D3DAE4;padding:14px;border-radius:8px;overflow:auto;font-size:14px;margin:0 0 14px;border:1px solid #23262e}
+  code{font-family:"JetBrains Mono","SF Mono",Consolas,Menlo,monospace;font-size:.88em;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--code-bd);border-radius:5px;padding:1px 5px}
+  pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
   .opts{display:flex;flex-direction:column;gap:8px}
-  .opt{text-align:left;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:11px 14px;border-radius:8px;cursor:pointer;font-family:"SF Mono",Consolas,monospace;font-size:14px}
-  .opt:hover{border-color:var(--muted)}
+  .opt{text-align:left;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:11px 14px;border-radius:8px;cursor:pointer;font-family:"JetBrains Mono","SF Mono",Consolas,monospace;font-size:14px}
+  .opt:hover{border-color:var(--accent)}
   .opt.correct{border-color:var(--green);background:var(--greenbg)}
   .opt.wrong{border-color:var(--red);background:var(--redbg)}
   .opt:disabled{cursor:default}
-  .chip{display:inline-block;margin:4px 6px 4px 0;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:8px 13px;border-radius:8px;cursor:pointer;font-family:"SF Mono",Consolas,monospace;font-size:14px}
-  .chip.sel{border-color:var(--blue);background:var(--bluebg)}
+  .chip{display:inline-block;margin:4px 6px 4px 0;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:8px 13px;border-radius:8px;cursor:pointer;font-family:"JetBrains Mono","SF Mono",Consolas,monospace;font-size:14px}
+  .chip.sel{border-color:var(--accent);background:var(--bluebg)}
   .chip.ok{border-color:var(--green);background:var(--greenbg)}
   .chip.bad{border-color:var(--red);background:var(--redbg)}
-  textarea{width:100%;min-height:120px;background:#07090e;color:#c9d1d9;border:1px solid var(--border);border-radius:8px;padding:12px;font-family:"SF Mono",Consolas,monospace;font-size:14px;resize:vertical}
-  .out{margin-top:12px;font-size:13px;white-space:pre-wrap}
+  textarea{width:100%;min-height:120px;background:#0F141A;color:#D3DAE4;border:1px solid #23262e;border-radius:8px;padding:12px;font-family:"JetBrains Mono","SF Mono",Consolas,monospace;font-size:14px;resize:vertical}
+  .out{margin-top:12px;font-size:13px;white-space:pre-wrap;font-family:"JetBrains Mono","SF Mono",Consolas,monospace}
+  .out:not(:empty){background:#0F141A;color:#D3DAE4;padding:12px 14px;border-radius:8px;border:1px solid #23262e}
   .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
   .fb{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:14px;display:none;white-space:pre-wrap}
   .fb.show{display:block}.fb.ok{background:var(--greenbg);border:1px solid var(--green)}.fb.no{background:var(--redbg);border:1px solid var(--red)}
-  .btn{background:var(--green);color:#031b0c;border:none;padding:10px 18px;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px}
-  a{color:var(--blue)} .muted{color:var(--muted)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px}
+  .btn:hover{background:var(--accent-ink)} [data-theme="dark"] .btn:hover{filter:brightness(1.08)}
+  a{color:var(--accent-ink)} [data-theme="dark"] a{color:var(--accent)} .muted{color:var(--muted)}
   .idx a{display:block;padding:6px 0;border-bottom:1px solid var(--border)}
+  .themetoggle{display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:none;border:1px solid var(--border);color:var(--muted);border-radius:999px;padding:5px 11px 5px 9px;font:inherit;font-size:11px;font-weight:600;letter-spacing:.5px}
+  .themetoggle:hover{border-color:var(--accent);color:var(--accent-ink)} [data-theme="dark"] .themetoggle:hover{color:var(--accent)}
+  .themetoggle svg{width:13px;height:13px}
+  .themetoggle .l-dark{display:none}
+  [data-theme="dark"] .themetoggle .l-light{display:none}
+  [data-theme="dark"] .themetoggle .l-dark{display:inline}
+  @media (prefers-reduced-motion:reduce){body{transition:none}}
 </style>
 <style id="snakeprog-css">
-.snakeprog{position:fixed;top:0;left:0;right:0;height:6px;z-index:60;background:rgba(255,255,255,.045);pointer-events:none}
+.snakeprog{position:fixed;top:0;left:0;right:0;height:6px;z-index:60;background:rgba(242,102,31,.14);pointer-events:none}
 .snakeprog .fill{position:absolute;left:0;top:0;height:100%;width:0;border-radius:0 3px 3px 0;
-  background:linear-gradient(90deg,#2B8F3D,#3FB950 55%,#56D364);
-  box-shadow:0 0 10px rgba(63,185,80,.55);transition:width .06s linear}
+  background:linear-gradient(90deg,#C94E12,#F2661F 55%,#FF8A4C);
+  box-shadow:0 0 10px rgba(242,102,31,.5);transition:width .06s linear}
 .snakeprog .fill::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:.65;
   background:repeating-linear-gradient(118deg, rgba(0,0,0,.16) 0 2px, transparent 2px 9px)}
 .snakeprog .head{position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:20px;height:20px;line-height:0;
@@ -56,12 +79,12 @@
 </style>
 </head>
 <body>
-<div class="snakeprog" aria-hidden="true"><div class="fill"><span class="head"><svg viewBox="0 0 22 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10" r="7.5" fill="#56D364" stroke="#2B8F3D" stroke-width="1"/><circle cx="7" cy="8" r="1.5" fill="#0A0E14"/><circle cx="11.4" cy="8" r="1.5" fill="#0A0E14"/><circle cx="7.4" cy="7.4" r=".5" fill="#fff"/><circle cx="11.8" cy="7.4" r=".5" fill="#fff"/><path d="M16.5 10 H21 M21 10 L18.6 8.3 M21 10 L18.6 11.7" stroke="#F0506E" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg></span></div></div>
+<div class="snakeprog" aria-hidden="true"><div class="fill"><span class="head"><svg viewBox="0 0 22 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10" r="7.5" fill="#FF8A4C" stroke="#C94E12" stroke-width="1"/><circle cx="7" cy="8" r="1.5" fill="#0A0E14"/><circle cx="11.4" cy="8" r="1.5" fill="#0A0E14"/><circle cx="7.4" cy="7.4" r=".5" fill="#fff"/><circle cx="11.8" cy="7.4" r=".5" fill="#fff"/><path d="M16.5 10 H21 M21 10 L18.6 8.3 M21 10 L18.6 11.7" stroke="#F0506E" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg></span></div></div>
 
 <div class="wrap">
 <nav class="topnav" style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
   <a href="../" style="display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--blue);text-decoration:none;font-size:13.5px;font-weight:600">← На головну</a>
-  <span style="font-size:12.5px;color:var(--muted)">Тема 1 / 5</span>
+  <span style="display:inline-flex;align-items:center;gap:10px"><span style="font-size:12.5px;color:var(--muted)">Тема 1 / 5</span><button class="themetoggle" id="themeToggle" aria-label="Перемкнути тему"><svg class="l-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="l-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg><span class="l-light">Темна</span><span class="l-dark">Світла</span></button></span>
 </nav>
   <header>
     <h1 id="title">🐍 Python · Тема 1 — інтерактиви</h1>
@@ -435,5 +458,6 @@ else renderIndex();
   setTimeout(upd,60); setTimeout(upd,700); upd();
 })();
 </script>
+<script>(function(){var b=document.getElementById("themeToggle"),r=document.documentElement;if(b)b.addEventListener("click",function(){var n=r.getAttribute("data-theme")==="dark"?"light":"dark";r.setAttribute("data-theme",n);try{localStorage.setItem("pf-theme",n);}catch(e){}});})();</script>
 </body>
 </html>
