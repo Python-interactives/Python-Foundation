@@ -24,7 +24,7 @@
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--white);font-family:"Montserrat",-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;font-size:15px;transition:background .25s,color .25s}
-  .wrap{max-width:740px;margin:0 auto;padding:20px 16px 80px}
+  .wrap{max-width:960px;margin:0 auto;padding:20px 16px 80px}
   header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
   h1{font-size:19px;margin:0;font-weight:700;letter-spacing:-.3px}
   .badge{font-size:12px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-weight:500}
@@ -474,7 +474,7 @@ function renderBlock(id){
   if(gi){const c=document.createElement("div");c.className="card";c.innerHTML=`<div class="muted" style="font-size:.9rem">${gi.g.name} · крок ${gi.i+1} з ${gi.g.blocks.length}</div>`+((gi.i===0&&gi.g.desc)?`<p style="margin:8px 0 0">${gi.g.desc}</p>`:"");app.appendChild(c);}
   b.items.forEach(it=>app.appendChild(renderItem(it)));
   if(gi){const nav=document.createElement("div");nav.style.cssText="display:flex;gap:12px;margin:18px 0 4px;align-items:center";const g=gi.g,i=gi.i;if(i>0)nav.innerHTML+=`<a href="?block=${g.blocks[i-1]}">← попередній крок</a>`;if(i<g.blocks.length-1)nav.innerHTML+=`<a href="?block=${g.blocks[i+1]}" style="margin-left:auto">наступний крок →</a>`;if(nav.children.length)app.appendChild(nav);}
-  const back=document.createElement("p");back.innerHTML='<a href="?">← усі інтерактиви</a>';back.className="muted";
+  const back=document.createElement("p");back.innerHTML='<a href="?">← усі інтерактиви теми</a>';back.className="muted";
   app.appendChild(back);
 }
 
