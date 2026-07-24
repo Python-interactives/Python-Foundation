@@ -1,306 +1,214 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Python Foundation — інтерактиви</title>
-<meta name="description" content="Практична частина курсу основ Python: наскрізні інтерактивні кейси — запусти, покрути, зроби сам. Доповнення до конспекту.">
+<meta name="description" content="Практика до кожної теми курсу основ Python — для самоперевірки. Доповнення до конспекту, не заміна.">
+<script>try{var t=localStorage.getItem('pf-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0A0E14; --bg2:#0D1420; --panel:#121A26; --panel2:#16202F;
-    --border:#243044; --border2:#2f3e57;
-    --white:#EAF2FF; --muted:#8A9BB4; --dim:#5f6f88;
-    --green:#3FB950; --green2:#56D364; --blue:#58A6FF; --violet:#B392FF;
-    --orange:#F0883E; --yellow:#F2C744;
-    --font-d:"Space Grotesk",-apple-system,Segoe UI,Roboto,sans-serif;
-    --font-b:"Inter",-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    --font-m:"JetBrains Mono",ui-monospace,"SF Mono",Consolas,monospace;
+  :root, [data-theme="light"]{
+    --bg:#FFFFFF; --bg2:#F5F6F8; --ink:#1F2430; --ink2:#3d4351; --mut:#7c828f;
+    --rule:#E8E9ED; --rule-strong:#1F2430; --accent:#F2661F; --accent-ink:#d1550f;
+    --code-bg:#ECEDF1; --code-fg:#33353b; --code-bd:#DEDFE4;
+  }
+  [data-theme="dark"]{
+    --bg:#171A22; --bg2:#1E222C; --ink:#E7EAF1; --ink2:#c4c9d4; --mut:#828a99;
+    --rule:#282d38; --rule-strong:#49505f; --accent:#FF7D45; --accent-ink:#ff9160;
+    --code-bg:#2A2F3B; --code-fg:#CFD5E0; --code-bd:#39404E;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    margin:0;color:var(--white);font-family:var(--font-b);line-height:1.6;font-size:15.5px;
-    background:
-      radial-gradient(1100px 600px at 78% -8%, rgba(63,185,80,.14), transparent 60%),
-      radial-gradient(900px 620px at 8% 8%, rgba(88,166,255,.12), transparent 55%),
-      radial-gradient(760px 520px at 50% 108%, rgba(179,146,255,.10), transparent 60%),
-      var(--bg);
-    background-attachment:fixed;
-    -webkit-font-smoothing:antialiased;
-  }
-  /* subtle dotted grid overlay */
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
-    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
-    background-size:26px 26px;
-    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 30%, #000 40%, transparent 100%);
-            mask-image:radial-gradient(ellipse 90% 70% at 50% 30%, #000 40%, transparent 100%);
-  }
-  .wrap{max-width:960px;margin:0 auto;padding:0 20px 100px;position:relative;z-index:1}
-  a{color:var(--blue)}
-  code{font-family:var(--font-m);font-size:.92em}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Montserrat",-apple-system,Segoe UI,Roboto,sans-serif;font-size:15.5px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;transition:background .25s ease,color .25s ease}
+  .wrap{max-width:840px;margin:0 auto;padding:32px 34px 80px}
+  a{color:inherit;text-decoration:none}
 
-  /* ===== HERO ===== */
-  .hero{text-align:center;padding:64px 0 26px;position:relative}
-  .kicker{
-    display:inline-flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:12px;
-    letter-spacing:.5px;color:var(--green2);border:1px solid var(--border2);
-    background:rgba(63,185,80,.06);border-radius:999px;padding:6px 14px;margin-bottom:26px
-  }
-  .kicker .dot{width:7px;height:7px;border-radius:50%;background:var(--green2);box-shadow:0 0 10px var(--green2);animation:blink 2.4s ease-in-out infinite}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  code{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.82em;
+    background:var(--code-bg);color:var(--code-fg);border:1px solid var(--code-bd);
+    border-radius:5px;padding:1.5px 6px;white-space:nowrap}
 
-  .snake-hero{font-size:80px;line-height:1;margin:8px auto 2px;display:block;text-align:center;
-    filter:drop-shadow(0 12px 26px rgba(63,185,80,.34));animation:bob 4.6s ease-in-out infinite}
+  /* top bar */
+  .top{display:flex;justify-content:space-between;align-items:center;gap:16px;
+    font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--mut);
+    border-bottom:2px solid var(--rule-strong);padding-bottom:13px}
+  .top .r{display:flex;align-items:center;gap:16px}
+  .top .g{color:var(--accent-ink)}
+  [data-theme="dark"] .top .g{color:var(--accent)}
+  .tt{display:inline-flex;align-items:center;gap:7px;cursor:pointer;background:none;border:1px solid var(--rule);
+    color:var(--ink2);border-radius:999px;padding:6px 12px 6px 10px;font:inherit;font-size:10.5px;font-weight:600;
+    letter-spacing:1.2px;text-transform:uppercase;transition:border-color .2s,color .2s}
+  .tt:hover{border-color:var(--accent);color:var(--accent-ink)}
+  [data-theme="dark"] .tt:hover{color:var(--accent)}
+  .tt svg{width:14px;height:14px}
+  .tt .lab-dark{display:none}
+  [data-theme="dark"] .tt .lab-light{display:none}
+  [data-theme="dark"] .tt .lab-dark{display:inline}
 
-  h1{
-    font-family:var(--font-d);font-weight:700;font-size:clamp(36px,7vw,62px);line-height:1.02;
-    letter-spacing:-1.5px;margin:10px 0 4px;
-    background:linear-gradient(180deg,#fff 0%, #cfe0f5 62%, #8fb4dd 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  h1 .py{background:linear-gradient(96deg,var(--green2),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .lede{color:var(--muted);font-size:clamp(15px,2.3vw,18px);max-width:600px;margin:14px auto 0}
+  /* hero */
+  .hero{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;margin:38px 0 0}
+  h1{font-weight:800;font-size:clamp(44px,8.4vw,82px);line-height:.98;letter-spacing:-2px;margin:0}
+  h1 .em{color:var(--accent)}
+  .meta{text-align:right;font-size:13px;color:var(--mut);line-height:1.4;white-space:nowrap;font-weight:500}
+  .meta b{display:block;font-size:42px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-1px}
+  .pill{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;font-weight:600;
+    letter-spacing:.4px;color:var(--accent-ink);background:color-mix(in srgb,var(--accent) 12%,transparent);
+    border:1px solid color-mix(in srgb,var(--accent) 34%,transparent);border-radius:999px;padding:5px 11px;text-transform:none}
+  [data-theme="dark"] .pill{color:var(--accent)}
+  .lede{font-size:19px;line-height:1.5;max-width:600px;margin:24px 0 0;color:var(--ink2);font-weight:500}
+  .lede .em{color:var(--accent-ink);font-weight:600}
+  [data-theme="dark"] .lede .em{color:var(--accent)}
+  .tracks{margin:18px 0 0;font-size:13.5px;color:var(--mut);max-width:650px;line-height:1.7}
+  .tracks b{color:var(--ink2);font-weight:600}
 
-  .chips{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
-  .chip{
-    display:flex;align-items:baseline;gap:8px;background:var(--panel);border:1px solid var(--border);
-    border-radius:14px;padding:12px 18px;
-  }
-  .chip b{font-family:var(--font-m);font-size:22px;font-weight:700;color:var(--green2)}
-  .chip.b b{color:var(--blue)} .chip.v b{color:var(--violet)}
-  .chip span{font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
-  .lock{
-    display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-size:13px;color:var(--muted);
-    font-family:var(--font-m)
-  }
+  /* index */
+  .idxhead{display:flex;justify-content:space-between;align-items:baseline;margin:46px 0 4px}
+  .idxhead .l{font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--mut)}
+  .idxhead .n{font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut)}
+  .idx{border-top:2px solid var(--rule-strong)}
+  a.item{display:grid;grid-template-columns:46px 1fr auto;gap:16px;align-items:baseline;
+    padding:17px 4px;border-bottom:1px solid var(--rule);transition:background .16s ease,padding .16s ease}
+  a.item:hover{background:var(--bg2);padding-left:12px;padding-right:12px}
+  .item .no{font-weight:800;font-size:19px;color:var(--accent);letter-spacing:-.5px}
+  .item .ti{font-weight:700;font-size:20px;letter-spacing:-.3px}
+  .item .ds{font-size:13px;color:var(--mut);margin-top:5px;line-height:1.55;font-weight:500}
+  .item .ds code{font-size:11.5px}
+  .item .ct{font-size:13px;color:var(--mut);white-space:nowrap;font-weight:500}
+  .item .go{font-size:11px;font-weight:700;color:var(--accent);opacity:0;transition:opacity .16s;margin-top:7px;
+    letter-spacing:.4px;text-transform:uppercase}
+  a.item:hover .go{opacity:1}
+  .item.soon{opacity:.5;pointer-events:none}
+  .item.soon .no,.item.soon .ti{color:var(--mut)}
 
-  /* ===== INTRO ===== */
-  .intro{
-    margin-top:44px;background:linear-gradient(180deg,var(--panel),var(--bg2));
-    border:1px solid var(--border);border-radius:20px;padding:30px 30px 26px;position:relative;overflow:hidden
-  }
-  .intro::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;
-    background:linear-gradient(180deg,var(--green2),var(--blue),var(--violet))}
-  .intro .tag{font-family:var(--font-m);font-size:12.5px;color:var(--green2);letter-spacing:.5px}
-  .intro h2{font-family:var(--font-d);font-weight:600;font-size:24px;letter-spacing:-.4px;margin:8px 0 14px}
-  .intro p{margin:0 0 13px;color:#c4d2e6}
-  .intro p:last-child{margin-bottom:0}
-  .intro b{color:#fff}
-  .intro .callout{
-    margin:16px 0;padding:14px 16px;border-radius:12px;background:rgba(88,166,255,.07);
-    border:1px solid rgba(88,166,255,.28);color:#d3e3f7;font-size:14.5px
-  }
-  .intro .callout b{color:var(--blue)}
-  .feats{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
-  .feat{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);
-    background:var(--panel2);border:1px solid var(--border);border-radius:999px;padding:7px 13px}
-  .feat b{color:var(--white);font-weight:600}
-
-  .path-label{text-align:center;margin:56px 0 6px;font-family:var(--font-d);font-weight:600;font-size:22px;letter-spacing:-.3px}
-  .path-sub{text-align:center;color:var(--muted);font-size:14px;margin-bottom:10px}
-
-  /* ===== SNAKE PATH ===== */
-  .path{position:relative;padding:44px 0 40px 84px}
-  /* snake body rail */
-  .path::before{
-    content:"";position:absolute;left:30px;top:14px;bottom:26px;width:20px;border-radius:16px;
-    background:
-      linear-gradient(180deg,var(--green2),var(--green) 40%,#2b8f3d 100%);
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.12), 0 0 26px rgba(63,185,80,.28);
-  }
-  /* scale texture on the body */
-  .path::after{
-    content:"";position:absolute;left:30px;top:14px;bottom:26px;width:20px;border-radius:16px;
-    background-image:radial-gradient(circle at 50% 0, rgba(0,0,0,.22) 5px, transparent 6px);
-    background-size:20px 13px;opacity:.6;pointer-events:none
-  }
-  .snake-head{position:absolute;left:16px;top:-30px;width:48px;height:48px;z-index:3;
-    animation:bob 4.5s ease-in-out infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-  /* upcoming / ghost stop */
-  .stop.soon{opacity:.62}
-  .stop.soon .node{background:var(--panel2);color:var(--muted);font-size:13px;
-    box-shadow:0 0 0 4px var(--bg), 0 0 0 5px var(--border2)}
-  .card.ghost{background:transparent;border:1px dashed var(--border2);cursor:default}
-  .card.ghost::before{background:var(--border2)}
-  .card.ghost .tname{color:var(--muted);border-color:var(--border)}
-  .card.ghost h3{color:var(--muted)}
-  .snake-tail{position:absolute;left:33px;bottom:2px;width:14px;height:26px;z-index:2;
-    background:linear-gradient(180deg,#2b8f3d,transparent);border-radius:0 0 8px 8px;
-    clip-path:polygon(0 0,100% 0,50% 100%)}
-
-  .stop{position:relative;margin-bottom:22px}
-  .stop:last-child{margin-bottom:0}
-  .node{
-    position:absolute;left:-66px;top:22px;width:40px;height:40px;border-radius:50%;
-    display:grid;place-items:center;font-family:var(--font-m);font-weight:700;font-size:16px;
-    color:#07110a;background:var(--acc,var(--green2));z-index:4;
-    box-shadow:0 0 0 4px var(--bg), 0 0 0 5px var(--acc,var(--green2)), 0 0 18px -2px var(--acc,var(--green2));
-    transition:transform .2s ease
-  }
-  a.card{
-    display:block;text-decoration:none;color:inherit;background:var(--panel);
-    border:1px solid var(--border);border-radius:16px;padding:20px 22px;position:relative;overflow:hidden;
-    transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease
-  }
-  a.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acc)}
-  a.card:hover{transform:translateX(6px);border-color:var(--acc);background:var(--panel2);
-    box-shadow:0 12px 34px -14px var(--acc)}
-  a.card:hover .node,.stop:hover .node{transform:scale(1.12)}
-  .card .top{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
-  .card .tname{font-family:var(--font-m);font-size:12px;color:var(--acc);
-    border:1px solid var(--border2);border-radius:6px;padding:2px 9px}
-  .card .cnt{font-family:var(--font-m);font-size:12px;color:var(--muted);margin-left:auto}
-  .card h3{font-family:var(--font-d);font-weight:600;font-size:19px;letter-spacing:-.3px;margin:2px 0 6px}
-  .card p{margin:0 0 12px;color:var(--muted);font-size:14px}
-  .card .go{font-family:var(--font-m);font-size:12.5px;color:var(--acc);font-weight:700}
-  .card .go .arr{display:inline-block;transition:transform .18s ease}
-  a.card:hover .go .arr{transform:translateX(4px)}
-
-  footer{text-align:center;color:var(--dim);font-size:13px;margin-top:60px;
-    border-top:1px solid var(--border);padding-top:28px;font-family:var(--font-m)}
-  footer .py{color:var(--green2)}
+  footer{margin-top:30px;display:flex;justify-content:space-between;align-items:center;gap:20px;
+    color:var(--mut);font-size:12.5px;font-weight:500;flex-wrap:wrap}
+  footer svg{display:block}
 
   @media (max-width:560px){
-    .path{padding-left:64px}
-    .path::before,.path::after{left:22px}
-    .snake-head{left:8px}
-    .snake-tail{left:25px}
-    .node{left:-56px;width:34px;height:34px;font-size:14px}
-    .intro{padding:24px 20px}
+    .wrap{padding:24px 20px 70px}
+    .hero{grid-template-columns:1fr}
+    .meta{text-align:left}
+    a.item{grid-template-columns:30px 1fr;gap:10px}
+    .item .ct{grid-column:2;margin-top:2px}
   }
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none!important;scroll-behavior:auto}
-  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- ===================== HERO ===================== -->
-  <header class="hero">
-    <span class="kicker"><span class="dot"></span>PYTHON · FOUNDATIONS &amp; BEST PRACTICES</span>
+  <div class="top">
+    <span>Python · Foundations &amp; Best&nbsp;Practices</span>
+    <span class="r">
+      <span class="g">курс — 12 тем · 5 готово</span>
+      <button class="tt" id="themeToggle" aria-label="Перемкнути тему">
+        <svg class="lab-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="lab-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+        <span class="lab-light">Темна</span><span class="lab-dark">Світла</span>
+      </button>
+    </span>
+  </div>
 
-    <div class="snake-hero" aria-hidden="true">🐍</div>
-
-    <h1><span class="py">Python</span> Foundation</h1>
-    <p class="lede">Інтерактиви до кожної теми курсу — для самоперевірки, за бажанням.
-      Не домашнє завдання й не заміна конспекту.</p>
-
-    <div class="chips">
-      <div class="chip"><b>5<span style="color:var(--dim)">/12</span></b><span>тем готово</span></div>
-      <div class="chip b"><b>57</b><span>інтерактивів</span></div>
+  <div class="hero">
+    <div>
+      <h1>Python<br><span class="em">Foundation</span></h1>
+      <div class="pill">🤖 з миттєвою автоперевіркою</div>
     </div>
-    <div class="lock">🔒 Усе працює у вашому браузері — нічого нікуди не надсилається</div>
-  </header>
+    <div class="meta"><b>57</b>інтерактивів<br>для самоперевірки</div>
+  </div>
 
-  <!-- ===================== INTRO ===================== -->
-  <section class="intro">
-    <span class="tag"># про ці інтерактиви</span>
-    <h2>Для самоперевірки</h2>
-    <p>Тут інтерактиви до кожної теми курсу. Ви розвʼязуєте їх тоді, коли хочете переконатися,
-      що зрозуміли матеріал. Домашнє завдання здається окремо — ці вправи його не замінюють.</p>
+  <p class="lede">Практика до кожної теми курсу — <span class="em">за бажанням</span>.
+    Не домашнє завдання й не заміна конспекту: спосіб перевірити себе після теми.</p>
 
-    <div class="callout">
-      Це доповнення до конспекту, а не заміна. Конспект дає теорію й довідник —
-      тут ви пробуєте те саме на практиці. Найкраще працює разом: прочитали тему → одразу спробували.
-    </div>
+  <p class="tracks">У кожній темі: <b>основні вправи</b>, трек <b>«для впевнених»</b> зі складнішими місцями,
+    підказки <b>«якщо застрягли»</b>, підсумкова <b>перевірка себе</b> та приклади <b>за вашим напрямком</b>
+    (AI&amp;ML · SE · CyberSec · PM).</p>
 
-    <p>Що є в кожній темі:</p>
-    <div class="feats">
-      <span class="feat">🟢 <b>База</b> — основні вправи теми</span>
-      <span class="feat">⚡ <b>Для впевнених</b> — складніші місця та ідіоми</span>
-      <span class="feat">🟡 <b>Якщо застрягли</b> — розжовані кроки</span>
-      <span class="feat">✅ <b>Перевір себе</b> — коротка діагностика</span>
-      <span class="feat">🎯 <b>За вашим напрямком</b> — AI&amp;ML · SE · CyberSec · PM</span>
-    </div>
-  </section>
+  <div class="idxhead">
+    <span class="l">Зміст</span>
+    <span class="n">оновлюється</span>
+  </div>
 
-  <!-- ===================== SNAKE PATH ===================== -->
-  <h2 class="path-label">Теми курсу</h2>
-  <p class="path-sub">Теми йдуть по порядку — кожна спирається на попередню. Зараз доступно 5 із 12.</p>
-
-  <div class="path">
-    <!-- snake head at the top of the rail -->
-    <svg class="snake-head" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="24" cy="26" r="17" fill="#56D364"/>
-      <circle cx="24" cy="26" r="17" fill="none" stroke="#2B8F3D" stroke-width="1.5"/>
-      <circle cx="18" cy="21" r="3.4" fill="#0A0E14"/><circle cx="30" cy="21" r="3.4" fill="#0A0E14"/>
-      <circle cx="19" cy="20" r="1.1" fill="#fff"/><circle cx="31" cy="20" r="1.1" fill="#fff"/>
-      <path d="M24 9 L24 1 M24 1 L20 -3 M24 1 L28 -3" stroke="#F0506E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-    </svg>
-
-    <div class="stop" style="--acc:#56D364">
-      <div class="node">1</div>
-      <a class="card" href="tema-1/">
-        <div class="top"><span class="tname">tema_1</span><span class="cnt">8 інтерактивів</span></div>
-        <h3>Синтаксис, типи, колекції</h3>
-        <p>Кошик замовлення й музичний плеєр — числа, типи, приведення, списки, словники та f-рядки.</p>
-        <span class="go">Почати <span class="arr">→</span></span>
-      </a>
-    </div>
-
-    <div class="stop" style="--acc:#58A6FF">
-      <div class="node">2</div>
-      <a class="card" href="tema-2/">
-        <div class="top"><span class="tname">tema_2</span><span class="cnt">11 інтерактивів</span></div>
-        <h3>Керуючі конструкції, винятки, функції</h3>
-        <p>Модерація коментарів і автоперевірка тесту — умови, цикли, <code>try/except</code> та власні функції.</p>
-        <span class="go">Почати <span class="arr">→</span></span>
-      </a>
-    </div>
-
-    <div class="stop" style="--acc:#B392FF">
-      <div class="node">3</div>
-      <a class="card" href="tema-3/">
-        <div class="top"><span class="tname">tema_3</span><span class="cnt">14 інтерактивів</span></div>
-        <h3>datetime, time, random, math</h3>
-        <p>Дедлайни й розіграш — дата та час, <code>timedelta</code>, випадкові числа й математика.</p>
-        <span class="go">Почати <span class="arr">→</span></span>
-      </a>
-    </div>
-
-    <div class="stop" style="--acc:#F0883E">
-      <div class="node">4</div>
-      <a class="card" href="tema-4/">
-        <div class="top"><span class="tname">tema_4</span><span class="cnt">13 інтерактивів</span></div>
-        <h3>Рядки та регулярні вирази</h3>
-        <p>Чистка тексту й пошук патернів — методи рядків, форматування та модуль <code>re</code>.</p>
-        <span class="go">Почати <span class="arr">→</span></span>
-      </a>
-    </div>
-
-    <div class="stop" style="--acc:#F2C744">
-      <div class="node">5</div>
-      <a class="card" href="tema-5/">
-        <div class="top"><span class="tname">tema_5</span><span class="cnt">11 інтерактивів</span></div>
-        <h3>Файли та pathlib</h3>
-        <p>Журнал у файлі — читання й запис, шляхи та робота з файловою системою через <code>pathlib</code>.</p>
-        <span class="go">Почати <span class="arr">→</span></span>
-      </a>
-    </div>
-
-    <div class="stop soon">
-      <div class="node">6+</div>
-      <div class="card ghost">
-        <div class="top"><span class="tname">tema_6 … tema_12</span></div>
-        <h3>Наступні теми — згодом</h3>
-        <p>Решта тем додаватиметься сюди поступово.</p>
-      </div>
-    </div>
-
-    <div class="snake-tail"></div>
+  <div class="idx">
+    <a class="item" href="tema-1/">
+      <span class="no">01</span>
+      <span>
+        <span class="ti">Синтаксис, типи, колекції</span>
+        <div class="ds">Числа, типи, приведення, списки, словники та f-рядки.</div>
+        <span class="go">Відкрити →</span>
+      </span>
+      <span class="ct">8 вправ</span>
+    </a>
+    <a class="item" href="tema-2/">
+      <span class="no">02</span>
+      <span>
+        <span class="ti">Керуючі конструкції, винятки, функції</span>
+        <div class="ds">Умови, цикли, <code>try/except</code> та власні функції.</div>
+        <span class="go">Відкрити →</span>
+      </span>
+      <span class="ct">11 вправ</span>
+    </a>
+    <a class="item" href="tema-3/">
+      <span class="no">03</span>
+      <span>
+        <span class="ti">datetime, time, random, math</span>
+        <div class="ds">Дата й час, <code>timedelta</code>, випадкові числа та математика.</div>
+        <span class="go">Відкрити →</span>
+      </span>
+      <span class="ct">14 вправ</span>
+    </a>
+    <a class="item" href="tema-4/">
+      <span class="no">04</span>
+      <span>
+        <span class="ti">Рядки та регулярні вирази</span>
+        <div class="ds">Методи рядків, форматування та модуль <code>re</code>.</div>
+        <span class="go">Відкрити →</span>
+      </span>
+      <span class="ct">13 вправ</span>
+    </a>
+    <a class="item" href="tema-5/">
+      <span class="no">05</span>
+      <span>
+        <span class="ti">Файли та pathlib</span>
+        <div class="ds">Читання й запис, шляхи та файлова система через <code>pathlib</code>.</div>
+        <span class="go">Відкрити →</span>
+      </span>
+      <span class="ct">11 вправ</span>
+    </a>
+    <a class="item soon" aria-disabled="true">
+      <span class="no">06</span>
+      <span>
+        <span class="ti">Наступні теми — згодом</span>
+        <div class="ds">Решта курсу (теми 6–12) додаватиметься сюди поступово.</div>
+      </span>
+      <span class="ct">—</span>
+    </a>
   </div>
 
   <footer>
-    <span class="py">🐍 Python Foundation</span> · інтерактиви для самоперевірки<br>
-    доповнення до конспекту · працює у браузері
+    <span>доповнення до конспекту · працює у браузері</span>
+    <svg width="132" height="34" viewBox="0 0 132 34" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+      <path d="M4 26 C 26 30, 22 10, 44 12 C 66 14, 62 30, 86 26 C 104 22, 106 11, 118 13"/>
+      <circle cx="120" cy="13" r="4.2" fill="var(--accent)" stroke="none"/>
+      <path d="M124 13 h6 M130 13 l-2.4 -1.6 M130 13 l-2.4 1.6" stroke-width="1.7"/>
+    </svg>
   </footer>
 
 </div>
+
+<script>
+  (function(){
+    var btn=document.getElementById('themeToggle'), root=document.documentElement;
+    btn.addEventListener('click',function(){
+      var next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+      root.setAttribute('data-theme',next);
+      try{localStorage.setItem('pf-theme',next);}catch(e){}
+    });
+  })();
+</script>
 </body>
 </html>
