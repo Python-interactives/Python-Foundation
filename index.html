@@ -53,10 +53,10 @@
   .kicker .dot{width:7px;height:7px;border-radius:50%;background:var(--green2);box-shadow:0 0 10px var(--green2);animation:blink 2.4s ease-in-out infinite}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-  .snake-hero{width:200px;height:132px;margin:0 auto 6px;display:block;filter:drop-shadow(0 14px 34px rgba(63,185,80,.34))}
-  .snake-hero .body{animation:sway 6s ease-in-out infinite;transform-origin:100px 66px}
-  @keyframes sway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
-  .snake-hero .tongue{animation:flick 3.2s ease-in-out infinite;transform-origin:172px 40px}
+  .snake-hero{width:222px;height:auto;margin:0 auto 4px;display:block;filter:drop-shadow(0 14px 32px rgba(63,185,80,.30))}
+  .snake-hero .body{animation:sway 6.5s ease-in-out infinite;transform-origin:108px 92px}
+  @keyframes sway{0%,100%{transform:rotate(-1.5deg)}50%{transform:rotate(1.5deg)}}
+  .snake-hero .tongue{animation:flick 3.2s ease-in-out infinite;transform-origin:196px 52px}
   @keyframes flick{0%,72%,100%{transform:scaleX(.2);opacity:.4}80%,92%{transform:scaleX(1);opacity:1}}
 
   h1{
@@ -188,72 +188,73 @@
   <header class="hero">
     <span class="kicker"><span class="dot"></span>PYTHON · FOUNDATIONS &amp; BEST PRACTICES</span>
 
-    <svg class="snake-hero" viewBox="0 0 200 132" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg class="snake-hero" viewBox="0 0 224 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
         <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#56D364"/><stop offset="1" stop-color="#2B8F3D"/>
         </linearGradient>
       </defs>
       <g class="body">
-        <!-- flowing S-curve body -->
-        <path d="M22 118 C 64 122, 44 84, 90 82 C 134 80, 104 50, 150 48"
-              stroke="#2B8F3D" stroke-width="22" stroke-linecap="round" fill="none"/>
-        <path d="M22 118 C 64 122, 44 84, 90 82 C 134 80, 104 50, 150 48"
-              stroke="url(#sg)" stroke-width="18" stroke-linecap="round" fill="none"/>
-        <!-- belly scales along the body -->
-        <path d="M40 106 l7 -5 M58 92 l8 -3 M84 82 h9 M110 76 l8 3 M132 62 l7 5"
-              stroke="#0A0E14" stroke-width="2.2" opacity=".16" stroke-linecap="round"/>
-        <!-- head -->
-        <circle cx="162" cy="46" r="16" fill="#56D364"/>
-        <circle cx="162" cy="46" r="16" fill="none" stroke="#2B8F3D" stroke-width="1.4"/>
-        <circle cx="168" cy="41" r="3.2" fill="#0A0E14"/>
-        <circle cx="158" cy="40" r="3.2" fill="#0A0E14"/>
-        <circle cx="169" cy="40" r="1.05" fill="#fff"/><circle cx="159" cy="39" r="1.05" fill="#fff"/>
-        <!-- tongue -->
-        <path class="tongue" d="M176 47 L 191 47 M191 47 L 197 43 M191 47 L 197 51"
-              stroke="#F0506E" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+        <!-- sinuous, tapering snake body (head → tail), round joins fake the taper -->
+        <path d="M172 60 C 156 72, 150 78, 140 78" stroke="#2B8F3D" stroke-width="23" stroke-linecap="round" fill="none"/>
+        <path d="M172 60 C 156 72, 150 78, 140 78" stroke="url(#sg)" stroke-width="19" stroke-linecap="round" fill="none"/>
+        <path d="M140 78 C 126 78, 118 66, 106 68" stroke="url(#sg)" stroke-width="18" stroke-linecap="round" fill="none"/>
+        <path d="M106 68 C 90 71, 84 88, 72 92" stroke="url(#sg)" stroke-width="15" stroke-linecap="round" fill="none"/>
+        <path d="M72 92 C 58 97, 52 104, 44 108" stroke="url(#sg)" stroke-width="11" stroke-linecap="round" fill="none"/>
+        <path d="M44 108 C 34 113, 28 122, 20 132" stroke="url(#sg)" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <!-- belly scale ticks -->
+        <path d="M132 74 l3 -6 M112 68 l2 -6 M92 78 l5 -4 M70 90 l4 -5 M52 102 l4 -4"
+              stroke="#0A0E14" stroke-width="2" opacity=".15" stroke-linecap="round"/>
+        <!-- head: rounded-diamond, tilted -->
+        <path d="M172 44 C 186 44, 198 50, 198 58 C 198 66, 188 72, 174 72 C 162 72, 156 62, 158 54 C 160 48, 164 44, 172 44 Z"
+              fill="#56D364" stroke="#2B8F3D" stroke-width="1.4"/>
+        <!-- eye -->
+        <ellipse cx="180" cy="54" rx="3.4" ry="4" fill="#0A0E14"/>
+        <circle cx="181.4" cy="52.4" r="1.1" fill="#fff"/>
+        <!-- nostril -->
+        <circle cx="195" cy="57" r="1.1" fill="#2B8F3D"/>
+        <!-- forked tongue -->
+        <path class="tongue" d="M198 58 L 214 55 M214 55 L 221 51 M214 55 L 221 59"
+              stroke="#F0506E" stroke-width="2.3" stroke-linecap="round" fill="none"/>
       </g>
     </svg>
 
     <h1><span class="py">Python</span> Foundation</h1>
-    <p class="lede">Практична частина курсу — наскрізні кейси, які ви проходите руками:
-      <b style="color:#cfe0f5">запусти → покрути → зроби сам</b>. Прямо у браузері.</p>
+    <p class="lede">Інтерактиви до кожної теми курсу — для самоперевірки, за бажанням.
+      Не домашнє завдання й не заміна конспекту.</p>
 
     <div class="chips">
       <div class="chip"><b>5<span style="color:var(--dim)">/12</span></b><span>тем готово</span></div>
       <div class="chip b"><b>57</b><span>інтерактивів</span></div>
-      <div class="chip v"><b>2</b><span>наскрізні кейси / тема</span></div>
     </div>
-    <div class="lock">🔒 Усе рахується у вашому браузері — нічого нікуди не надсилається</div>
+    <div class="lock">🔒 Усе працює у вашому браузері — нічого нікуди не надсилається</div>
   </header>
 
   <!-- ===================== INTRO ===================== -->
   <section class="intro">
-    <span class="tag"># що це таке</span>
-    <h2>Практика, а не сухі тести</h2>
-    <p>Кожна тема — це <b>наскрізний застосунок, що росте разом із вами</b>: спершу ви запускаєте
-      готовий код, далі змінюєте значення й дивитесь, що стало, а потім дописуєте самі. Ті самі поняття,
-      що й у лекції, але доведені до пальців — щоб вони працювали, коли знадобляться у справжніх програмах:
-      валідація даних, автоматизація, код, що сам обробляє тисячі записів.</p>
+    <span class="tag"># про ці інтерактиви</span>
+    <h2>Для самоперевірки</h2>
+    <p>Тут інтерактиви до кожної теми курсу. Ви розвʼязуєте їх тоді, коли хочете переконатися,
+      що зрозуміли матеріал. Домашнє завдання здається окремо — ці вправи його не замінюють.</p>
 
     <div class="callout">
-      <b>Це доповнення до конспекту, а не заміна.</b> Конспект дає повну теорію й довідник —
-      тут ви ті самі речі пробуєте руками. Найкраще працює разом: прочитали розділ → одразу відпрацювали.
+      Це доповнення до конспекту, а не заміна. Конспект дає теорію й довідник —
+      тут ви пробуєте те саме на практиці. Найкраще працює разом: прочитали тему → одразу спробували.
     </div>
 
-    <p>Група різна за рівнем, тому кожна тема має кілька доріжок, і базовий хребет проходять усі:</p>
+    <p>Що є в кожній темі:</p>
     <div class="feats">
-      <span class="feat">🟢 <b>База</b> — спільний обовʼязковий мінімум</span>
-      <span class="feat">⚡ <b>Для впевнених</b> — пастки та ідіоми</span>
+      <span class="feat">🟢 <b>База</b> — основні вправи теми</span>
+      <span class="feat">⚡ <b>Для впевнених</b> — складніші місця та ідіоми</span>
       <span class="feat">🟡 <b>Якщо застрягли</b> — розжовані кроки</span>
-      <span class="feat">✅ <b>Перевір себе</b> — що варто повторити</span>
-      <span class="feat">🎯 <b>У твоєму напрямку</b> — AI&amp;ML · SE · CyberSec · PM</span>
+      <span class="feat">✅ <b>Перевір себе</b> — коротка діагностика</span>
+      <span class="feat">🎯 <b>За вашим напрямком</b> — AI&amp;ML · SE · CyberSec · PM</span>
     </div>
   </section>
 
   <!-- ===================== SNAKE PATH ===================== -->
-  <h2 class="path-label">Маршрут курсу — 12 тем</h2>
-  <p class="path-sub">Проходьте по порядку: кожна наступна спирається на попередню. Зараз доступно 5 — решта додаються.</p>
+  <h2 class="path-label">Теми курсу</h2>
+  <p class="path-sub">Теми йдуть по порядку — кожна спирається на попередню. Зараз доступно 5 із 12.</p>
 
   <div class="path">
     <!-- snake head at the top of the rail -->
@@ -319,8 +320,8 @@
       <div class="node">6+</div>
       <div class="card ghost">
         <div class="top"><span class="tname">tema_6 … tema_12</span></div>
-        <h3>Наступні теми — незабаром</h3>
-        <p>Решта курсу зʼявиться тут тим самим форматом: наскрізні кейси, доріжки за рівнем і перевірка себе.</p>
+        <h3>Наступні теми — згодом</h3>
+        <p>Решта тем додаватиметься сюди поступово.</p>
       </div>
     </div>
 
@@ -328,8 +329,8 @@
   </div>
 
   <footer>
-    <span class="py">🐍 Python Foundation</span> · інтерактивні матеріали курсу<br>
-    доповнення до конспекту · працює офлайн у браузері
+    <span class="py">🐍 Python Foundation</span> · інтерактиви для самоперевірки<br>
+    доповнення до конспекту · працює у браузері
   </footer>
 
 </div>
