@@ -43,8 +43,21 @@
   a{color:var(--blue)} .muted{color:var(--muted)}
   .idx a{display:block;padding:6px 0;border-bottom:1px solid var(--border)}
 </style>
+<style id="snakeprog-css">
+.snakeprog{position:fixed;top:0;left:0;right:0;height:6px;z-index:60;background:rgba(255,255,255,.045);pointer-events:none}
+.snakeprog .fill{position:absolute;left:0;top:0;height:100%;width:0;border-radius:0 3px 3px 0;
+  background:linear-gradient(90deg,#2B8F3D,#3FB950 55%,#56D364);
+  box-shadow:0 0 10px rgba(63,185,80,.55);transition:width .06s linear}
+.snakeprog .fill::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:.65;
+  background:repeating-linear-gradient(118deg, rgba(0,0,0,.16) 0 2px, transparent 2px 9px)}
+.snakeprog .head{position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:20px;height:20px;line-height:0;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
+@media (prefers-reduced-motion:reduce){.snakeprog .fill{transition:none}}
+</style>
 </head>
 <body>
+<div class="snakeprog" aria-hidden="true"><div class="fill"><span class="head"><svg viewBox="0 0 22 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10" r="7.5" fill="#56D364" stroke="#2B8F3D" stroke-width="1"/><circle cx="7" cy="8" r="1.5" fill="#0A0E14"/><circle cx="11.4" cy="8" r="1.5" fill="#0A0E14"/><circle cx="7.4" cy="7.4" r=".5" fill="#fff"/><circle cx="11.8" cy="7.4" r=".5" fill="#fff"/><path d="M16.5 10 H21 M21 10 L18.6 8.3 M21 10 L18.6 11.7" stroke="#F0506E" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg></span></div></div>
+
 <div class="wrap">
 <nav class="topnav" style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
   <a href="../" style="display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--blue);text-decoration:none;font-size:13.5px;font-weight:600">← На головну</a>
@@ -446,6 +459,21 @@ const params=new URLSearchParams(location.search);
 const blockId=params.get("block");
 if(blockId && BLOCKS[blockId]) renderBlock(blockId);
 else renderIndex();
+</script>
+<script>
+(function(){
+  var f=document.querySelector(".snakeprog .fill"); if(!f) return;
+  var h=document.documentElement;
+  function upd(){
+    var se=h.scrollHeight-h.clientHeight;
+    var p=se>0?(h.scrollTop||document.body.scrollTop)/se:0;
+    if(p<0)p=0; if(p>1)p=1;
+    f.style.width=(p*100).toFixed(2)+"%";
+  }
+  addEventListener("scroll",upd,{passive:true});
+  addEventListener("resize",upd);
+  setTimeout(upd,60); setTimeout(upd,700); upd();
+})();
 </script>
 </body>
 </html>
