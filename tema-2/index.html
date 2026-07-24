@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python · Тема 2 — інтерактиви</title>
+<style>
+  :root{
+    --bg:#0D1117;--panel:#161B22;--panel2:#1C2330;--border:#30363D;
+    --white:#F0F6FC;--muted:#8B949E;--green:#3FB950;--greenbg:#11331c;
+    --red:#f85149;--redbg:#3a1414;--blue:#58a6ff;--bluebg:#102a43;--violetbg:#1c1740;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--white);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;font-size:15px}
+  .wrap{max-width:740px;margin:0 auto;padding:20px 16px 80px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  h1{font-size:19px;margin:0}
+  .badge{font-size:12px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:4px 10px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
+  .meta{font-size:12px;color:var(--muted);margin-bottom:10px}
+  .tag{border-radius:4px;padding:1px 8px;font-weight:600}
+  .tag.q{background:var(--bluebg);color:var(--blue)}
+  .tag.g{background:var(--greenbg);color:var(--green)}
+  .tag.c{background:var(--violetbg);color:#b9a4ff}
+  pre{background:#07090e;color:#c9d1d9;padding:14px;border-radius:8px;overflow:auto;font-size:14px;margin:0 0 14px}
+  code{font-family:"SF Mono",Consolas,Menlo,monospace}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{text-align:left;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:11px 14px;border-radius:8px;cursor:pointer;font-family:"SF Mono",Consolas,monospace;font-size:14px}
+  .opt:hover{border-color:var(--muted)}
+  .opt.correct{border-color:var(--green);background:var(--greenbg)}
+  .opt.wrong{border-color:var(--red);background:var(--redbg)}
+  .opt:disabled{cursor:default}
+  .chip{display:inline-block;margin:4px 6px 4px 0;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:8px 13px;border-radius:8px;cursor:pointer;font-family:"SF Mono",Consolas,monospace;font-size:14px}
+  .chip.sel{border-color:var(--blue);background:var(--bluebg)}
+  .chip.ok{border-color:var(--green);background:var(--greenbg)}
+  .chip.bad{border-color:var(--red);background:var(--redbg)}
+  textarea{width:100%;min-height:120px;background:#07090e;color:#c9d1d9;border:1px solid var(--border);border-radius:8px;padding:12px;font-family:"SF Mono",Consolas,monospace;font-size:14px;resize:vertical}
+  .out{margin-top:12px;font-size:13px;white-space:pre-wrap}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .fb{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:14px;display:none;white-space:pre-wrap}
+  .fb.show{display:block}.fb.ok{background:var(--greenbg);border:1px solid var(--green)}.fb.no{background:var(--redbg);border:1px solid var(--red)}
+  .btn{background:var(--green);color:#031b0c;border:none;padding:10px 18px;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px}
+  a{color:var(--blue)} .muted{color:var(--muted)}
+  .idx a{display:block;padding:6px 0;border-bottom:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title">🐍 Python · Тема 2 — інтерактиви</h1>
+    <span class="badge">🔒 Усе у вашому браузері. Нічого не надсилається.</span>
+  </header>
+  <div id="app"></div>
+</div>
+
+<script>
+const BLOCKS = {
+  "mod-1": {title:"Модерація коментарів · крок 1 (умовні конструкції)", items:[
+    {type:"note", text:`<b>🛡️ Будуємо систему модерації коментарів.</b> Тут тренуємо логіку: рішення, цикли й обробку помилок. Збиратимемо по шматочку через усю тему.<br><br><b>З теми:</b> <code>if / elif / else</code> виконує різний код залежно від умови, а <code>in</code> перевіряє, чи є слово в рядку.`},
+    {type:"run",
+     prompt:`Найпростіша модерація: якщо в коментарі є заборонене слово — блокуємо. Запустіть; підставте у <code>comment</code> інший текст (зі «спам» і без) і подивіться на рішення.`,
+     code:'comment = "терміново купуй, це спам"\nif "спам" in comment:\n    print("заблоковано")\nelse:\n    print("пропущено")\n'},
+    {type:"task",
+     prompt:`Мета — щоб <b>порожні</b> коментарі позначались як <code>порожній</code>. У коді нижче замість <code>______</code> впишіть умову <code>comment == ""</code> (читається «коментар дорівнює порожньому рядку»). Очікуваний вивід: <code>порожній</code>.`,
+     starter:'comment = ""\nif "спам" in comment:\n    print("заблоковано")\nelif ______:          # ← впишіть умову: коментар порожній\n    print("порожній")\nelse:\n    print("пропущено")\n',
+     expected:"порожній"}
+  ]},
+
+  "mod-2": {title:"Модерація коментарів · крок 2 (цикл for)", items:[
+    {type:"note", text:`<b>З теми.</b> Цикл <code>for</code> повторює дію для кожного елемента списку — тож можна перевірити не один коментар, а одразу всі.`},
+    {type:"run",
+     prompt:`Тепер модеруємо цілий список коментарів — цикл проходить кожен і виводить рішення. Запустіть; додайте свій коментар у список і подивіться.`,
+     code:'comments = ["все чудово", "це спам", "дякую"]\nfor comment in comments:\n    if "спам" in comment:\n        print("заблоковано:", comment)\n    else:\n        print("ок:", comment)\n'},
+    {type:"task",
+     prompt:`Мета — порахувати заблоковані коментарі (має бути <code>2</code>). Усередині <code>if</code> замість <code>______</code> впишіть <code>blocked += 1</code> — так лічильник збільшують на одиницю.`,
+     starter:'comments = ["це спам", "все ок", "спам знову", "дякую"]\nblocked = 0\nfor comment in comments:\n    if "спам" in comment:\n        ______            # ← збільште blocked на 1\nprint(blocked)\n',
+     expected:"2"}
+  ]},
+
+  "mod-3": {title:"Модерація коментарів · крок 3 (обробка помилок)", items:[
+    {type:"note", text:`<b>З теми.</b> Реальні дані бувають «биті» — наприклад, замість тексту трапляється <code>None</code>. Тоді код падає. Щоб помилка не зупиняла всю програму, її загортають у <code>try / except</code>. Ловити варто <b>конкретну</b> помилку (<code>except TypeError</code>), а не все підряд — інакше можна тихо проковтнути справжній баг.`},
+    {type:"run",
+     prompt:`Запустіть — і побачите проблему: на записі <code>None</code> програма падає з помилкою <code>TypeError</code> (у <code>None</code> не можна шукати слово).`,
+     code:'comments = ["все ок", None, "це спам"]\nfor comment in comments:\n    if "спам" in comment:\n        print("заблоковано")\n    else:\n        print("ок")\n'},
+    {type:"run",
+     prompt:`А тепер те саме, але перевірка загорнута в <code>try / except</code>: битий запис просто пропускається, і програма доходить до кінця. Запустіть і порівняйте.`,
+     code:'comments = ["все ок", None, "це спам"]\nfor comment in comments:\n    try:\n        if "спам" in comment:\n            print("заблоковано")\n        else:\n            print("ок")\n    except TypeError:\n        pass\n'}
+  ]},
+
+  "mod-final": {title:"Модерація коментарів · фінал", items:[
+    {type:"note", text:`<b>Збираємо все докупи.</b> Модератор проходить усі коментарі циклом, пропускає биті записи через <code>try/except</code>, рахує заблоковані й виводить підсумок.`},
+    {type:"run",
+     prompt:`Натисніть «Запустити» — система обробить увесь список. Додайте свій коментар (зі «спам» і без) у список і подивіться, як зміниться підсумок. 🛡️`,
+     code:'comments = ["все ок", None, "це спам", "дякую", "спам тут"]\nblocked = 0\nfor comment in comments:\n    try:\n        if "спам" in comment:\n            blocked += 1\n    except TypeError:\n        pass\nprint(f"Перевірено {len(comments)} коментарів, заблоковано {blocked}")\n'}
+  ]},
+
+  "fn-1": {title:"Автоперевірка тесту · крок 1 (функція)", items:[
+    {type:"note", text:`<b>🎯 Пишемо автоперевірку тесту.</b> <b>Функція</b> — це багаторазовий іменований блок коду: <code>def назва(аргументи):</code>, усередині — код, а <code>return</code> повертає результат назовні.`},
+    {type:"run",
+     prompt:`Функція <code>grade</code> за балом каже «склав» чи «не склав». Оголошуємо один раз — викликаємо скільки треба. Запустіть.`,
+     code:'def grade(score):\n    if score >= 60:\n        return "склав"\n    else:\n        return "не склав"\n\nprint(grade(75))\nprint(grade(40))\n'},
+    {type:"task",
+     prompt:`Викличте функцію для бала <code>55</code>. Допишіть рядок <code>print(grade(55))</code>. Має вийти <code>не склав</code>.`,
+     starter:'def grade(score):\n    if score >= 60:\n        return "склав"\n    else:\n        return "не склав"\n\n# допишіть рядок, що виведе оцінку для бала 55\n',
+     expected:"не склав"}
+  ]},
+
+  "fn-2": {title:"Автоперевірка тесту · крок 2 (функція + цикл)", items:[
+    {type:"note", text:`<b>З теми.</b> Оголошену функцію можна викликати скільки завгодно разів — наприклад, у циклі для кожного бала зі списку.`},
+    {type:"run",
+     prompt:`Прожене всі бали через <code>grade</code> й покаже оцінку кожного. Запустіть.`,
+     code:'def grade(score):\n    return "склав" if score >= 60 else "не склав"\n\nscores = [75, 40, 90]\nfor s in scores:\n    print(s, "-", grade(s))\n'},
+    {type:"task",
+     prompt:`Порахуйте, скільки студентів склали. Усередині <code>if</code> замість <code>______</code> впишіть <code>passed += 1</code>. Має вийти <code>2</code>.`,
+     starter:'def grade(score):\n    return "склав" if score >= 60 else "не склав"\n\nscores = [75, 40, 90, 55]\npassed = 0\nfor s in scores:\n    if grade(s) == "склав":\n        ______\nprint(passed)\n',
+     expected:"2"}
+  ]},
+
+  "fn-3": {title:"Автоперевірка тесту · крок 3 (аргумент за замовчуванням)", items:[
+    {type:"note", text:`<b>З теми.</b> Аргумент може мати значення <b>за замовчуванням</b>: <code>def grade(score, threshold=60)</code>. Тоді <code>grade(70)</code> візьме поріг 60, а <code>grade(70, 80)</code> — вкаже свій.`},
+    {type:"run",
+     prompt:`Той самий бал, але різні пороги проходження. Запустіть.`,
+     code:'def grade(score, threshold=60):\n    return "склав" if score >= threshold else "не склав"\n\nprint(grade(70))\nprint(grade(70, 80))\n'},
+    {type:"task",
+     prompt:`Перевірте бал <code>85</code> з підвищеним порогом <code>90</code>. Допишіть рядок <code>print(grade(85, 90))</code>. Має вийти <code>не склав</code>.`,
+     starter:'def grade(score, threshold=60):\n    return "склав" if score >= threshold else "не склав"\n\n# допишіть рядок: бал 85, поріг 90\n',
+     expected:"не склав"}
+  ]},
+
+  "fn-4": {title:"Автоперевірка тесту · крок 4 (будь-скільки аргументів)", items:[
+    {type:"note", text:`<b>З теми.</b> <code>*args</code> дозволяє передати <b>будь-яку кількість</b> аргументів — усередині функції вони стають кортежем, який можна, наприклад, підсумувати.`},
+    {type:"run",
+     prompt:`Функція <code>average</code> рахує середнє з будь-якої кількості балів. Запустіть.`,
+     code:'def average(*scores):\n    return sum(scores) / len(scores)\n\nprint(average(70, 80, 90))\nprint(average(50, 60))\n'},
+    {type:"task",
+     prompt:`Порахуйте середнє чотирьох балів. Допишіть рядок <code>print(average(60, 70, 80, 90))</code>. Має вийти <code>75.0</code>.`,
+     starter:'def average(*scores):\n    return sum(scores) / len(scores)\n\n# допишіть рядок: середнє з 60, 70, 80, 90\n',
+     expected:"75.0"}
+  ]},
+
+  "fn-final": {title:"Автоперевірка тесту · фінал", items:[
+    {type:"note", text:`<b>Звіт по групі.</b> Дві функції разом: <code>grade</code> ставить оцінку кожному, <code>average</code> рахує середній бал.<br><br>🔗 <b>У фінальному проєкті</b> ви так само розкладете логіку на функції (додати контакт, знайти, видалити) — це основа всієї програми.`},
+    {type:"run",
+     prompt:`Натисніть «Запустити» — ось звіт по групі. Додайте студента у <code>students</code> й запустіть ще раз. 🎯`,
+     code:'def grade(score, threshold=60):\n    return "склав" if score >= threshold else "не склав"\n\ndef average(*scores):\n    return sum(scores) / len(scores)\n\nstudents = {"Анна": 88, "Богдан": 54, "Віктор": 72}\nfor name, score in students.items():\n    print(name, score, "-", grade(score))\nprint("Середній бал:", round(average(88, 54, 72), 1))\n'},
+    {type:"note", text:`<details style="margin:0"><summary style="cursor:pointer;font-weight:600">🎯 Де це у твоєму напрямку <span style="opacity:.6;font-weight:400">(можна розгорнути або пропустити)</span></summary><div style="margin-top:8px;line-height:1.6"><b>AI&amp;ML.</b> Цикли й функції — основа препроцесингу: фільтруєте й обробляєте датасет крок за кроком багаторазовими функціями.<br><b>SE&amp;AI.</b> Розкладання логіки на функції + обробка помилок — це і є структура будь-якого сервісу.<br><b>CyberSec&amp;AI.</b> <code>if</code>+<code>in</code> — наївний фільтр логів чи контенту (його обходять!); <code>try/except</code> — щоб битий вхід не поклав парсер.<br><b>PM&amp;AI.</b> Функції на кшталт <code>grade</code>/<code>average</code> — автоматизація рутинних підрахунків замість ручної роботи.</div></details>`}
+  ]},
+
+  "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
+    {type:"note", text:`Цей блок — для тих, хто вже програмує. Спочатку кілька <b>пасток</b> навколо циклів, винятків і функцій; далі — <b>ідіоми</b>, як пишуть по-пайтонічному. Спершу спробуйте відповісти самі — пояснення з'явиться після відповіді.`},
+    {type:"mcq", code:"def add(x, lst=[]):\n    lst.append(x)\n    return lst\nprint(add(1))\nprint(add(2))", opts:["[1] потім [1, 2]","[1] потім [2]","[1, 2] обидва рази"], answer:"[1] потім [1, 2]",
+     expl:"Аргумент за замовчуванням створюється ОДИН раз при оголошенні функції. Той самий список зберігається між викликами й накопичує значення. Не використовуйте змінюваний тип (список, словник) як значення за замовчуванням — беріть None."},
+    {type:"mcq", code:"print(0 or 5)", opts:["5","0","True"], answer:"5",
+     expl:"or повертає не True/False, а сам операнд: перший «істинний» (0 — хибний, тож повертається 5). Тому запис value or типове — зручний спосіб задати значення за замовчуванням."},
+    {type:"mcq", code:"def greet():\n    msg = \"привіт\"\nprint(greet())", opts:["None","привіт","помилка"], answer:"None",
+     expl:"Функція без return повертає None. Легко забути return і потім дивуватись, чому «нічого не повертається»."},
+    {type:"mcq", code:"print(sum(range(1, 5)))", opts:["10","15","1 2 3 4"], answer:"10",
+     expl:"range(1, 5) — це 1, 2, 3, 4: права межа НЕ включається. Сума = 10. Класична помилка «на одиницю»."},
+    {type:"mcq", code:"print(bool([]))", opts:["False","True","[]"], answer:"False",
+     expl:"Порожні контейнери (список, рядок, словник) — «хибні». Тому пишуть if items:, а не if len(items) > 0:."},
+    {type:"note", text:`<b>Тепер ідіоми.</b> Короткі завдання: записати щось «по-пайтонічному», одним рядком.`},
+    {type:"task",
+     prompt:`<b>Ідіома.</b> Одним рядком зробіть список квадратів чисел (list comprehension). Допишіть <code>print([n**2 for n in nums])</code>. Має вийти <code>[1, 4, 9]</code>.`,
+     starter:'nums = [1, 2, 3]\n# одним рядком: список квадратів кожного числа\n',
+     expected:"[1, 4, 9]"},
+    {type:"task",
+     prompt:`<b>Ідіома.</b> Виведіть номер (з 1) і назву кожного пункту через <code>enumerate</code>. Допишіть цикл <code>for i, item in enumerate(items, 1):</code> з <code>print(i, item)</code>. Мають вийти рядки <code>1 чай</code> і <code>2 кава</code>.`,
+     starter:'items = ["чай", "кава"]\n# для кожного: номер (з 1) і назва\n',
+     expected:"1 чай\n2 кава"},
+    {type:"task",
+     prompt:`<b>Ідіома.</b> Перевірте одним рядком, чи <b>всі</b> склали (бал ≥ 60). Допишіть <code>print(all(s >= 60 for s in scores))</code>. Має вийти <code>True</code>.`,
+     starter:'scores = [75, 80, 60]\n# одним рядком: чи всі бали >= 60\n',
+     expected:"True"}
+  ]},
+
+  "review": {title:"Перевір себе — що повторити", items:[
+    {type:"diagnostic",
+     intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
+     questions:[
+       {code:"print('a' if 3 > 5 else 'b')", opts:["b","a","помилка"], answer:"b", section:"Умовне виконання (if/elif/else)"},
+       {scenario:"total = 0", code:"for i in [1, 2, 3]:\n    total += i\nprint(total)", opts:["6","3","123"], answer:"6", section:"Цикли (for)"},
+       {code:"try:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    x = -1\nprint(x)", opts:["-1","0","помилка"], answer:"-1", section:"Винятки (try/except)"},
+       {code:"def double(n):\n    return n * 2\nprint(double(5))", opts:["10","5","None"], answer:"10", section:"Функції (def, return)"},
+       {code:"def f(a, b=10):\n    return a + b\nprint(f(5))", opts:["15","5","помилка"], answer:"15", section:"Аргументи за замовчуванням"},
+       {code:"def total(*nums):\n    return sum(nums)\nprint(total(1, 2, 3))", opts:["6","(1, 2, 3)","помилка"], answer:"6", section:"Змінна кількість аргументів (*args)"}
+     ]}
+  ]},
+};
+
+/* ================= утиліти ================= */
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function elCard(){const d=document.createElement("div");d.className="card";return d;}
+
+/* ===== Pyodide (лазі, лише для запуску коду) ===== */
+let pyodide=null, pyLoading=null;
+const PY_BASES=["https://cdn.jsdelivr.net/pyodide/v0.26.2/full/","https://cdn.jsdelivr.net/pyodide/v0.25.1/full/"];
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(new Error("скрипт не завантажився: "+src));document.head.appendChild(s);});}
+async function ensurePy(statusEl){
+  if(pyodide) return pyodide;
+  if(!pyLoading){
+    pyLoading=(async()=>{
+      let last;
+      for(const base of PY_BASES){
+        try{
+          if(statusEl) statusEl.textContent="⏳ Завантажую Python…";
+          if(typeof loadPyodide==="undefined") await loadScript(base+"pyodide.js");
+          pyodide=await loadPyodide({indexURL:base});
+          if(statusEl) statusEl.textContent="";
+          return pyodide;
+        }catch(e){ last=e; }
+      }
+      throw last||new Error("невідома помилка");
+    })().catch(e=>{pyLoading=null; if(statusEl) statusEl.textContent=""; throw e;});
+  }
+  return pyLoading;
+}
+async function runCapture(py, code){
+  const ind=code.split("\n").map(l=>"    "+l).join("\n");
+  const prog="import sys, io\n_b=io.StringIO()\n_o=sys.stdout\nsys.stdout=_b\ntry:\n"+ind+"\nfinally:\n    sys.stdout=_o\n_b.getvalue()";
+  return String(await py.runPythonAsync(prog));
+}
+function outputsMatch(a,b){
+  const ta=a.trim().split(/\s+/), tb=b.trim().split(/\s+/);
+  if(ta.length!==tb.length) return false;
+  for(let i=0;i<ta.length;i++){
+    if(ta[i]===tb[i]) continue;
+    const fa=parseFloat(ta[i]),fb=parseFloat(tb[i]);
+    if(!isNaN(fa)&&!isNaN(fb)&&Math.abs(fa-fb)<1e-9) continue;
+    return false;
+  }
+  return true;
+}
+
+/* ================= рендер ================= */
+function renderNote(item){
+  const c=elCard();
+  c.style.background="var(--panel2)";
+  c.innerHTML=`<div>${item.text}</div>`;
+  return c;
+}
+
+function renderMCQ(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag q">що виведе?</span></div>`+
+    (item.scenario?`<p class="muted" style="margin:0 0 6px">${item.scenario}</p>`:"")+
+    (item.q?`<p style="margin:0 0 10px">${item.q}</p>`:(item.code?`<p style="margin:0 0 10px">Що виведе цей код?</p>`:""))+
+    (item.code?`<pre>${esc(item.code)}</pre>`:"")+
+    `<div class="opts"></div><div class="fb"></div>`;
+  const opts=c.querySelector(".opts"), fb=c.querySelector(".fb");
+  shuffle(item.opts).forEach(o=>{
+    const b=document.createElement("button");b.className="opt";b.textContent=o;
+    b.onclick=()=>{
+      const ok=o===item.answer;
+      c.querySelectorAll(".opt").forEach(x=>{x.disabled=true;
+        if(x.textContent===item.answer)x.classList.add("correct");
+        else if(x===b)x.classList.add("wrong");});
+      fb.className="fb show "+(ok?"ok":"no");
+      fb.innerHTML=(ok?"✅ Правильно. ":"❌ Правильно: <code>"+esc(item.answer)+"</code>. ")+(item.expl||"");
+    };
+    opts.appendChild(b);
+  });
+  return c;
+}
+
+function renderClassify(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag g">класифікація</span></div><p style="margin:0 0 10px">${item.prompt}</p><div class="chips"></div><div class="row"><button class="btn">Перевірити</button></div><div class="fb"></div>`;
+  const wrap=c.querySelector(".chips"), fb=c.querySelector(".fb");
+  item.items.forEach((it,i)=>{
+    const ch=document.createElement("button");ch.className="chip";ch.textContent=it.label;ch.dataset.i=i;
+    ch.onclick=()=>ch.classList.toggle("sel");
+    wrap.appendChild(ch);
+  });
+  c.querySelector(".btn").onclick=()=>{
+    let allOk=true; const notes=[];
+    wrap.querySelectorAll(".chip").forEach(ch=>{
+      const it=item.items[+ch.dataset.i];
+      const sel=ch.classList.contains("sel");
+      ch.classList.remove("sel");
+      const right=sel===it.correct;
+      ch.classList.add(right?"ok":"bad");
+      if(!right) allOk=false;
+      if(it.note) notes.push(`${it.label}: ${it.note}`);
+    });
+    fb.className="fb show "+(allOk?"ok":"no");
+    fb.innerHTML=(allOk?"✅ Усе правильно!":"❌ Є неточності — дивіться підсвічене.")+(notes.length?"\n\n"+notes.map(esc).join("\n"):"");
+  };
+  return c;
+}
+
+function renderRun(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag c">спробуйте</span></div>`+
+    `<p style="margin:0 0 10px">${item.prompt}</p>`+
+    `<textarea spellcheck="false">${esc(item.code)}</textarea>`+
+    `<div class="row"><button class="btn">▶ Запустити</button><span class="muted st"></span></div><div class="out"></div>`;
+  const ta=c.querySelector("textarea"), out=c.querySelector(".out"), st=c.querySelector(".st");
+  c.querySelector(".btn").onclick=async()=>{
+    out.textContent=""; let py;
+    try{py=await ensurePy(st);}catch(e){out.innerHTML='<span style="color:var(--red)">Не вдалося завантажити Python (потрібен інтернет).</span>';return;}
+    try{const r=await runCapture(py, ta.value); out.innerHTML='<span class="muted">Результат у терміналі:</span>\n'+esc(r||"(нічого не виведено)");}
+    catch(e){out.innerHTML='<span style="color:var(--red)">⚠️ '+esc(String(e.message||e).split("\n").slice(-3).join("\n"))+'</span>';}
+  };
+  return c;
+}
+
+function renderTask(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag c">ваша черга</span></div>`+
+    `<p style="margin:0 0 10px">${item.prompt}</p>`+
+    `<textarea spellcheck="false">${esc(item.starter)}</textarea>`+
+    `<div class="row"><button class="btn">Запустити й перевірити</button><span class="muted st"></span></div><div class="out"></div><div class="fb"></div>`;
+  const ta=c.querySelector("textarea"), out=c.querySelector(".out"), fb=c.querySelector(".fb"), st=c.querySelector(".st");
+  c.querySelector(".btn").onclick=async()=>{
+    out.textContent=""; fb.className="fb"; let py;
+    try{py=await ensurePy(st);}catch(e){fb.className="fb show no";fb.textContent="Не вдалося завантажити Python (потрібен інтернет).";return;}
+    let got;
+    try{got=(await runCapture(py, ta.value)).trim();}
+    catch(e){fb.className="fb show no";fb.innerHTML="⚠️ Помилка: "+esc(String(e.message||e).split("\n").slice(-2).join("\n"));return;}
+    out.innerHTML='<span class="muted">Вивід:</span>\n'+esc(got||"(нічого)");
+    if(outputsMatch(got, item.expected)){fb.className="fb show ok";fb.innerHTML="✅ Правильно!";}
+    else{fb.className="fb show no";fb.innerHTML="❌ Поки не те. Очікувалося:\n"+esc(item.expected);}
+  };
+  return c;
+}
+
+function renderDiagnostic(item){
+  const c=elCard();
+  const total=item.questions.length;
+  c.innerHTML=`<div class="meta"><span class="tag q">перевір себе</span></div>`+
+    (item.intro?`<p style="margin:0 0 14px">${item.intro}</p>`:"")+
+    `<div class="dq"></div><div class="fb"></div>`;
+  const wrap=c.querySelector(".dq"), fb=c.querySelector(".fb");
+  const wrong=[]; let answered=0;
+  item.questions.forEach(q=>{
+    const qd=document.createElement("div");
+    qd.style.margin="0 0 18px";
+    qd.innerHTML=(q.scenario?`<p class="muted" style="margin:0 0 6px">${esc(q.scenario)}</p>`:"")+
+      (q.q?`<p style="margin:0 0 8px">${q.q}</p>`:(q.code?`<p style="margin:0 0 8px">Що виведе цей код?</p>`:""))+
+      (q.code?`<pre>${esc(q.code)}</pre>`:"")+
+      `<div class="opts"></div>`;
+    const opts=qd.querySelector(".opts");
+    shuffle(q.opts).forEach(o=>{
+      const b=document.createElement("button");b.className="opt";b.textContent=o;
+      b.onclick=()=>{
+        const ok=o===q.answer;
+        opts.querySelectorAll(".opt").forEach(x=>{x.disabled=true;
+          if(x.textContent===q.answer)x.classList.add("correct");
+          else if(x===b)x.classList.add("wrong");});
+        if(!ok && wrong.indexOf(q.section)===-1) wrong.push(q.section);
+        answered++;
+        if(answered===total){
+          if(wrong.length===0){
+            fb.className="fb show ok";
+            fb.innerHTML="✅ Усе правильно — тему тримаєте впевнено, можна рухатись далі.";
+          }else{
+            fb.className="fb show no";
+            fb.innerHTML="Варто повторити ці розділи конспекту:\n— "+wrong.join("\n— ");
+          }
+        }
+      };
+      opts.appendChild(b);
+    });
+    wrap.appendChild(qd);
+  });
+  return c;
+}
+
+function renderItem(item){
+  if(item.type==="diagnostic") return renderDiagnostic(item);
+  if(item.type==="note") return renderNote(item);
+  if(item.type==="mcq") return renderMCQ(item);
+  if(item.type==="classify") return renderClassify(item);
+  if(item.type==="run") return renderRun(item);
+  if(item.type==="task") return renderTask(item);
+  const d=elCard();d.textContent="Невідомий тип: "+item.type;return d;
+}
+
+/* ================= орієнтир теми ================= */
+const TOPIC = {
+  title:"Тема 2 — керуючі конструкції, винятки, функції",
+  intro:`Тут ви відпрацьовуєте логіку Python: рішення (<code>if</code>), цикли (<code>for</code>), обробку помилок (<code>try/except</code>) і функції (<code>def</code>). Спершу будуємо систему модерації коментарів, потім пишемо автоперевірку тесту на функціях. Запускайте код, міняйте його й дописуйте самі.`,
+  groups:[
+    {name:"🛡️ Кейс · Модерація коментарів", desc:`Будуємо модератор крок за кроком: рішення по одному коментарю (<code>if/elif/else</code>), цикл по всьому списку (<code>for</code>), лічильник заблокованих і обробка «битих» записів (<code>try/except</code>). У фіналі — усе разом.`, blocks:["mod-1","mod-2","mod-3","mod-final"]},
+    {name:"🎯 Кейс · Автоперевірка тесту (функції)", desc:`Функції: оголошення (<code>def</code>, <code>return</code>), виклик у циклі, аргумент за замовчуванням, <code>*args</code> для будь-якої кількості аргументів. У фіналі — звіт по групі.`, blocks:["fn-1","fn-2","fn-3","fn-4","fn-final"]},
+    {name:"⚡ Для впевнених", desc:`Якщо базове дається легко — пастки навколо функцій, циклів і винятків та ідіоми Python. Необов'язково.`, blocks:["experienced"]},
+    {name:"✅ Перевір себе", desc:`Коротка діагностика по всій темі. Наприкінці підкаже, які розділи конспекту варто повторити.`, blocks:["review"]}
+  ]
+};
+function findGroup(id){for(const g of TOPIC.groups){const i=g.blocks.indexOf(id);if(i!==-1)return{g,i};}return null;}
+
+/* ================= ініціалізація ================= */
+function renderIndex(){
+  const app=document.getElementById("app");
+  let html=`<div class="card"><h2 style="margin:0 0 8px;font-size:1.15rem">${esc(TOPIC.title)}</h2><p style="margin:0 0 10px">${TOPIC.intro}</p><p class="muted" style="margin:0">🔒 Код виконується у вашому браузері — нічого не надсилається. Проходьте по порядку: кожен крок додає щось нове.</p></div>`;
+  TOPIC.groups.forEach(g=>{html+=`<div class="card"><strong>${g.name}</strong>${g.desc?`<p class="muted" style="margin:6px 0 10px">${g.desc}</p>`:""}<div class="idx"></div></div>`;});
+  app.innerHTML=html;
+  const idxs=app.querySelectorAll(".idx");
+  TOPIC.groups.forEach((g,gi)=>{g.blocks.forEach(id=>{const b=BLOCKS[id];if(!b)return;const a=document.createElement("a");a.href="?block="+id;a.textContent=b.title;idxs[gi].appendChild(a);});});
+}
+function renderBlock(id){
+  const b=BLOCKS[id];
+  document.getElementById("title").innerHTML='🐍 '+esc(b.title);
+  const app=document.getElementById("app");
+  const gi=findGroup(id);
+  if(gi){const c=document.createElement("div");c.className="card";c.innerHTML=`<div class="muted" style="font-size:.9rem">${gi.g.name} · крок ${gi.i+1} з ${gi.g.blocks.length}</div>`+((gi.i===0&&gi.g.desc)?`<p style="margin:8px 0 0">${gi.g.desc}</p>`:"");app.appendChild(c);}
+  b.items.forEach(it=>app.appendChild(renderItem(it)));
+  if(gi){const nav=document.createElement("div");nav.style.cssText="display:flex;gap:12px;margin:18px 0 4px;align-items:center";const g=gi.g,i=gi.i;if(i>0)nav.innerHTML+=`<a href="?block=${g.blocks[i-1]}">← попередній крок</a>`;if(i<g.blocks.length-1)nav.innerHTML+=`<a href="?block=${g.blocks[i+1]}" style="margin-left:auto">наступний крок →</a>`;if(nav.children.length)app.appendChild(nav);}
+  const back=document.createElement("p");back.innerHTML='<a href="?">← усі інтерактиви</a>';back.className="muted";
+  app.appendChild(back);
+}
+
+const params=new URLSearchParams(location.search);
+const blockId=params.get("block");
+if(blockId && BLOCKS[blockId]) renderBlock(blockId);
+else renderIndex();
+</script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python · Тема 4 — інтерактиви</title>
+<style>
+  :root{
+    --bg:#0D1117;--panel:#161B22;--panel2:#1C2330;--border:#30363D;
+    --white:#F0F6FC;--muted:#8B949E;--green:#3FB950;--greenbg:#11331c;
+    --red:#f85149;--redbg:#3a1414;--blue:#58a6ff;--bluebg:#102a43;--violetbg:#1c1740;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--white);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;font-size:15px}
+  .wrap{max-width:740px;margin:0 auto;padding:20px 16px 80px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  h1{font-size:19px;margin:0}
+  .badge{font-size:12px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:4px 10px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
+  .meta{font-size:12px;color:var(--muted);margin-bottom:10px}
+  .tag{border-radius:4px;padding:1px 8px;font-weight:600}
+  .tag.q{background:var(--bluebg);color:var(--blue)}
+  .tag.g{background:var(--greenbg);color:var(--green)}
+  .tag.c{background:var(--violetbg);color:#b9a4ff}
+  pre{background:#07090e;color:#c9d1d9;padding:14px;border-radius:8px;overflow:auto;font-size:14px;margin:0 0 14px}
+  code{font-family:"SF Mono",Consolas,Menlo,monospace}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{text-align:left;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:11px 14px;border-radius:8px;cursor:pointer;font-family:"SF Mono",Consolas,monospace;font-size:14px}
+  .opt:hover{border-color:var(--muted)}
+  .opt.correct{border-color:var(--green);background:var(--greenbg)}
+  .opt.wrong{border-color:var(--red);background:var(--redbg)}
+  .opt:disabled{cursor:default}
+  .chip{display:inline-block;margin:4px 6px 4px 0;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:8px 13px;border-radius:8px;cursor:pointer;font-family:"SF Mono",Consolas,monospace;font-size:14px}
+  .chip.sel{border-color:var(--blue);background:var(--bluebg)}
+  .chip.ok{border-color:var(--green);background:var(--greenbg)}
+  .chip.bad{border-color:var(--red);background:var(--redbg)}
+  textarea{width:100%;min-height:120px;background:#07090e;color:#c9d1d9;border:1px solid var(--border);border-radius:8px;padding:12px;font-family:"SF Mono",Consolas,monospace;font-size:14px;resize:vertical}
+  .out{margin-top:12px;font-size:13px;white-space:pre-wrap}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .fb{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:14px;display:none;white-space:pre-wrap}
+  .fb.show{display:block}.fb.ok{background:var(--greenbg);border:1px solid var(--green)}.fb.no{background:var(--redbg);border:1px solid var(--red)}
+  .btn{background:var(--green);color:#031b0c;border:none;padding:10px 18px;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px}
+  a{color:var(--blue)} .muted{color:var(--muted)}
+  .idx a{display:block;padding:6px 0;border-bottom:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title">🐍 Python · Тема 4 — інтерактиви</h1>
+    <span class="badge">🔒 Усе у вашому браузері. Нічого не надсилається.</span>
+  </header>
+  <div id="app"></div>
+</div>
+
+<script>
+const BLOCKS = {
+  "str-1": {title:"Чистка тексту · крок 1 (прибрати пробіли)", items:[
+    {type:"note", text:`<b>🧹 Чистимо й розбираємо «брудний» рядок даних.</b> Тут — методи рядків. Пам'ятайте: рядок незмінний, тож кожен метод <b>повертає новий</b> рядок. <code>strip()</code> прибирає пробіли з обох країв.`},
+    {type:"run",
+     prompt:`Дані часто приходять із зайвими пробілами по краях. <code>repr()</code> показує рядок «як є», з лапками — так видно пробіли. Запустіть і порівняйте «до» і «після».`,
+     code:'raw = "  Ноутбук ; 24999 грн ; 3 шт  "\nprint("до:   ", repr(raw))\nprint("після:", repr(raw.strip()))\n'},
+    {type:"task",
+     prompt:`Приберіть пробіли по краях назви міста. Допишіть рядок <code>print(city.strip())</code>. Для <code>"   Київ   "</code> має вийти <code>Київ</code>.`,
+     starter:'city = "   Київ   "\n# допишіть рядок, що виведе місто без пробілів по краях\n',
+     expected:"Київ"}
+  ]},
+
+  "str-2": {title:"Чистка тексту · крок 2 (замінити символи)", items:[
+    {type:"note", text:`<b>З теми.</b> <code>replace(old, new)</code> замінює <b>усі</b> входження підрядка. Якщо замінити на порожній рядок <code>""</code> — підрядок просто зникає (видалення).`},
+    {type:"run",
+     prompt:`Приберемо одиниці виміру («грн», «шт»), щоб лишились чисті значення. Заміни можна ставити ланцюжком. Запустіть.`,
+     code:'text = "Ноутбук ; 24999 грн ; 3 шт"\nprint(text.replace(" грн", "").replace(" шт", ""))\n'},
+    {type:"task",
+     prompt:`Приберіть « грн» з ціни, лишивши саме число. Допишіть рядок <code>print(price.replace(" грн", ""))</code>. Для <code>"24999 грн"</code> має вийти <code>24999</code>.`,
+     starter:'price = "24999 грн"\n# допишіть рядок, що виведе ціну без " грн"\n',
+     expected:"24999"}
+  ]},
+
+  "str-3": {title:"Чистка тексту · крок 3 (розбити на частини)", items:[
+    {type:"note", text:`<b>З теми.</b> <code>split(роздільник)</code> розбиває рядок на <b>список</b> частин за вказаним роздільником.`},
+    {type:"run",
+     prompt:`Тепер розкладемо рядок на окремі поля за роздільником <code>" ; "</code>. Запустіть — отримаєте список.`,
+     code:'text = "Ноутбук ; 24999 ; 3"\nparts = text.split(" ; ")\nprint(parts)\n'},
+    {type:"task",
+     prompt:`Скільки полів у рядку? Допишіть рядок <code>print(len(text.split(" ; ")))</code>. Для цього рядка має вийти <code>3</code>.`,
+     starter:'text = "Ноутбук ; 24999 ; 3"\n# допишіть рядок, що виведе, скільки полів дає split(" ; ")\n',
+     expected:"3"}
+  ]},
+
+  "str-4": {title:"Чистка тексту · крок 4 (чи це число?)", items:[
+    {type:"note", text:`<b>З теми.</b> <code>isdigit()</code> повертає <code>True</code>, якщо рядок складається лише з цифр — зручно перевірити, чи поле є числом, перед підрахунками.`},
+    {type:"run",
+     prompt:`Перевіримо, які поля — числа. Запустіть.`,
+     code:'print("24999".isdigit())\nprint("Ноутбук".isdigit())\n'},
+    {type:"task",
+     prompt:`Перевірте, чи кількість — число. Допишіть рядок <code>print(qty.isdigit())</code>. Для <code>"3"</code> має вийти <code>True</code>.`,
+     starter:'qty = "3"\n# допишіть рядок, що перевірить, чи qty складається лише з цифр\n',
+     expected:"True"}
+  ]},
+
+  "str-5": {title:"Чистка тексту · крок 5 (зібрати назад)", items:[
+    {type:"note", text:`<b>З теми.</b> <code>join</code> — обернений до <code>split</code>: збирає список рядків в один, вставляючи роздільник. Викликають його <b>на роздільнику</b>: <code>" | ".join(список)</code>.`},
+    {type:"run",
+     prompt:`Зберемо очищені поля назад в один рядок через <code>" | "</code>. Запустіть.`,
+     code:'parts = ["Ноутбук", "24999", "3"]\nprint(" | ".join(parts))\n'},
+    {type:"task",
+     prompt:`Зберіть слова в рядок через кому з пробілом. Допишіть рядок <code>print(", ".join(words))</code>. Має вийти <code>earth, air, fire</code>.`,
+     starter:'words = ["earth", "air", "fire"]\n# допишіть рядок, що збере слова через ", "\n',
+     expected:"earth, air, fire"}
+  ]},
+
+  "str-final": {title:"Чистка тексту · фінал", items:[
+    {type:"note", text:`<b>Повний конвеєр.</b> Дивимось увесь шлях разом: брудний рядок очищаємо (<code>strip</code>, <code>replace</code>), розбиваємо на поля (<code>split</code>) — і маємо готові чисті дані.`},
+    {type:"run",
+     prompt:`Натисніть «Запустити» — і побачите весь шлях: <b>брудний рядок → три чисті поля</b>. Хочете спробувати на своєму? У коді змініть текст у лапках після <code>raw =</code> на будь-який свій — напр. <code>"  Миша ; 499 грн ; 5 шт  "</code> — і запустіть ще раз. 🧹`,
+     code:'raw = "  Ноутбук ; 24999 грн ; 3 шт  "\nclean = raw.strip().replace(" грн", "").replace(" шт", "")\nparts = clean.split(" ; ")\nprint("Було (брудний рядок):")\nprint(" ", repr(raw))\nprint("Стало (чисті поля):")\nprint("  назва:    ", parts[0])\nprint("  ціна:     ", parts[1])\nprint("  кількість:", parts[2])\n'}
+  ]},
+
+  "re-1": {title:"Витягуємо дані · крок 1 (перший шаблон)", items:[
+    {type:"note", text:`<b>🔍 Витягуємо дані з тексту регулярними виразами.</b> Модуль <code>re</code> шукає за <b>шаблоном</b>, а <code>re.search</code> знаходить <b>перший</b> збіг. Почнемо з найпростішого — шаблону для числа: <code>\\d</code> — одна цифра, <code>+</code> — «одна або більше», тож <code>\\d+</code> ловить ціле число. Шаблон пишуть «сирим» рядком <code>r"..."</code>.`},
+    {type:"run",
+     prompt:`Знайдемо перше число в тексті шаблоном <code>r"\\d+"</code>. Запустіть.`,
+     code:'import re\ntext = "Замовлення №2026 готове"\nmatch = re.search(r"\\d+", text)\nprint(match.group())\n'},
+    {type:"run",
+     prompt:`Тепер складніший шаблон — email. Додаємо нові «цеглинки»: <code>\\w</code> — буква або цифра, <code>@</code> — сам символ равлика, <code>\\.</code> — крапка (зі слешем, бо без нього крапка означає «будь-який символ»). Разом <code>r"\\w+@\\w+\\.\\w+"</code> = букви, <code>@</code>, букви, крапка, букви. Запустіть.`,
+     code:'import re\ntext = "Пишіть на support@example.com будь-коли"\nmatch = re.search(r"\\w+@\\w+\\.\\w+", text)\nprint(match.group())\n'},
+    {type:"task",
+     prompt:`Ваша черга — знайдіть перше <b>число</b> в тексті. Допишіть рядок <code>print(re.search(r"\\d+", text).group())</code>. Має вийти <code>320</code>.`,
+     starter:'import re\ntext = "Рейс 320 вилітає за розкладом"\n# допишіть рядок, що знайде й виведе перше число\n',
+     expected:"320"}
+  ]},
+
+  "re-2": {title:"Витягуємо дані · крок 2 (усі збіги)", items:[
+    {type:"note", text:`<b>З теми.</b> <code>re.findall</code> знаходить <b>усі</b> збіги й повертає їх списком (а не лише перший, як <code>search</code>).`},
+    {type:"run",
+     prompt:`Знайдемо всі числа в тексті одразу. Запустіть — отримаєте список.`,
+     code:'import re\ntext = "Рік 2023 був складнішим, ніж 2022"\nprint(re.findall(r"\\d+", text))\n'},
+    {type:"task",
+     prompt:`Скільки email у тексті? Допишіть рядок <code>print(len(re.findall(r"\\w+@\\w+\\.\\w+", text)))</code> — <code>findall</code> дасть список усіх адрес, <code>len</code> порахує. Має вийти <code>2</code>.`,
+     starter:'import re\ntext = "Контакти: example1@example.com, example2@sample.org"\n# допишіть рядок, що виведе, скільки email знайдено\n',
+     expected:"2"}
+  ]},
+
+  "re-3": {title:"Витягуємо дані · крок 3 (групи)", items:[
+    {type:"note", text:`<b>З теми.</b> Круглі дужки <code>( )</code> у шаблоні — це <b>групи</b>: вони виділяють частини збігу окремо. <code>match.group(1)</code> дає першу групу, <code>group(2)</code> — другу.<br><br><details style="margin-top:4px"><summary style="cursor:pointer;font-weight:600">🟡 Якщо застрягли з групами</summary><div style="margin-top:8px;line-height:1.6">Групи нумеруються за <b>порядком відкривних дужок</b> зліва направо: перша <code>(</code> → <code>group(1)</code>, друга → <code>group(2)</code>. А <code>group(0)</code> — це весь збіг цілком. Дужки не змінюють, що шаблон шукає, — лише «запам'ятовують» шматок, щоб дістати його окремо.</div></details>`},
+    {type:"run",
+     prompt:`Розділимо email на ім'я користувача й домен. Дужки в <code>(\\w+)@(\\w+\\.\\w+)</code> ловлять дві частини окремо. Запустіть.`,
+     code:'import re\nemail = "anna@example.com"\nmatch = re.search(r"(\\w+)@(\\w+\\.\\w+)", email)\nprint("Користувач:", match.group(1))\nprint("Домен:", match.group(2))\n'},
+    {type:"task",
+     prompt:`Витягніть лише <b>користувача</b> (частина до <code>@</code>) — це перша група. Допишіть рядок <code>print(match.group(1))</code>. Для <code>bohdan@site.org</code> має вийти <code>bohdan</code>.`,
+     starter:'import re\nemail = "bohdan@site.org"\nmatch = re.search(r"(\\w+)@(\\w+\\.\\w+)", email)\n# допишіть рядок, що виведе першу групу (користувача до @)\n',
+     expected:"bohdan"}
+  ]},
+
+  "re-4": {title:"Витягуємо дані · крок 4 (заміна за шаблоном)", items:[
+    {type:"note", text:`<b>З теми.</b> <code>re.sub(шаблон, заміна, текст)</code> замінює все, що збігається з шаблоном. У заміні можна посилатись на групи: <code>\\1</code>, <code>\\2</code>, <code>\\3</code>. А <code>\\d{3}</code> означає «рівно три цифри».`},
+    {type:"run",
+     prompt:`Переформатуємо телефон: <code>050-171-1634</code> → <code>(050) 171-1634</code>. Три групи цифр ловимо дужками й переставляємо в заміні. Запустіть.`,
+     code:'import re\ntext = "Телефон: 050-171-1634"\nprint(re.sub(r"(\\d{3})-(\\d{3})-(\\d{4})", r"(\\1) \\2-\\3", text))\n'},
+    {type:"task",
+     prompt:`У назві файлу пробіли — це проблема. Замініть їх на підкреслення. Допишіть рядок <code>print(re.sub(r"\\s", "_", name))</code> — <code>\\s</code> означає пробільний символ. Для <code>"Мій документ.txt"</code> має вийти <code>Мій_документ.txt</code>.`,
+     starter:'import re\nname = "Мій документ.txt"\n# допишіть рядок, що замінить пробіли на "_"\n',
+     expected:"Мій_документ.txt"}
+  ]},
+
+  "re-final": {title:"Витягуємо дані · фінал", items:[
+    {type:"note", text:`<b>Збираємо все.</b> З «брудного» тексту-візитки витягуємо всі email і телефон — саме так парсять контакти зі сторінок і листів.<br><br>🔗 <b>У фінальному проєкті</b> ви так само перевірятимете правильність email і телефону при валідації контактів — це той самий інструмент.`},
+    {type:"run",
+     prompt:`Натисніть «Запустити» — з тексту дістанемо всі email і телефон. Поміняйте текст у <code>text</code> на свій (з іншими адресами) і запустіть ще раз. 🔍`,
+     code:'import re\ntext = "Контакти: anna@shop.com, bohdan@mail.org, тел. 050-333-1122"\nprint("Знайдені email:", re.findall(r"\\w+@\\w+\\.\\w+", text))\nprint("Знайдений телефон:", re.search(r"\\d{3}-\\d{3}-\\d{4}", text).group())\n'},
+    {type:"note", text:`<details style="margin:0"><summary style="cursor:pointer;font-weight:600">🎯 Де це у твоєму напрямку <span style="opacity:.6;font-weight:400">(можна розгорнути або пропустити)</span></summary><div style="margin-top:8px;line-height:1.6"><b>AI&amp;ML.</b> Чистка тексту й regex — препроцесинг NLP: токенізація, нормалізація, витяг ознак із сирого тексту.<br><b>SE&amp;AI.</b> Валідація вводу (email, телефон) і парсинг рядків — щоденна робота бекенду.<br><b>CyberSec&amp;AI.</b> Парсинг логів, витяг IP/URL/індикаторів, санітизація вводу — ваш основний інструмент.<br><b>PM&amp;AI.</b> Витяг потрібних даних із тексту у звіти, чистка вивантажень перед аналізом.</div></details>`}
+  ]},
+
+  "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
+    {type:"note", text:`Цей блок — для тих, хто вже впевнений. Спочатку <b>пастки</b> з рядками й regex; далі — короткі <b>ідіоми</b>. Спершу спробуйте відповісти самі — пояснення з'явиться після відповіді.`},
+    {type:"mcq", code:"print(\"abc\".replace(\"z\", \"!\"))", opts:["abc","a!c","помилка"], answer:"abc",
+     expl:"Якщо підрядок не знайдено, replace нічого не міняє й повертає рядок як є (без помилки)."},
+    {type:"mcq", code:"print(\"-5\".isdigit())", opts:["False","True","-5"], answer:"False",
+     expl:"isdigit() перевіряє ЛИШЕ цифри; мінус — не цифра, тож False. Так само \"5.0\".isdigit() дає False."},
+    {type:"mcq", code:"print(\"abc\".find(\"z\"))", opts:["-1","0","помилка"], answer:"-1",
+     expl:"find повертає -1, якщо не знайдено (не падає). А index у такому разі кинув би ValueError."},
+    {type:"mcq", code:"print(\"a,,b\".split(\",\"))", opts:["['a', '', 'b']","['a', 'b']","['a,,b']"], answer:"['a', '', 'b']",
+     expl:"Два роздільники поспіль дають порожній рядок між ними. Щоб цього уникнути, з regex беруть re.split(r\",+\", ...)."},
+    {type:"mcq", code:"import re\nprint(re.findall(r\"\\d\", \"a1b2c3\"))", opts:["['1', '2', '3']","['1b2c3']","['123']"], answer:"['1', '2', '3']",
+     expl:"\\d без + матчить ПО ОДНІЙ цифрі, тож знаходить кожну окремо. \\d+ зібрало б суцільні числа разом."},
+    {type:"note", text:`<b>Тепер ідіоми.</b> Короткі записи «по-пайтонічному».`},
+    {type:"task",
+     prompt:`<b>Ідіома.</b> Розверніть рядок задом наперед зрізом. Допишіть <code>print(word[::-1])</code>. Для <code>"привіт"</code> має вийти <code>тівирп</code>.`,
+     starter:'word = "привіт"\n# розверніть рядок зрізом\n',
+     expected:"тівирп"},
+    {type:"task",
+     prompt:`<b>Ідіома.</b> Порахуйте, скільки разів трапляється літера. Допишіть <code>print(word.count("a"))</code>. Для <code>"banana"</code> має вийти <code>3</code>.`,
+     starter:'word = "banana"\n# скільки разів трапляється літера "a"\n',
+     expected:"3"}
+  ]},
+
+  "review": {title:"Перевір себе — що повторити", items:[
+    {type:"diagnostic",
+     intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
+     questions:[
+       {code:"print(\"  hi  \".strip())", opts:["hi","'  hi  '","  hi"], answer:"hi", section:"Прибирання пробілів (strip)"},
+       {code:"print(len(\"a,b,c\".split(\",\")))", opts:["3","1","2"], answer:"3", section:"Розбиття рядка (split)"},
+       {code:"print(\"-\".join([\"a\", \"b\"]))", opts:["a-b","ab","['a', 'b']"], answer:"a-b", section:"Обʼєднання рядків (join)"},
+       {scenario:"import re", code:"print(re.search(r\"\\d+\", \"код 42\").group())", opts:["42","код","4"], answer:"42", section:"Пошук (re.search)"},
+       {scenario:"import re", code:"print(len(re.findall(r\"\\d+\", \"1 і 22 і 333\")))", opts:["3","6","1"], answer:"3", section:"Усі збіги (re.findall)"},
+       {scenario:"import re", code:"print(re.sub(r\"\\s\", \"_\", \"a b\"))", opts:["a_b","ab","a b"], answer:"a_b", section:"Заміна за шаблоном (re.sub)"}
+     ]}
+  ]},
+};
+
+/* ================= утиліти ================= */
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function elCard(){const d=document.createElement("div");d.className="card";return d;}
+
+/* ===== Pyodide (лазі, лише для запуску коду) ===== */
+let pyodide=null, pyLoading=null;
+const PY_BASES=["https://cdn.jsdelivr.net/pyodide/v0.26.2/full/","https://cdn.jsdelivr.net/pyodide/v0.25.1/full/"];
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(new Error("скрипт не завантажився: "+src));document.head.appendChild(s);});}
+async function ensurePy(statusEl){
+  if(pyodide) return pyodide;
+  if(!pyLoading){
+    pyLoading=(async()=>{
+      let last;
+      for(const base of PY_BASES){
+        try{
+          if(statusEl) statusEl.textContent="⏳ Завантажую Python…";
+          if(typeof loadPyodide==="undefined") await loadScript(base+"pyodide.js");
+          pyodide=await loadPyodide({indexURL:base});
+          if(statusEl) statusEl.textContent="";
+          return pyodide;
+        }catch(e){ last=e; }
+      }
+      throw last||new Error("невідома помилка");
+    })().catch(e=>{pyLoading=null; if(statusEl) statusEl.textContent=""; throw e;});
+  }
+  return pyLoading;
+}
+async function runCapture(py, code){
+  const ind=code.split("\n").map(l=>"    "+l).join("\n");
+  const prog="import sys, io\n_b=io.StringIO()\n_o=sys.stdout\nsys.stdout=_b\ntry:\n"+ind+"\nfinally:\n    sys.stdout=_o\n_b.getvalue()";
+  return String(await py.runPythonAsync(prog));
+}
+function outputsMatch(a,b){
+  const ta=a.trim().split(/\s+/), tb=b.trim().split(/\s+/);
+  if(ta.length!==tb.length) return false;
+  for(let i=0;i<ta.length;i++){
+    if(ta[i]===tb[i]) continue;
+    const fa=parseFloat(ta[i]),fb=parseFloat(tb[i]);
+    if(!isNaN(fa)&&!isNaN(fb)&&Math.abs(fa-fb)<1e-9) continue;
+    return false;
+  }
+  return true;
+}
+
+/* ================= рендер ================= */
+function renderNote(item){
+  const c=elCard();
+  c.style.background="var(--panel2)";
+  c.innerHTML=`<div>${item.text}</div>`;
+  return c;
+}
+
+function renderMCQ(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag q">що виведе?</span></div>`+
+    (item.scenario?`<p class="muted" style="margin:0 0 6px">${item.scenario}</p>`:"")+
+    (item.q?`<p style="margin:0 0 10px">${item.q}</p>`:(item.code?`<p style="margin:0 0 10px">Що виведе цей код?</p>`:""))+
+    (item.code?`<pre>${esc(item.code)}</pre>`:"")+
+    `<div class="opts"></div><div class="fb"></div>`;
+  const opts=c.querySelector(".opts"), fb=c.querySelector(".fb");
+  shuffle(item.opts).forEach(o=>{
+    const b=document.createElement("button");b.className="opt";b.textContent=o;
+    b.onclick=()=>{
+      const ok=o===item.answer;
+      c.querySelectorAll(".opt").forEach(x=>{x.disabled=true;
+        if(x.textContent===item.answer)x.classList.add("correct");
+        else if(x===b)x.classList.add("wrong");});
+      fb.className="fb show "+(ok?"ok":"no");
+      fb.innerHTML=(ok?"✅ Правильно. ":"❌ Правильно: <code>"+esc(item.answer)+"</code>. ")+(item.expl||"");
+    };
+    opts.appendChild(b);
+  });
+  return c;
+}
+
+function renderClassify(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag g">класифікація</span></div><p style="margin:0 0 10px">${item.prompt}</p><div class="chips"></div><div class="row"><button class="btn">Перевірити</button></div><div class="fb"></div>`;
+  const wrap=c.querySelector(".chips"), fb=c.querySelector(".fb");
+  item.items.forEach((it,i)=>{
+    const ch=document.createElement("button");ch.className="chip";ch.textContent=it.label;ch.dataset.i=i;
+    ch.onclick=()=>ch.classList.toggle("sel");
+    wrap.appendChild(ch);
+  });
+  c.querySelector(".btn").onclick=()=>{
+    let allOk=true; const notes=[];
+    wrap.querySelectorAll(".chip").forEach(ch=>{
+      const it=item.items[+ch.dataset.i];
+      const sel=ch.classList.contains("sel");
+      ch.classList.remove("sel");
+      const right=sel===it.correct;
+      ch.classList.add(right?"ok":"bad");
+      if(!right) allOk=false;
+      if(it.note) notes.push(`${it.label}: ${it.note}`);
+    });
+    fb.className="fb show "+(allOk?"ok":"no");
+    fb.innerHTML=(allOk?"✅ Усе правильно!":"❌ Є неточності — дивіться підсвічене.")+(notes.length?"\n\n"+notes.map(esc).join("\n"):"");
+  };
+  return c;
+}
+
+function renderRun(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag c">спробуйте</span></div>`+
+    `<p style="margin:0 0 10px">${item.prompt}</p>`+
+    `<textarea spellcheck="false">${esc(item.code)}</textarea>`+
+    `<div class="row"><button class="btn">▶ Запустити</button><span class="muted st"></span></div><div class="out"></div>`;
+  const ta=c.querySelector("textarea"), out=c.querySelector(".out"), st=c.querySelector(".st");
+  c.querySelector(".btn").onclick=async()=>{
+    out.textContent=""; let py;
+    try{py=await ensurePy(st);}catch(e){out.innerHTML='<span style="color:var(--red)">Не вдалося завантажити Python (потрібен інтернет).</span>';return;}
+    try{const r=await runCapture(py, ta.value); out.innerHTML='<span class="muted">Результат у терміналі:</span>\n'+esc(r||"(нічого не виведено)");}
+    catch(e){out.innerHTML='<span style="color:var(--red)">⚠️ '+esc(String(e.message||e).split("\n").slice(-3).join("\n"))+'</span>';}
+  };
+  return c;
+}
+
+function renderTask(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag c">ваша черга</span></div>`+
+    `<p style="margin:0 0 10px">${item.prompt}</p>`+
+    `<textarea spellcheck="false">${esc(item.starter)}</textarea>`+
+    `<div class="row"><button class="btn">Запустити й перевірити</button><span class="muted st"></span></div><div class="out"></div><div class="fb"></div>`;
+  const ta=c.querySelector("textarea"), out=c.querySelector(".out"), fb=c.querySelector(".fb"), st=c.querySelector(".st");
+  c.querySelector(".btn").onclick=async()=>{
+    out.textContent=""; fb.className="fb"; let py;
+    try{py=await ensurePy(st);}catch(e){fb.className="fb show no";fb.textContent="Не вдалося завантажити Python (потрібен інтернет).";return;}
+    let got;
+    try{got=(await runCapture(py, ta.value)).trim();}
+    catch(e){fb.className="fb show no";fb.innerHTML="⚠️ Помилка: "+esc(String(e.message||e).split("\n").slice(-2).join("\n"));return;}
+    out.innerHTML='<span class="muted">Вивід:</span>\n'+esc(got||"(нічого)");
+    if(outputsMatch(got, item.expected)){fb.className="fb show ok";fb.innerHTML="✅ Правильно!";}
+    else{fb.className="fb show no";fb.innerHTML="❌ Поки не те. Очікувалося:\n"+esc(item.expected);}
+  };
+  return c;
+}
+
+function renderDiagnostic(item){
+  const c=elCard();
+  const total=item.questions.length;
+  c.innerHTML=`<div class="meta"><span class="tag q">перевір себе</span></div>`+
+    (item.intro?`<p style="margin:0 0 14px">${item.intro}</p>`:"")+
+    `<div class="dq"></div><div class="fb"></div>`;
+  const wrap=c.querySelector(".dq"), fb=c.querySelector(".fb");
+  const wrong=[]; let answered=0;
+  item.questions.forEach(q=>{
+    const qd=document.createElement("div");
+    qd.style.margin="0 0 18px";
+    qd.innerHTML=(q.scenario?`<p class="muted" style="margin:0 0 6px">${esc(q.scenario)}</p>`:"")+
+      (q.q?`<p style="margin:0 0 8px">${q.q}</p>`:(q.code?`<p style="margin:0 0 8px">Що виведе цей код?</p>`:""))+
+      (q.code?`<pre>${esc(q.code)}</pre>`:"")+
+      `<div class="opts"></div>`;
+    const opts=qd.querySelector(".opts");
+    shuffle(q.opts).forEach(o=>{
+      const b=document.createElement("button");b.className="opt";b.textContent=o;
+      b.onclick=()=>{
+        const ok=o===q.answer;
+        opts.querySelectorAll(".opt").forEach(x=>{x.disabled=true;
+          if(x.textContent===q.answer)x.classList.add("correct");
+          else if(x===b)x.classList.add("wrong");});
+        if(!ok && wrong.indexOf(q.section)===-1) wrong.push(q.section);
+        answered++;
+        if(answered===total){
+          if(wrong.length===0){
+            fb.className="fb show ok";
+            fb.innerHTML="✅ Усе правильно — тему тримаєте впевнено, можна рухатись далі.";
+          }else{
+            fb.className="fb show no";
+            fb.innerHTML="Варто повторити ці розділи конспекту:\n— "+wrong.join("\n— ");
+          }
+        }
+      };
+      opts.appendChild(b);
+    });
+    wrap.appendChild(qd);
+  });
+  return c;
+}
+
+function renderItem(item){
+  if(item.type==="diagnostic") return renderDiagnostic(item);
+  if(item.type==="note") return renderNote(item);
+  if(item.type==="mcq") return renderMCQ(item);
+  if(item.type==="classify") return renderClassify(item);
+  if(item.type==="run") return renderRun(item);
+  if(item.type==="task") return renderTask(item);
+  const d=elCard();d.textContent="Невідомий тип: "+item.type;return d;
+}
+
+/* ================= орієнтир теми ================= */
+const TOPIC = {
+  title:"Тема 4 — рядки та регулярні вирази",
+  intro:`Тут ви відпрацьовуєте розширену роботу з рядками й регулярні вирази. Спершу беремо «брудний» рядок даних і крок за кроком доводимо його до ладу (прибираємо зайве, розбиваємо на поля), а потім витягуємо з тексту потрібне — email, числа, телефони — регулярними виразами. Запускайте код, міняйте значення, дописуйте самі.`,
+  groups:[
+    {name:"🧹 Кейс · Чистка та розбір тексту", desc:`Методи рядків на прикладі обробки «брудного» запису: <code>strip</code> (пробіли по краях), <code>replace</code> (замінити/прибрати), <code>split</code> (розбити на поля), <code>isdigit</code> (чи це число), <code>join</code> (зібрати назад). У фіналі — повний конвеєр.`, blocks:["str-1","str-2","str-3","str-4","str-5","str-final"]},
+    {name:"🔍 Кейс · Витягування даних (regex)", desc:`Регулярні вирази (модуль <code>re</code>): пошук першого збігу (<code>search</code>), усіх збігів (<code>findall</code>), виділення частин через групи, заміна за шаблоном (<code>sub</code>). Витягуємо email, числа й телефони з тексту.`, blocks:["re-1","re-2","re-3","re-4","re-final"]},
+    {name:"⚡ Для впевнених", desc:`Якщо базове дається легко — пастки з рядками й regex та ідіоми Python. Необов'язково.`, blocks:["experienced"]},
+    {name:"✅ Перевір себе", desc:`Коротка діагностика по всій темі. Наприкінці підкаже, які розділи конспекту варто повторити.`, blocks:["review"]}
+  ]
+};
+function findGroup(id){for(const g of TOPIC.groups){const i=g.blocks.indexOf(id);if(i!==-1)return{g,i};}return null;}
+
+/* ================= ініціалізація ================= */
+function renderIndex(){
+  const app=document.getElementById("app");
+  let html=`<div class="card"><h2 style="margin:0 0 8px;font-size:1.15rem">${esc(TOPIC.title)}</h2><p style="margin:0 0 10px">${TOPIC.intro}</p><p class="muted" style="margin:0">🔒 Код виконується у вашому браузері — нічого не надсилається. Проходьте по порядку: кожен крок додає щось нове.</p></div>`;
+  TOPIC.groups.forEach(g=>{html+=`<div class="card"><strong>${g.name}</strong>${g.desc?`<p class="muted" style="margin:6px 0 10px">${g.desc}</p>`:""}<div class="idx"></div></div>`;});
+  app.innerHTML=html;
+  const idxs=app.querySelectorAll(".idx");
+  TOPIC.groups.forEach((g,gi)=>{g.blocks.forEach(id=>{const b=BLOCKS[id];if(!b)return;const a=document.createElement("a");a.href="?block="+id;a.textContent=b.title;idxs[gi].appendChild(a);});});
+}
+function renderBlock(id){
+  const b=BLOCKS[id];
+  document.getElementById("title").innerHTML='🐍 '+esc(b.title);
+  const app=document.getElementById("app");
+  const gi=findGroup(id);
+  if(gi){const c=document.createElement("div");c.className="card";c.innerHTML=`<div class="muted" style="font-size:.9rem">${gi.g.name} · крок ${gi.i+1} з ${gi.g.blocks.length}</div>`+((gi.i===0&&gi.g.desc)?`<p style="margin:8px 0 0">${gi.g.desc}</p>`:"");app.appendChild(c);}
+  b.items.forEach(it=>app.appendChild(renderItem(it)));
+  if(gi){const nav=document.createElement("div");nav.style.cssText="display:flex;gap:12px;margin:18px 0 4px;align-items:center";const g=gi.g,i=gi.i;if(i>0)nav.innerHTML+=`<a href="?block=${g.blocks[i-1]}">← попередній крок</a>`;if(i<g.blocks.length-1)nav.innerHTML+=`<a href="?block=${g.blocks[i+1]}" style="margin-left:auto">наступний крок →</a>`;if(nav.children.length)app.appendChild(nav);}
+  const back=document.createElement("p");back.innerHTML='<a href="?">← усі інтерактиви</a>';back.className="muted";
+  app.appendChild(back);
+}
+
+const params=new URLSearchParams(location.search);
+const blockId=params.get("block");
+if(blockId && BLOCKS[blockId]) renderBlock(blockId);
+else renderIndex();
+</script>
+</body>
+</html>
