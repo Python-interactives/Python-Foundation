@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem('pf-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<title>Python · Тема 10a — інтерактиви</title>
+<style>
+  :root, [data-theme="light"]{
+    --bg:#FFFFFF;--panel:#F6F7F9;--panel2:#ECEEF1;--border:#E4E5EA;
+    --white:#1F2430;--muted:#7C828F;--accent:#F2661F;--accent-ink:#D1550F;
+    --green:#1E9E52;--greenbg:#E6F4EA;--red:#D64545;--redbg:#FBE9E8;
+    --blue:#F2661F;--bluebg:#FCEBE0;--violet:#7C5CD6;--violetbg:#EFE9FC;
+    --code-bg:#ECEDF1;--code-fg:#33353b;--code-bd:#DEDFE4;
+  }
+  [data-theme="dark"]{
+    --bg:#171A22;--panel:#1E222C;--panel2:#262B38;--border:#2B303C;
+    --white:#E7EAF1;--muted:#828A99;--accent:#FF7D45;--accent-ink:#FF9160;
+    --green:#3FB950;--greenbg:#123420;--red:#f85149;--redbg:#3a1414;
+    --blue:#FF7D45;--bluebg:#3a2418;--violet:#b9a4ff;--violetbg:#241d40;
+    --code-bg:#2A2F3B;--code-fg:#CFD5E0;--code-bd:#39404E;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--white);font-family:"Montserrat",-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;font-size:15px;transition:background .25s,color .25s}
+  .wrap{max-width:960px;margin:0 auto;padding:20px 16px 80px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  h1{font-size:19px;margin:0;font-weight:700;letter-spacing:-.3px}
+  .badge{font-size:12px;color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-weight:500}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+  .meta{font-size:12px;color:var(--muted);margin-bottom:10px;font-weight:600}
+  .tag{border-radius:4px;padding:1px 8px;font-weight:600}
+  .tag.q{background:var(--bluebg);color:var(--accent-ink)}
+  [data-theme="dark"] .tag.q{color:var(--blue)}
+  .tag.g{background:var(--greenbg);color:var(--green)}
+  .tag.c{background:var(--violetbg);color:var(--violet)}
+  pre{background:#0F141A;color:#D3DAE4;padding:14px;border-radius:8px;overflow:auto;font-size:14px;margin:0 0 14px;border:1px solid #23262e}
+  code{font-family:"JetBrains Mono","SF Mono",Consolas,Menlo,monospace;font-size:.88em;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--code-bd);border-radius:5px;padding:1px 5px}
+  pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{text-align:left;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:11px 14px;border-radius:8px;cursor:pointer;font-family:"JetBrains Mono","SF Mono",Consolas,monospace;font-size:14px}
+  .opt:hover{border-color:var(--accent)}
+  .opt.correct{border-color:var(--green);background:var(--greenbg)}
+  .opt.wrong{border-color:var(--red);background:var(--redbg)}
+  .opt:disabled{cursor:default}
+  .chip{display:inline-block;margin:4px 6px 4px 0;background:var(--panel2);border:1px solid var(--border);color:var(--white);padding:8px 13px;border-radius:8px;cursor:pointer;font-family:"JetBrains Mono","SF Mono",Consolas,monospace;font-size:14px}
+  .chip.sel{border-color:var(--accent);background:var(--bluebg)}
+  .chip.ok{border-color:var(--green);background:var(--greenbg)}
+  .chip.bad{border-color:var(--red);background:var(--redbg)}
+  textarea{width:100%;min-height:120px;background:#0F141A;color:#D3DAE4;border:1px solid #23262e;border-radius:8px;padding:12px;font-family:"JetBrains Mono","SF Mono",Consolas,monospace;font-size:14px;resize:vertical}
+  .out{margin-top:12px;font-size:13px;white-space:pre-wrap;font-family:"JetBrains Mono","SF Mono",Consolas,monospace}
+  .out:not(:empty){background:#0F141A;color:#D3DAE4;padding:12px 14px;border-radius:8px;border:1px solid #23262e}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .fb{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:14px;display:none;white-space:pre-wrap}
+  .fb.show{display:block}.fb.ok{background:var(--greenbg);border:1px solid var(--green)}.fb.no{background:var(--redbg);border:1px solid var(--red)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px}
+  .btn:hover{background:var(--accent-ink)} [data-theme="dark"] .btn:hover{filter:brightness(1.08)}
+  a{color:var(--accent-ink)} [data-theme="dark"] a{color:var(--accent)} .muted{color:var(--muted)}
+  .idx a{display:block;padding:6px 0;border-bottom:1px solid var(--border)}
+  .themetoggle{display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:none;border:1px solid var(--border);color:var(--muted);border-radius:999px;padding:5px 11px 5px 9px;font:inherit;font-size:11px;font-weight:600;letter-spacing:.5px}
+  .themetoggle:hover{border-color:var(--accent);color:var(--accent-ink)} [data-theme="dark"] .themetoggle:hover{color:var(--accent)}
+  .themetoggle svg{width:13px;height:13px}
+  .themetoggle .l-dark{display:none}
+  [data-theme="dark"] .themetoggle .l-light{display:none}
+  [data-theme="dark"] .themetoggle .l-dark{display:inline}
+  @media (prefers-reduced-motion:reduce){body{transition:none}}
+</style>
+<style id="snakeprog-css">
+.snakeprog{position:fixed;top:0;left:0;right:0;height:6px;z-index:60;background:rgba(242,102,31,.14);pointer-events:none}
+.snakeprog .fill{position:absolute;left:0;top:0;height:100%;width:0;border-radius:0 3px 3px 0;
+  background:linear-gradient(90deg,#C94E12,#F2661F 55%,#FF8A4C);
+  box-shadow:0 0 10px rgba(242,102,31,.5);transition:width .06s linear}
+.snakeprog .fill::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:.65;
+  background:repeating-linear-gradient(118deg, rgba(0,0,0,.16) 0 2px, transparent 2px 9px)}
+.snakeprog .head{position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:20px;height:20px;line-height:0;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
+@media (prefers-reduced-motion:reduce){.snakeprog .fill{transition:none}}
+</style>
+</head>
+<body>
+<div class="snakeprog" aria-hidden="true"><div class="fill"><span class="head"><svg viewBox="0 0 22 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10" r="7.5" fill="#FF8A4C" stroke="#C94E12" stroke-width="1"/><circle cx="7" cy="8" r="1.5" fill="#0A0E14"/><circle cx="11.4" cy="8" r="1.5" fill="#0A0E14"/><circle cx="7.4" cy="7.4" r=".5" fill="#fff"/><circle cx="11.8" cy="7.4" r=".5" fill="#fff"/><path d="M16.5 10 H21 M21 10 L18.6 8.3 M21 10 L18.6 11.7" stroke="#F0506E" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg></span></div></div>
+
+<div class="wrap">
+<nav class="topnav" style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+  <a href="../" style="display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--blue);text-decoration:none;font-size:13.5px;font-weight:600">← На головну</a>
+  <span style="display:inline-flex;align-items:center;gap:10px"><span style="font-size:12.5px;color:var(--muted)">Тема 10a / 12</span><button class="themetoggle" id="themeToggle" aria-label="Перемкнути тему"><svg class="l-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="l-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg><span class="l-light">Темна</span><span class="l-dark">Світла</span></button></span>
+</nav>
+  <header>
+    <h1 id="title">🐍 Python · Тема 10a — інтерактиви</h1>
+  </header>
+  <div id="app"></div>
+
+<nav class="botnav" style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:30px;padding-top:20px;border-top:1px solid var(--border)">
+  <div style="justify-self:start"><a href="../tema-9b/" style="display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--white);text-decoration:none;font-size:13px;text-align:left;max-width:100%"><span style="color:var(--muted);font-size:11.5px">← Попередня</span><span>Тема 9b. ООП на практиці</span></a></div>
+  <a href="../" style="justify-self:center;display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--blue);text-decoration:none;font-size:13.5px;font-weight:600">🏠 Усі теми</a>
+  <div style="justify-self:end"><a href="../tema-10b/" style="display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--white);text-decoration:none;font-size:13px;text-align:right;max-width:100%"><span style="color:var(--muted);font-size:11.5px">Наступна →</span><span>Тема 10b. Функтори та генератори</span></a></div>
+</nav>
+</div>
+
+<script>
+const BLOCKS = {
+  "str-1": {title:"Магічні методи · __str__ vs __repr__", items:[
+    {type:"note", text:`<b>🎭 Магічні (dunder) методи</b> — методи з подвійними підкресленнями, які Python викликає сам. <code>__str__</code> — «людське» представлення для <code>print()</code> (читабельне для користувача). <code>__repr__</code> — «технічне» представлення для розробника (однозначне; в ідеалі <code>eval(repr(obj))</code> відтворює обʼєкт). Якщо <code>__str__</code> немає — <code>print()</code> бере <code>__repr__</code>.`},
+    {type:"run",
+     prompt:`Один клас — два представлення. Запустіть і порівняйте, що виведе <code>print</code>, а що <code>repr</code>.`,
+     code:'class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n    def __str__(self):\n        return f"{self.name}, {self.age} p."\n    def __repr__(self):\n        return f"Person({self.name!r}, {self.age})"\n\np = Person("Allen", 25)\nprint(p)\nprint(repr(p))\n'},
+    {type:"task",
+     prompt:`У <code>Cat</code> визначено <code>__str__</code>. Допишіть рядок <code>print(c)</code>, щоб побачити «людське» представлення. Має вийти <code>Cat: Simon</code>.`,
+     starter:'class Cat:\n    def __init__(self, name):\n        self.name = name\n    def __str__(self):\n        return f"Cat: {self.name}"\n\nc = Cat("Simon")\n# виведіть обʼєкт\n',
+     expected:"Cat: Simon"},
+    {type:"mcq", q:`Яке представлення викличе <code>print(obj)</code>, якщо визначені обидва?`,
+     opts:["__str__ (людське)","__repr__ (технічне)","__init__"], answer:"__str__ (людське)",
+     expl:`<code>print()</code> віддає перевагу <code>__str__</code>. <code>__repr__</code> спрацював би, якби <code>__str__</code> не було, або через <code>repr(obj)</code> / в консолі.`}
+  ]},
+
+  "idx-1": {title:"Магічні методи · індексація [ ]", items:[
+    {type:"note", text:`<b>📦 Індексація через <code>[ ]</code>.</b> <code>obj[key]</code> викликає <code>__getitem__(self, key)</code>, а <code>obj[key] = value</code> — <code>__setitem__(self, key, value)</code>. Так власний клас поводиться як список чи словник.`},
+    {type:"run",
+     prompt:`<code>SimpleDict</code> зберігає дані всередині й дає до них доступ через <code>[ ]</code>. Запустіть.`,
+     code:'class SimpleDict:\n    def __init__(self):\n        self.data = {}\n    def __getitem__(self, key):\n        return self.data.get(key, "not found")\n    def __setitem__(self, key, value):\n        self.data[key] = value\n\nd = SimpleDict()\nd["name"] = "Allen"\nprint(d["name"])\nprint(d["age"])\n'},
+    {type:"task",
+     prompt:`<code>Squares</code> повертає квадрат індексу через <code>__getitem__</code>. Скільки буде <code>s[5]</code>? Допишіть <code>print(s[5])</code>. Має вийти <code>25</code>.`,
+     starter:'class Squares:\n    def __getitem__(self, i):\n        return i * i\n\ns = Squares()\n# який елемент під індексом 5?\n',
+     expected:"25"},
+    {type:"mcq", q:`Який метод викликається під час <code>obj[key] = value</code>?`,
+     opts:["__setitem__","__getitem__","__set__"], answer:"__setitem__",
+     expl:`Присвоєння за індексом — це <code>__setitem__</code>. Читання (<code>obj[key]</code>) — <code>__getitem__</code>.`}
+  ]},
+
+  "math-1": {title:"Перевантаження операторів · крок 1 (+)", items:[
+    {type:"note", text:`<b>➕ Перевантаження операторів.</b> Оператори — це теж магічні методи: <code>+</code> → <code>__add__</code>, <code>-</code> → <code>__sub__</code>, <code>*</code> → <code>__mul__</code>, <code>/</code> → <code>__truediv__</code>. Визначивши їх, ви задаєте, що означає «додати» два ваші обʼєкти.`},
+    {type:"run",
+     prompt:`<code>ComplexNumber</code> вміє додаватися через <code>+</code>. Запустіть.`,
+     code:'class ComplexNumber:\n    def __init__(self, real, imag):\n        self.real = real\n        self.imag = imag\n    def __add__(self, other):\n        return ComplexNumber(self.real + other.real, self.imag + other.imag)\n    def __str__(self):\n        return f"{self.real} + {self.imag}i"\n\na = ComplexNumber(1, 2)\nb = ComplexNumber(3, 4)\nprint(a + b)\n'},
+    {type:"task",
+     prompt:`<code>Money</code> складається через <code>+</code>. Скільки грошей у <code>total</code>? Допишіть <code>print(total.amount)</code>. Має вийти <code>80</code>.`,
+     starter:'class Money:\n    def __init__(self, amount):\n        self.amount = amount\n    def __add__(self, other):\n        return Money(self.amount + other.amount)\n\ntotal = Money(50) + Money(30)\n# виведіть суму\n',
+     expected:"80"}
+  ]},
+
+  "math-2": {title:"Перевантаження операторів · крок 2 (* і __rmul__)", items:[
+    {type:"note", text:`<b>Порядок операндів.</b> <code>vec * 3</code> викликає <code>vec.__mul__(3)</code>. А <code>3 * vec</code> спершу пробує <code>int.__mul__</code> — той не знає про <code>vec</code> і повертає <code>NotImplemented</code>, тож Python викликає <code>vec.__rmul__(3)</code>. Тому для симетрії визначають і <code>__rmul__</code>.`},
+    {type:"run",
+     prompt:`<code>Vector</code> множиться на число з обох боків завдяки <code>__rmul__</code>. Запустіть.`,
+     code:'class Vector:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    def __mul__(self, k):\n        return Vector(self.x * k, self.y * k)\n    def __rmul__(self, k):\n        return self.__mul__(k)\n    def __str__(self):\n        return f"({self.x}, {self.y})"\n\nv = Vector(2, 3)\nprint(v * 10)\nprint(10 * v)\n'},
+    {type:"task",
+     prompt:`<code>Vec</code> множиться на число. Чому дорівнює <code>x</code> у результаті <code>Vec(4, 5) * 2</code>? Допишіть <code>print(r.x)</code>. Має вийти <code>8</code>.`,
+     starter:'class Vec:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    def __mul__(self, k):\n        return Vec(self.x * k, self.y * k)\n\nr = Vec(4, 5) * 2\n# виведіть r.x\n',
+     expected:"8"}
+  ]},
+
+  "cmp-1": {title:"Оператори порівняння", items:[
+    {type:"note", text:`<b>⚖️ Порівняння.</b> <code>==</code> → <code>__eq__</code>, <code>!=</code> → <code>__ne__</code>, <code>&lt;</code> → <code>__lt__</code>, <code>&lt;=</code> → <code>__le__</code>, <code>&gt;</code> → <code>__gt__</code>, <code>&gt;=</code> → <code>__ge__</code>. Так обʼєкти можна порівнювати за власним критерієм (напр. прямокутники — за площею). Для чужих типів прийнято повертати <code>NotImplemented</code>.`},
+    {type:"run",
+     prompt:`Два прямокутники порівнюються за площею. Запустіть.`,
+     code:'class Rectangle:\n    def __init__(self, w, h):\n        self.w = w\n        self.h = h\n    def area(self):\n        return self.w * self.h\n    def __eq__(self, other):\n        return self.area() == other.area()\n    def __lt__(self, other):\n        return self.area() < other.area()\n\nr1 = Rectangle(2, 6)\nr2 = Rectangle(3, 5)\nprint(r1 == r2)\nprint(r1 < r2)\n'},
+    {type:"task",
+     prompt:`<code>Box</code> порівнюється за обʼємом через <code>__gt__</code>. Чи більший <code>a</code> за <code>b</code>? Допишіть <code>print(a > b)</code>. Має вийти <code>True</code>.`,
+     starter:'class Box:\n    def __init__(self, volume):\n        self.volume = volume\n    def __gt__(self, other):\n        return self.volume > other.volume\n\na = Box(100)\nb = Box(50)\n# чи більший a за b?\n',
+     expected:"True"},
+    {type:"mcq", q:`Що краще повернути з <code>__eq__</code>, якщо тип іншого обʼєкта невідомий?`,
+     opts:["NotImplemented","False","None"], answer:"NotImplemented",
+     expl:`Повертаючи <code>NotImplemented</code>, ви дозволяєте Python спробувати зворотне порівняння або коректно завершити. Жорсткий <code>False</code> це унеможливив би.`}
+  ]},
+
+  "prop-1": {title:"Властивості · @property (getter/setter)", items:[
+    {type:"note", text:`<b>🛡 <code>@property</code></b> робить метод доступним як атрибут (без дужок). Пара <b>гетер + сетер</b> дає керований доступ: назовні — звичне <code>obj.age</code>, а всередині сетер може <b>перевірити</b> значення перед присвоєнням. Зберігати краще у «прихованому» полі (<code>self._age</code>).`},
+    {type:"run",
+     prompt:`<code>age</code> — це властивість із перевіркою в сетері. Запустіть.`,
+     code:'class Person:\n    def __init__(self, age):\n        self._age = age\n    @property\n    def age(self):\n        return self._age\n    @age.setter\n    def age(self, value):\n        if value < 0:\n            raise ValueError("Вік не може бути відʼємним")\n        self._age = value\n\np = Person(25)\nprint(p.age)\np.age = 30\nprint(p.age)\n'},
+    {type:"task",
+     prompt:`<code>balance</code> — властивість тільки для читання. Допишіть <code>print(a.balance)</code>, щоб отримати баланс через property. Має вийти <code>500</code>.`,
+     starter:'class Account:\n    def __init__(self, balance):\n        self._balance = balance\n    @property\n    def balance(self):\n        return self._balance\n\na = Account(500)\n# виведіть баланс через властивість\n',
+     expected:"500"},
+    {type:"mcq", q:`Навіщо сетеру <code>@property</code> частина з <code>if</code>?`,
+     opts:["перевіряти/контролювати значення перед присвоєнням","пришвидшити клас","зробити поле публічним"], answer:"перевіряти/контролювати значення перед присвоєнням",
+     expl:`Головна цінність сетера — валідація: не пустити некоректне значення (напр. відʼємний вік), лишивши зовні звичний синтаксис <code>obj.age = ...</code>.`}
+  ]},
+
+  "sm-1": {title:"Статичні та класові методи", items:[
+    {type:"note", text:`<b>🔧 <code>@staticmethod</code></b> — метод без <code>self</code>/<code>cls</code>: просто корисна функція, згрупована в класі (напр. геометричні формули). <b><code>@classmethod</code></b> отримує першим параметром <code>cls</code> (сам клас) — часто це <b>альтернативний конструктор</b> (створити обʼєкт з рядка, словника тощо).`},
+    {type:"run",
+     prompt:`Статичний метод-формула і класовий метод-конструктор із рядка. Запустіть.`,
+     code:'import math\n\nclass Geometry:\n    @staticmethod\n    def area_of_circle(r):\n        return round(math.pi * r * r, 2)\n\nclass Employee:\n    def __init__(self, name, role):\n        self.name = name\n        self.role = role\n    @classmethod\n    def from_string(cls, text):\n        name, role = text.split("-")\n        return cls(name, role)\n\nprint(Geometry.area_of_circle(10))\ne = Employee.from_string("Allen-Developer")\nprint(e.name, e.role)\n'},
+    {type:"task",
+     prompt:`<code>double</code> — статичний метод. Викличте його з числом <code>21</code>: допишіть <code>print(MathUtils.double(21))</code>. Має вийти <code>42</code>.`,
+     starter:'class MathUtils:\n    @staticmethod\n    def double(x):\n        return x * 2\n\n# викличте статичний метод із числом 21\n',
+     expected:"42"},
+    {type:"mcq", q:`Що першим параметром отримує <code>@classmethod</code>?`,
+     opts:["cls (сам клас)","self (обʼєкт)","нічого"], answer:"cls (сам клас)",
+     expl:`Тому класовий метод може створити й повернути новий екземпляр через <code>cls(...)</code> — це й робить його зручним альтернативним конструктором.`},
+    {type:"note", text:`<details style="margin:0"><summary style="cursor:pointer;font-weight:600">🎯 Де це у твоєму напрямку <span style="opacity:.6;font-weight:400">(можна розгорнути або пропустити)</span></summary><div style="margin-top:8px;line-height:1.6"><b>AI&amp;ML.</b> <code>__repr__</code> — читабельні тензори/моделі в логах; перевантаження операторів — «математичні» обʼєкти (вектори, метрики); <code>@property</code> — ліниві/обчислювані характеристики.<br><b>SE&amp;AI.</b> <code>__eq__</code>/порівняння — коректні тести й сортування; <code>@classmethod</code> — фабрики/парсери (<code>from_dict</code>, <code>from_json</code>); <code>@property</code> — стабільний API попри зміни всередині.<br><b>CyberSec&amp;AI.</b> <code>@property</code>-валідація на вході; <code>__getitem__</code> — зручні обгортки над структурами; <code>__repr__</code> — точні дампи для розслідувань.<br><b>PM&amp;AI.</b> Магічні методи й властивості — мова, якою команда описує «розумні» обʼєкти; корисно читати дизайн і оцінювати складність.</div></details>`}
+  ]},
+
+  "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
+    {type:"note", text:`Цей блок — для впевнених. Спершу <b>пастки</b>, далі — короткі <b>ідіоми</b>. Спробуйте відповісти самі — пояснення зʼявиться після відповіді.`},
+    {type:"mcq", q:`Яка мета «хорошого» <code>__repr__</code>?`,
+     opts:["щоб <code>eval(repr(obj))</code> відтворював обʼєкт","щоб рядок був якнайкоротшим","щоб його бачив кінцевий користувач"], answer:"щоб <code>eval(repr(obj))</code> відтворював обʼєкт",
+     expl:`<code>__repr__</code> — однозначне технічне представлення. Орієнтир: рядок, за яким обʼєкт можна відтворити. «Людське» — це <code>__str__</code>.`},
+    {type:"mcq", code:"class V:\n    def __init__(self, n):\n        self.n = n\n    def __mul__(self, k):\n        return V(self.n * k)\n    def __repr__(self):\n        return f\"V({self.n})\"\nprint(V(3) * 4)", opts:["V(12)","12","V(3)"], answer:"V(12)",
+     expl:`<code>V(3) * 4</code> викликає <code>__mul__</code> і повертає новий <code>V(12)</code>; <code>print</code> показує його через <code>__repr__</code>.`},
+    {type:"mcq", q:`Визначено лише <code>__eq__</code>, а <code>__ne__</code> — ні. Як працює <code>!=</code>?`,
+     opts:["автоматично (Python інвертує __eq__)","завжди True","викличе помилку"], answer:"автоматично (Python інвертує __eq__)",
+     expl:`У Python 3 <code>__ne__</code> за замовчуванням повертає інверсію <code>__eq__</code>, тож окремо його писати зазвичай не треба.`},
+    {type:"note", text:`<b>Тепер ідіоми.</b>`},
+    {type:"task",
+     prompt:`<b>Ідіома.</b> Обчислювана властивість. <code>area</code> рахує площу на льоту. Допишіть <code>print(r.area)</code> (без дужок!). Має вийти <code>12</code>.`,
+     starter:'class Rect:\n    def __init__(self, w, h):\n        self.w = w\n        self.h = h\n    @property\n    def area(self):\n        return self.w * self.h\n\nr = Rect(3, 4)\n# виведіть площу як властивість (без дужок)\n',
+     expected:"12"},
+    {type:"task",
+     prompt:`<b>Ідіома.</b> Альтернативний конструктор. Створіть <code>Point</code> з рядка <code>"3,4"</code> і виведіть суму координат. Допишіть <code>print(p.x + p.y)</code>. Має вийти <code>7</code>.`,
+     starter:'class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    @classmethod\n    def from_string(cls, text):\n        a, b = text.split(",")\n        return cls(int(a), int(b))\n\np = Point.from_string("3,4")\n# виведіть суму координат\n',
+     expected:"7"}
+  ]},
+
+  "review": {title:"Перевір себе — що повторити", items:[
+    {type:"diagnostic",
+     intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
+     questions:[
+       {q:`Яке представлення бере <code>print(obj)</code>, коли є обидва?`, opts:["__str__","__repr__","__init__"], answer:"__str__", section:"__str__ vs __repr__"},
+       {code:"class D:\n    def __init__(self):\n        self.data = {}\n    def __setitem__(self, k, v):\n        self.data[k] = v\n    def __getitem__(self, k):\n        return self.data[k]\nd = D()\nd[\"a\"] = 7\nprint(d[\"a\"])", opts:["7","a","{}"], answer:"7", section:"Індексація __getitem__/__setitem__"},
+       {q:`Оператор <code>+</code> відповідає магічному методу...`, opts:["__add__","__plus__","__sum__"], answer:"__add__", section:"Перевантаження операторів"},
+       {q:`Вираз <code>3 * obj</code> (число зліва) викличе в obj...`, opts:["__rmul__","__mul__","__lmul__"], answer:"__rmul__", section:"__rmul__ (порядок операндів)"},
+       {q:`Оператор <code>&lt;</code> відповідає методу...`, opts:["__lt__","__less__","__cmp__"], answer:"__lt__", section:"Оператори порівняння"},
+       {q:`<code>@property</code> дає змогу...`, opts:["звертатися до методу як до атрибута (без дужок)","прискорити клас","зробити поле приватним"], answer:"звертатися до методу як до атрибута (без дужок)", section:"@property (getter/setter)"},
+       {q:`<code>@staticmethod</code> — це метод, який...`, opts:["не отримує ні self, ні cls","отримує self","отримує cls"], answer:"не отримує ні self, ні cls", section:"Статичні методи"},
+       {q:`<code>@classmethod</code> зручний як...`, opts:["альтернативний конструктор (через cls)","приватний метод","властивість"], answer:"альтернативний конструктор (через cls)", section:"Класові методи"}
+     ]}
+  ]},
+};
+
+/* ================= утиліти ================= */
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function elCard(){const d=document.createElement("div");d.className="card";return d;}
+
+/* ===== Pyodide (лазі, лише для запуску коду) ===== */
+let pyodide=null, pyLoading=null;
+const PY_BASES=["https://cdn.jsdelivr.net/pyodide/v0.26.2/full/","https://cdn.jsdelivr.net/pyodide/v0.25.1/full/"];
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(new Error("скрипт не завантажився: "+src));document.head.appendChild(s);});}
+async function ensurePy(statusEl){
+  if(pyodide) return pyodide;
+  if(!pyLoading){
+    pyLoading=(async()=>{
+      let last;
+      for(const base of PY_BASES){
+        try{
+          if(statusEl) statusEl.textContent="⏳ Завантажую Python…";
+          if(typeof loadPyodide==="undefined") await loadScript(base+"pyodide.js");
+          pyodide=await loadPyodide({indexURL:base});
+          if(statusEl) statusEl.textContent="";
+          return pyodide;
+        }catch(e){ last=e; }
+      }
+      throw last||new Error("невідома помилка");
+    })().catch(e=>{pyLoading=null; if(statusEl) statusEl.textContent=""; throw e;});
+  }
+  return pyLoading;
+}
+async function runCapture(py, code){
+  const ind=code.split("\n").map(l=>"    "+l).join("\n");
+  const prog="import sys, io\n_b=io.StringIO()\n_o=sys.stdout\nsys.stdout=_b\ntry:\n"+ind+"\nfinally:\n    sys.stdout=_o\n_b.getvalue()";
+  return String(await py.runPythonAsync(prog));
+}
+function outputsMatch(a,b){
+  const ta=a.trim().split(/\s+/), tb=b.trim().split(/\s+/);
+  if(ta.length!==tb.length) return false;
+  for(let i=0;i<ta.length;i++){
+    if(ta[i]===tb[i]) continue;
+    const fa=parseFloat(ta[i]),fb=parseFloat(tb[i]);
+    if(!isNaN(fa)&&!isNaN(fb)&&Math.abs(fa-fb)<1e-9) continue;
+    return false;
+  }
+  return true;
+}
+
+/* ================= рендер ================= */
+function renderNote(item){
+  const c=elCard();
+  c.style.background="var(--panel2)";
+  c.innerHTML=`<div>${item.text}</div>`;
+  return c;
+}
+
+function renderMCQ(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag q">що виведе?</span></div>`+
+    (item.scenario?`<p class="muted" style="margin:0 0 6px">${item.scenario}</p>`:"")+
+    (item.q?`<p style="margin:0 0 10px">${item.q}</p>`:(item.code?`<p style="margin:0 0 10px">Що виведе цей код?</p>`:""))+
+    (item.code?`<pre>${esc(item.code)}</pre>`:"")+
+    `<div class="opts"></div><div class="fb"></div>`;
+  const opts=c.querySelector(".opts"), fb=c.querySelector(".fb");
+  shuffle(item.opts).forEach(o=>{
+    const b=document.createElement("button");b.className="opt";b.textContent=o;
+    b.onclick=()=>{
+      const ok=o===item.answer;
+      c.querySelectorAll(".opt").forEach(x=>{x.disabled=true;
+        if(x.textContent===item.answer)x.classList.add("correct");
+        else if(x===b)x.classList.add("wrong");});
+      fb.className="fb show "+(ok?"ok":"no");
+      fb.innerHTML=(ok?"✅ Правильно. ":"❌ Правильно: <code>"+esc(item.answer)+"</code>. ")+(item.expl||"");
+    };
+    opts.appendChild(b);
+  });
+  return c;
+}
+
+function renderClassify(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag g">класифікація</span></div><p style="margin:0 0 10px">${item.prompt}</p><div class="chips"></div><div class="row"><button class="btn">Перевірити</button></div><div class="fb"></div>`;
+  const wrap=c.querySelector(".chips"), fb=c.querySelector(".fb");
+  item.items.forEach((it,i)=>{
+    const ch=document.createElement("button");ch.className="chip";ch.textContent=it.label;ch.dataset.i=i;
+    ch.onclick=()=>ch.classList.toggle("sel");
+    wrap.appendChild(ch);
+  });
+  c.querySelector(".btn").onclick=()=>{
+    let allOk=true; const notes=[];
+    wrap.querySelectorAll(".chip").forEach(ch=>{
+      const it=item.items[+ch.dataset.i];
+      const sel=ch.classList.contains("sel");
+      ch.classList.remove("sel");
+      const right=sel===it.correct;
+      ch.classList.add(right?"ok":"bad");
+      if(!right) allOk=false;
+      if(it.note) notes.push(`${it.label}: ${it.note}`);
+    });
+    fb.className="fb show "+(allOk?"ok":"no");
+    fb.innerHTML=(allOk?"✅ Усе правильно!":"❌ Є неточності — дивіться підсвічене.")+(notes.length?"\n\n"+notes.map(esc).join("\n"):"");
+  };
+  return c;
+}
+
+function renderRun(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag c">спробуйте</span></div>`+
+    `<p style="margin:0 0 10px">${item.prompt}</p>`+
+    `<textarea spellcheck="false">${esc(item.code)}</textarea>`+
+    `<div class="row"><button class="btn">▶ Запустити</button><span class="muted st"></span></div><div class="out"></div>`;
+  const ta=c.querySelector("textarea"), out=c.querySelector(".out"), st=c.querySelector(".st");
+  c.querySelector(".btn").onclick=async()=>{
+    out.textContent=""; let py;
+    try{py=await ensurePy(st);}catch(e){out.innerHTML='<span style="color:var(--red)">Не вдалося завантажити Python (потрібен інтернет).</span>';return;}
+    try{const r=await runCapture(py, ta.value); out.innerHTML='<span class="muted">Результат у терміналі:</span>\n'+esc(r||"(нічого не виведено)");}
+    catch(e){out.innerHTML='<span style="color:var(--red)">⚠️ '+esc(String(e.message||e).split("\n").slice(-3).join("\n"))+'</span>';}
+  };
+  return c;
+}
+
+function renderTask(item){
+  const c=elCard();
+  c.innerHTML=`<div class="meta"><span class="tag c">ваша черга</span></div>`+
+    `<p style="margin:0 0 10px">${item.prompt}</p>`+
+    `<textarea spellcheck="false">${esc(item.starter)}</textarea>`+
+    `<div class="row"><button class="btn">Запустити й перевірити</button><span class="muted st"></span></div><div class="out"></div><div class="fb"></div>`;
+  const ta=c.querySelector("textarea"), out=c.querySelector(".out"), fb=c.querySelector(".fb"), st=c.querySelector(".st");
+  c.querySelector(".btn").onclick=async()=>{
+    out.textContent=""; fb.className="fb"; let py;
+    try{py=await ensurePy(st);}catch(e){fb.className="fb show no";fb.textContent="Не вдалося завантажити Python (потрібен інтернет).";return;}
+    let got;
+    try{got=(await runCapture(py, ta.value)).trim();}
+    catch(e){fb.className="fb show no";fb.innerHTML="⚠️ Помилка: "+esc(String(e.message||e).split("\n").slice(-2).join("\n"));return;}
+    out.innerHTML='<span class="muted">Вивід:</span>\n'+esc(got||"(нічого)");
+    if(outputsMatch(got, item.expected)){fb.className="fb show ok";fb.innerHTML="✅ Правильно!";}
+    else{fb.className="fb show no";fb.innerHTML="❌ Поки не те. Очікувалося:\n"+esc(item.expected);}
+  };
+  return c;
+}
+
+function renderDiagnostic(item){
+  const c=elCard();
+  const total=item.questions.length;
+  c.innerHTML=`<div class="meta"><span class="tag q">перевір себе</span></div>`+
+    (item.intro?`<p style="margin:0 0 14px">${item.intro}</p>`:"")+
+    `<div class="dq"></div><div class="fb"></div>`;
+  const wrap=c.querySelector(".dq"), fb=c.querySelector(".fb");
+  const wrong=[]; let answered=0;
+  item.questions.forEach(q=>{
+    const qd=document.createElement("div");
+    qd.style.margin="0 0 18px";
+    qd.innerHTML=(q.scenario?`<p class="muted" style="margin:0 0 6px">${esc(q.scenario)}</p>`:"")+
+      (q.q?`<p style="margin:0 0 8px">${q.q}</p>`:(q.code?`<p style="margin:0 0 8px">Що виведе цей код?</p>`:""))+
+      (q.code?`<pre>${esc(q.code)}</pre>`:"")+
+      `<div class="opts"></div>`;
+    const opts=qd.querySelector(".opts");
+    shuffle(q.opts).forEach(o=>{
+      const b=document.createElement("button");b.className="opt";b.textContent=o;
+      b.onclick=()=>{
+        const ok=o===q.answer;
+        opts.querySelectorAll(".opt").forEach(x=>{x.disabled=true;
+          if(x.textContent===q.answer)x.classList.add("correct");
+          else if(x===b)x.classList.add("wrong");});
+        if(!ok && wrong.indexOf(q.section)===-1) wrong.push(q.section);
+        answered++;
+        if(answered===total){
+          if(wrong.length===0){
+            fb.className="fb show ok";
+            fb.innerHTML="✅ Усе правильно — тему тримаєте впевнено, можна рухатись далі.";
+          }else{
+            fb.className="fb show no";
+            fb.innerHTML="Варто повторити ці розділи конспекту:\n— "+wrong.join("\n— ");
+          }
+        }
+      };
+      opts.appendChild(b);
+    });
+    wrap.appendChild(qd);
+  });
+  return c;
+}
+
+function renderItem(item){
+  if(item.type==="diagnostic") return renderDiagnostic(item);
+  if(item.type==="note") return renderNote(item);
+  if(item.type==="mcq") return renderMCQ(item);
+  if(item.type==="classify") return renderClassify(item);
+  if(item.type==="run") return renderRun(item);
+  if(item.type==="task") return renderTask(item);
+  const d=elCard();d.textContent="Невідомий тип: "+item.type;return d;
+}
+
+/* ================= орієнтир теми ================= */
+const TOPIC = {
+  title:"Тема 10a — магічні методи та перевантаження операторів",
+  intro:`Тут ви робите свої обʼєкти «розумними» через <b>магічні (dunder) методи</b>: керуєте представленням (<code>__str__</code>/<code>__repr__</code>), індексацією (<code>__getitem__</code>/<code>__setitem__</code>), <b>перевантажуєте оператори</b> (<code>+</code>, <code>*</code>, <code>__rmul__</code>) та <b>оператори порівняння</b> (<code>__eq__</code>, <code>__lt__</code>…), а також опановуєте <b><code>@property</code></b> (гетер/сетер із валідацією) і <b><code>@staticmethod</code>/<code>@classmethod</code></b>. Усе запускається прямо тут.`,
+  groups:[
+    {name:"🎭 Представлення: __str__ та __repr__", desc:`«Людське» (<code>__str__</code>, для <code>print</code>) vs «технічне» (<code>__repr__</code>, для розробника; орієнтир — <code>eval(repr(obj))</code>).`, blocks:["str-1"]},
+    {name:"📦 Індексація через [ ]", desc:`<code>obj[key]</code> → <code>__getitem__</code>, <code>obj[key] = value</code> → <code>__setitem__</code> — власний клас поводиться як список/словник.`, blocks:["idx-1"]},
+    {name:"➕ Перевантаження операторів", desc:`Оператори як магічні методи: <code>__add__</code>, <code>__mul__</code> і <code>__rmul__</code> для порядку операндів (<code>3 * obj</code>).`, blocks:["math-1","math-2"]},
+    {name:"⚖️ Оператори порівняння", desc:`<code>__eq__</code>, <code>__lt__</code>, <code>__gt__</code>… — порівняння за власним критерієм; <code>NotImplemented</code> для чужих типів.`, blocks:["cmp-1"]},
+    {name:"🛡 Властивості (@property)", desc:`Гетер/сетер: доступ як до атрибута, але з <b>валідацією</b> присвоєння всередині.`, blocks:["prop-1"]},
+    {name:"🔧 Статичні та класові методи", desc:`<code>@staticmethod</code> — функція в класі без <code>self</code>; <code>@classmethod</code> — альтернативний конструктор через <code>cls</code>.`, blocks:["sm-1"]},
+    {name:"⚡ Для впевнених", desc:`Якщо базове дається легко — пастки (<code>__repr__</code>, <code>__rmul__</code>, авто-<code>__ne__</code>) та ідіоми. Необовʼязково.`, blocks:["experienced"]},
+    {name:"✅ Перевір себе", desc:`Коротка діагностика по всій темі. Наприкінці підкаже, які розділи конспекту варто повторити.`, blocks:["review"]}
+  ]
+};
+function findGroup(id){for(const g of TOPIC.groups){const i=g.blocks.indexOf(id);if(i!==-1)return{g,i};}return null;}
+
+/* ================= ініціалізація ================= */
+function renderIndex(){
+  const app=document.getElementById("app");
+  let html=`<div class="card"><h2 style="margin:0 0 8px;font-size:1.15rem">${esc(TOPIC.title)}</h2><p style="margin:0 0 10px">${TOPIC.intro}</p><p class="muted" style="margin:0">🔒 Код виконується у вашому браузері — нічого не надсилається. Проходьте по порядку: кожен крок додає щось нове.</p></div>`;
+  TOPIC.groups.forEach(g=>{html+=`<div class="card"><strong>${g.name}</strong>${g.desc?`<p class="muted" style="margin:6px 0 10px">${g.desc}</p>`:""}<div class="idx"></div></div>`;});
+  app.innerHTML=html;
+  const idxs=app.querySelectorAll(".idx");
+  TOPIC.groups.forEach((g,gi)=>{g.blocks.forEach(id=>{const b=BLOCKS[id];if(!b)return;const a=document.createElement("a");a.href="?block="+id;a.textContent=b.title;idxs[gi].appendChild(a);});});
+}
+function renderBlock(id){
+  const b=BLOCKS[id];
+  document.getElementById("title").innerHTML='🐍 '+esc(b.title);
+  const app=document.getElementById("app");
+  const gi=findGroup(id);
+  if(gi){const c=document.createElement("div");c.className="card";c.innerHTML=`<div class="muted" style="font-size:.9rem">${gi.g.name} · крок ${gi.i+1} з ${gi.g.blocks.length}</div>`+((gi.i===0&&gi.g.desc)?`<p style="margin:8px 0 0">${gi.g.desc}</p>`:"");app.appendChild(c);}
+  b.items.forEach(it=>app.appendChild(renderItem(it)));
+  if(gi){const nav=document.createElement("div");nav.style.cssText="display:flex;gap:12px;margin:18px 0 4px;align-items:center";const g=gi.g,i=gi.i;if(i>0)nav.innerHTML+=`<a href="?block=${g.blocks[i-1]}">← попередній крок</a>`;if(i<g.blocks.length-1)nav.innerHTML+=`<a href="?block=${g.blocks[i+1]}" style="margin-left:auto">наступний крок →</a>`;if(nav.children.length)app.appendChild(nav);}
+  const back=document.createElement("p");back.innerHTML='<a href="?">← усі інтерактиви теми</a>';back.className="muted";
+  app.appendChild(back);
+}
+
+const params=new URLSearchParams(location.search);
+const blockId=params.get("block");
+if(blockId && BLOCKS[blockId]) renderBlock(blockId);
+else renderIndex();
+</script>
+<script>
+(function(){
+  var f=document.querySelector(".snakeprog .fill"); if(!f) return;
+  var h=document.documentElement;
+  function upd(){
+    var se=h.scrollHeight-h.clientHeight;
+    var p=se>0?(h.scrollTop||document.body.scrollTop)/se:0;
+    if(p<0)p=0; if(p>1)p=1;
+    f.style.width=(p*100).toFixed(2)+"%";
+  }
+  addEventListener("scroll",upd,{passive:true});
+  addEventListener("resize",upd);
+  setTimeout(upd,60); setTimeout(upd,700); upd();
+})();
+</script>
+<script>(function(){var b=document.getElementById("themeToggle"),r=document.documentElement;if(b)b.addEventListener("click",function(){var n=r.getAttribute("data-theme")==="dark"?"light":"dark";r.setAttribute("data-theme",n);try{localStorage.setItem("pf-theme",n);}catch(e){}});})();</script>
+</body>
+</html>

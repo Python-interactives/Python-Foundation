@@ -6,7 +6,7 @@
 <script>try{var t=localStorage.getItem('pf-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<title>Python · Тема 9b — інтерактиви</title>
+<title>Python · Тема 10b — інтерактиви</title>
 <style>
   :root, [data-theme="light"]{
     --bg:#FFFFFF;--panel:#F6F7F9;--panel2:#ECEEF1;--border:#E4E5EA;
@@ -84,135 +84,141 @@
 <div class="wrap">
 <nav class="topnav" style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
   <a href="../" style="display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--blue);text-decoration:none;font-size:13.5px;font-weight:600">← На головну</a>
-  <span style="display:inline-flex;align-items:center;gap:10px"><span style="font-size:12.5px;color:var(--muted)">Тема 9b / 12</span><button class="themetoggle" id="themeToggle" aria-label="Перемкнути тему"><svg class="l-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="l-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg><span class="l-light">Темна</span><span class="l-dark">Світла</span></button></span>
+  <span style="display:inline-flex;align-items:center;gap:10px"><span style="font-size:12.5px;color:var(--muted)">Тема 10b / 12</span><button class="themetoggle" id="themeToggle" aria-label="Перемкнути тему"><svg class="l-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="l-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg><span class="l-light">Темна</span><span class="l-dark">Світла</span></button></span>
 </nav>
   <header>
-    <h1 id="title">🐍 Python · Тема 9b — інтерактиви</h1>
+    <h1 id="title">🐍 Python · Тема 10b — інтерактиви</h1>
   </header>
   <div id="app"></div>
 
 <nav class="botnav" style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:30px;padding-top:20px;border-top:1px solid var(--border)">
-  <div style="justify-self:start"><a href="../tema-9a/" style="display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--white);text-decoration:none;font-size:13px;text-align:left;max-width:100%"><span style="color:var(--muted);font-size:11.5px">← Попередня</span><span>Тема 9a. Основи ООП</span></a></div>
+  <div style="justify-self:start"><a href="../tema-10a/" style="display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--white);text-decoration:none;font-size:13px;text-align:left;max-width:100%"><span style="color:var(--muted);font-size:11.5px">← Попередня</span><span>Тема 10a. Магічні методи</span></a></div>
   <a href="../" style="justify-self:center;display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--blue);text-decoration:none;font-size:13.5px;font-weight:600">🏠 Усі теми</a>
-  <div style="justify-self:end"><a href="../tema-10a/" style="display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--white);text-decoration:none;font-size:13px;text-align:right;max-width:100%"><span style="color:var(--muted);font-size:11.5px">Наступна →</span><span>Тема 10a. Магічні методи</span></a></div>
+  <div style="justify-self:end"></div>
 </nav>
 </div>
 
 <script>
 const BLOCKS = {
-  "cont-1": {title:"Класи-контейнери · крок 1 (UserDict)", items:[
-    {type:"note", text:`<b>📦 Класи-контейнери.</b> Щоб зробити свій словник/список/рядок із додатковою поведінкою, не наслідують <code>dict</code>/<code>list</code>/<code>str</code> напряму (це дає підступні помилки), а беруть <code>UserDict</code>, <code>UserList</code>, <code>UserString</code> з <code>collections</code>. Самі дані лежать у полі <code>self.data</code>.`},
+  "call-1": {title:"Функтори · крок 1 (__call__)", items:[
+    {type:"note", text:`<b>🎯 Функтор</b> — обʼєкт, який можна викликати як функцію. Досягається магічним методом <code>__call__</code>: коли ви пишете <code>obj(...)</code>, Python викликає <code>obj.__call__(...)</code>. Перевага перед звичайною функцією — обʼєкт може <b>зберігати стан</b> (налаштування) між викликами.`},
     {type:"run",
-     prompt:`<code>Customer</code> — це словник із власними методами. Запустіть.`,
-     code:'from collections import UserDict\n\nclass Customer(UserDict):\n    def phone_info(self):\n        name = self.get("name")\n        phone = self.get("phone")\n        return f"{name}: {phone}"\n\nc = Customer({"name": "Allen", "phone": "992-914"})\nprint(c.phone_info())\nprint("Дані:", c.data)\n'},
+     prompt:`<code>Multiplier</code> налаштовується один раз, а потім викликається як функція. Запустіть.`,
+     code:'class Multiplier:\n    def __init__(self, factor):\n        self.factor = factor\n    def __call__(self, x):\n        return x * self.factor\n\ndouble = Multiplier(2)\ntriple = Multiplier(3)\nprint(double(10))\nprint(triple(10))\n'},
     {type:"task",
-     prompt:`<code>MyDict</code> уміє додавати ключ. Скільки ключів у словнику після додавання? Допишіть рядок <code>print(len(d))</code>. Має вийти <code>2</code>.`,
-     starter:'from collections import UserDict\n\nclass MyDict(UserDict):\n    def add_key(self, key, value):\n        self.data[key] = value\n\nd = MyDict({"a": 1})\nd.add_key("b", 2)\n# скільки ключів у словнику?\n',
-     expected:"2"}
+     prompt:`<code>Adder</code> додає налаштоване число. Викличте <code>add5</code> з <code>10</code>: допишіть <code>print(add5(10))</code>. Має вийти <code>15</code>.`,
+     starter:'class Adder:\n    def __init__(self, n):\n        self.n = n\n    def __call__(self, x):\n        return x + self.n\n\nadd5 = Adder(5)\n# викличте add5 з числом 10\n',
+     expected:"15"}
   ]},
 
-  "cont-2": {title:"Класи-контейнери · крок 2 (UserList і UserString)", items:[
-    {type:"note", text:`Так само <code>UserList</code> дає свій список, а <code>UserString</code> — свій рядок. Додаєте потрібні методи, а в усьому іншому вони поводяться як звичайні контейнери.`},
+  "call-2": {title:"Функтори · крок 2 (стан між викликами)", items:[
+    {type:"note", text:`Головна відмінність від функції — <b>памʼять</b>. Функтор тримає лічильники, кеш, налаштування у своїх полях, тож кожен виклик може залежати від попередніх.`},
     {type:"run",
-     prompt:`Список, що вміє сумувати (навіть рядки-числа), і рядок, що знає, чи він паліндром. Запустіть.`,
-     code:'from collections import UserList, UserString\n\nclass CountableList(UserList):\n    def sum_all(self):\n        return sum(int(x) for x in self.data)\n\nnums = CountableList([1, "2", 3, "4"])\nnums.append("5")\nprint("Сума:", nums.sum_all())\n\nclass MyString(UserString):\n    def is_palindrome(self):\n        return self.data == self.data[::-1]\n\nprint(MyString("radar").is_palindrome())\nprint(MyString("hello").is_palindrome())\n'},
+     prompt:`<code>Counter</code> памʼятає, скільки разів його викликали. Запустіть.`,
+     code:'class Counter:\n    def __init__(self):\n        self.count = 0\n    def __call__(self):\n        self.count += 1\n        return self.count\n\nc = Counter()\nprint(c())\nprint(c())\nprint(c())\n'},
     {type:"task",
-     prompt:`Чи є рядок <code>"level"</code> паліндромом? Допишіть рядок <code>print(s.is_palindrome())</code>. Має вийти <code>True</code>.`,
-     starter:'from collections import UserString\n\nclass MyString(UserString):\n    def is_palindrome(self):\n        return self.data == self.data[::-1]\n\ns = MyString("level")\n# чи паліндром?\n',
-     expected:"True"}
+     prompt:`<code>Counter</code> викликали двічі. Скільки показує його поле? Допишіть <code>print(c.count)</code>. Має вийти <code>2</code>.`,
+     starter:'class Counter:\n    def __init__(self):\n        self.count = 0\n    def __call__(self):\n        self.count += 1\n        return self.count\n\nc = Counter()\nc()\nc()\n# скільки разів викликали?\n',
+     expected:"2"},
+    {type:"mcq", q:`Який магічний метод робить обʼєкт «викликним» (як функцію)?`,
+     opts:["__call__","__init__","__func__"], answer:"__call__",
+     expl:`Саме <code>__call__</code> спрацьовує на <code>obj(...)</code>. <code>__init__</code> лише створює обʼєкт.`}
   ]},
 
-  "dc-1": {title:"Класи даних · @dataclass", items:[
-    {type:"note", text:`<b>🧾 <code>@dataclass</code></b> з модуля <code>dataclasses</code> автоматично генерує <code>__init__</code> та інші службові методи на основі оголошених полів. Ви лише перелічуєте поля з типами (і за потреби значення за замовчуванням) — менше коду й менше помилок.`},
+  "iter-1": {title:"Ітератори · __iter__ та __next__", items:[
+    {type:"note", text:`<b>🔁 Ітератор</b> — обʼєкт, по якому можна проходити в циклі <code>for</code>. Треба два методи: <code>__iter__</code> (повертає сам ітератор, зазвичай <code>self</code>) та <code>__next__</code> (повертає наступний елемент, а коли вони скінчились — «кидає» <code>StopIteration</code>).`},
     {type:"run",
-     prompt:`<code>Rectangle</code> без ручного <code>__init__</code>; <code>Article</code> має поле зі значенням за замовчуванням. Запустіть.`,
-     code:'from dataclasses import dataclass\n\n@dataclass\nclass Rectangle:\n    width: int\n    height: int\n    def area(self):\n        return self.width * self.height\n\nr = Rectangle(10, 5)\nprint(r)\nprint("Площа:", r.area())\n\n@dataclass\nclass Article:\n    title: str\n    views: int = 0\n\nprint(Article("Python"))\n'},
+     prompt:`<code>CountDown</code> — власний ітератор зворотного відліку. Запустіть.`,
+     code:'class CountDown:\n    def __init__(self, start):\n        self.n = start\n    def __iter__(self):\n        return self\n    def __next__(self):\n        if self.n <= 0:\n            raise StopIteration\n        value = self.n\n        self.n -= 1\n        return value\n\nfor x in CountDown(3):\n    print(x)\n'},
     {type:"task",
-     prompt:`Порахуйте площу прямокутника <code>7×3</code>. Допишіть рядок <code>print(r.area())</code>. Має вийти <code>21</code>.`,
-     starter:'from dataclasses import dataclass\n\n@dataclass\nclass Rectangle:\n    width: int\n    height: int\n    def area(self):\n        return self.width * self.height\n\nr = Rectangle(7, 3)\n# виведіть площу\n',
-     expected:"21"}
+     prompt:`Ітератор працює зі вбудованими функціями. Порахуйте суму відліку <code>5+4+3+2+1</code>: допишіть <code>print(sum(CountDown(5)))</code>. Має вийти <code>15</code>.`,
+     starter:'class CountDown:\n    def __init__(self, start):\n        self.n = start\n    def __iter__(self):\n        return self\n    def __next__(self):\n        if self.n <= 0:\n            raise StopIteration\n        value = self.n\n        self.n -= 1\n        return value\n\n# сума всіх чисел відліку від 5\n',
+     expected:"15"},
+    {type:"mcq", q:`Що має «кинути» <code>__next__</code>, коли елементи скінчились?`,
+     opts:["StopIteration","StopError","повернути None"], answer:"StopIteration",
+     expl:`<code>for</code> ловить саме <code>StopIteration</code> і на цьому спокійно завершує цикл. Повернути <code>None</code> — не спрацює як сигнал кінця.`}
   ]},
 
-  "enum-1": {title:"Перелічуваний тип · Enum", items:[
-    {type:"note", text:`<b>🔢 Enum</b> — набір іменованих констант замість «магічних» чисел чи рядків (статуси, ролі, дні тижня). Наслідуються від <code>Enum</code>; <code>auto()</code> сам присвоює значення. У кожного члена є <code>.name</code> та <code>.value</code>. Обʼєкт може приймати лише визначені значення — менше помилок.`},
+  "gen-1": {title:"Генератори · крок 1 (yield)", items:[
+    {type:"note", text:`<b>🌀 Генератор</b> — коротший спосіб зробити ітератор: звичайна функція, але замість <code>return</code> — <code>yield</code>. Кожен <code>yield</code> «віддає» значення й <b>ставить функцію на паузу</b> до наступного запиту. Значення обчислюються <b>ліниво</b> (по одному), тож памʼять не витрачається на весь список.`},
     {type:"run",
-     prompt:`Статуси замовлення як <code>Enum</code> з <code>auto()</code>. Запустіть.`,
-     code:'from enum import Enum, auto\n\nclass OrderStatus(Enum):\n    NEW = auto()\n    PROCESSING = auto()\n    SHIPPED = auto()\n\ns = OrderStatus.NEW\nprint(s)\nprint(s.name, s.value)\nprint(OrderStatus.SHIPPED.name)\n'},
+     prompt:`Той самий відлік, але генератором — без класу. І трохи <code>next()</code> вручну. Запустіть.`,
+     code:'def count_down(start):\n    while start > 0:\n        yield start\n        start -= 1\n\nfor x in count_down(3):\n    print(x)\n\ngen = count_down(2)\nprint(next(gen))\nprint(next(gen))\n'},
     {type:"task",
-     prompt:`Виведіть <b>імʼя</b> члена enum. Допишіть рядок <code>print(d.name)</code>. Має вийти <code>MONDAY</code>.`,
-     starter:'from enum import Enum\n\nclass Day(Enum):\n    MONDAY = 1\n    TUESDAY = 2\n\nd = Day.MONDAY\n# виведіть імʼя члена enum\n',
-     expected:"MONDAY"}
+     prompt:`Генератор квадратів. Порахуйте суму <code>1+4+9+16</code>: допишіть <code>print(sum(squares(4)))</code>. Має вийти <code>30</code>.`,
+     starter:'def squares(n):\n    for i in range(1, n + 1):\n        yield i * i\n\n# сума квадратів від 1 до 4\n',
+     expected:"30"}
   ]},
 
-  "assoc-1": {title:"Асоціація · крок 1 (агрегація)", items:[
-    {type:"note", text:`<b>🔗 Асоціація</b> — коли клас <b>має</b> інший клас як поле (звʼязок «має»). <b>Агрегація</b> — слабкий звʼязок: «частина» може існувати без «цілого». Кіт <b>має</b> господаря, але господар існує окремо й міг би бути в іншого кота. Це логічніше за спробу зробити кота «господарем» через наслідування.`},
+  "gen-2": {title:"Генератори · крок 2 (send і close)", items:[
+    {type:"note", text:`Генератор — двобічний. <code>gen.send(value)</code> не лише відновлює його, а й <b>передає значення</b> всередину (стає результатом <code>x = yield</code>). <code>gen.close()</code> <b>зупиняє</b> генератор — усередині на місці <code>yield</code> виникає <code>GeneratorExit</code>. Перед першим <code>send</code> генератор «розганяють» через <code>next()</code>.`},
     {type:"run",
-     prompt:`<code>Cat</code> має посилання на <code>Owner</code>, який створений незалежно. Запустіть.`,
-     code:'class Owner:\n    def __init__(self, name, phone):\n        self.name = name\n        self.phone = phone\n    def info(self):\n        return f"{self.name}: {self.phone}"\n\nclass Cat:\n    def __init__(self, nickname, owner):\n        self.nickname = nickname\n        self.owner = owner\n\nowner = Owner("Boris", "+380501112233")\ncat = Cat("Simon", owner)\nprint(cat.owner.info())\nprint("Кіт:", cat.nickname)\n'},
-    {type:"mcq", q:`Чим <b>агрегація</b> відрізняється від <b>композиції</b>?`,
-     opts:["Агрегація: «частина» може існувати без «цілого» (власник — без кота)","Агрегація й композиція — це те саме","Композиція: частина завжди незалежна"], answer:"Агрегація: «частина» може існувати без «цілого» (власник — без кота)",
-     expl:`Агрегація — слабкий звʼязок: частина живе окремо від цілого. Композиція — сильний: частина не існує без цілого (напр. задачі не існують без проєкту).`}
+     prompt:`Акумулятор приймає числа через <code>send</code> і додає їх. Запустіть.`,
+     code:'def accumulator():\n    total = 0\n    while True:\n        value = yield total\n        if value is not None:\n            total += value\n\nacc = accumulator()\nnext(acc)            # розігнати генератор\nprint(acc.send(10))\nprint(acc.send(5))\nacc.close()\nprint("closed")\n'},
+    {type:"task",
+     prompt:`<code>doubler</code> виводить подвоєне число, яке ви в нього надішлете. Розігнали через <code>next</code> — тепер надішліть <code>21</code>: допишіть <code>g.send(21)</code>. Має вийти <code>42</code>.`,
+     starter:'def doubler():\n    while True:\n        x = yield\n        print(x * 2)\n\ng = doubler()\nnext(g)\n# надішліть 21 у генератор\n',
+     expected:"42"},
+    {type:"mcq", q:`Що робить <code>gen.close()</code>?`,
+     opts:["зупиняє генератор (усередині виникає GeneratorExit)","видаляє останнє значення","перезапускає з початку"], answer:"зупиняє генератор (усередині виникає GeneratorExit)",
+     expl:`<code>close()</code> завершує генератор: на місці <code>yield</code> «кидається» <code>GeneratorExit</code>, що дає змогу прибрати ресурси у <code>finally</code>.`}
   ]},
 
-  "assoc-2": {title:"Асоціація · крок 2 (композиція)", items:[
-    {type:"note", text:`<b>Композиція</b> — сильний звʼязок: «частина» не існує без «цілого» і гине разом із ним. Проєкт <b>володіє</b> задачами: задачі створюються всередині проєкту й не мають сенсу поза ним. Видалили проєкт — зникли і його задачі.`},
+  "ctx-1": {title:"Менеджери контексту · крок 1 (__enter__/__exit__)", items:[
+    {type:"note", text:`<b>🚪 Менеджер контексту</b> — обʼєкт для конструкції <code>with</code>, що гарантує «прибирання». <code>__enter__</code> виконується на вході (повертає ресурс — те, що після <code>as</code>), а <code>__exit__</code> — на виході, <b>навіть якщо всередині сталася помилка</b>. Класичний приклад — файли: відкрити на вході, закрити на виході.`},
     {type:"run",
-     prompt:`<code>Project</code> сам створює й тримає свої <code>Task</code>. Запустіть.`,
-     code:'class Task:\n    def __init__(self, name):\n        self.name = name\n\nclass Project:\n    def __init__(self, name):\n        self.name = name\n        self.tasks = []\n    def add_task(self, name):\n        self.tasks.append(Task(name))\n    def show(self):\n        print("Проєкт:", self.name)\n        for t in self.tasks:\n            print(" -", t.name)\n\np = Project("Веб-розробка")\np.add_task("Дизайн")\np.add_task("API")\np.show()\n'},
-    {type:"task",
-     prompt:`Скільки задач у проєкті після додавання двох? Допишіть рядок <code>print(len(p.tasks))</code>. Має вийти <code>2</code>.`,
-     starter:'class Task:\n    def __init__(self, name):\n        self.name = name\n\nclass Project:\n    def __init__(self, name):\n        self.name = name\n        self.tasks = []\n    def add_task(self, name):\n        self.tasks.append(Task(name))\n\np = Project("Курс")\np.add_task("Тема 1")\np.add_task("Тема 2")\n# скільки задач у проєкті?\n',
-     expected:"2"}
+     prompt:`Простий менеджер, що друкує «вхід» і «вихід» навколо тіла <code>with</code>. Запустіть.`,
+     code:'class Managed:\n    def __enter__(self):\n        print("enter")\n        return self\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        print("exit")\n\nwith Managed() as m:\n    print("inside")\n'},
+    {type:"mcq", q:`Коли виконається <code>__exit__</code>?`,
+     opts:["завжди при виході з with (навіть якщо сталася помилка)","лише якщо помилки не було","лише якщо викликати вручну"], answer:"завжди при виході з with (навіть якщо сталася помилка)",
+     expl:`Саме тому <code>with</code> надійний для ресурсів: <code>__exit__</code> (закриття файлу, звільнення) відпрацює за будь-якого сценарію виходу.`}
   ]},
 
-  "exc-1": {title:"Власні винятки", items:[
-    {type:"note", text:`<b>🚨 Власні винятки</b> роблять помилки зрозумілими. Створюють клас, що наслідує <code>Exception</code>, «кидають» його оператором <code>raise</code>, а ловлять у <code>try/except</code>. Так код вище за рівнем може коректно обробити саме цей випадок.`},
+  "ctx-2": {title:"Менеджери контексту · крок 2 (@contextmanager)", items:[
+    {type:"note", text:`Менеджер можна написати <b>коротше</b> — як генератор із декоратором <code>@contextmanager</code> з модуля <code>contextlib</code>. Код <b>до <code>yield</code></b> — це «вхід» (<code>__enter__</code>), значення після <code>yield</code> потрапляє в <code>as</code>, а код <b>після <code>yield</code></b> — це «вихід» (<code>__exit__</code>).`},
     {type:"run",
-     prompt:`Свій виняток <code>AgeVerificationError</code> — кидаємо й ловимо. Запустіть.`,
-     code:'class AgeVerificationError(Exception):\n    pass\n\ndef verify_age(age):\n    if age < 18:\n        raise AgeVerificationError("Вік менший за 18")\n\ntry:\n    verify_age(16)\nexcept AgeVerificationError as e:\n    print("Виняток:", e)\nelse:\n    print("Вік ок")\n'},
+     prompt:`Той самий менеджер, але генератором. Запустіть і зіставте з попереднім.`,
+     code:'from contextlib import contextmanager\n\n@contextmanager\ndef managed():\n    print("setup")\n    yield "resource"\n    print("teardown")\n\nwith managed() as r:\n    print("using", r)\n'},
     {type:"task",
-     prompt:`Впишіть замість <code>______</code> змінну <code>e</code>, щоб вивести повідомлення винятку. Має вийти <code>Занадто коротке</code>.`,
-     starter:'class TooShortError(Exception):\n    pass\n\ndef check(name):\n    if len(name) < 3:\n        raise TooShortError("Занадто коротке")\n    return name\n\ntry:\n    check("Bo")\nexcept TooShortError as e:\n    print(______)\n',
-     expected:"Занадто коротке"},
-    {type:"note", text:`<details style="margin:0"><summary style="cursor:pointer;font-weight:600">🎯 Де це у твоєму напрямку <span style="opacity:.6;font-weight:400">(можна розгорнути або пропустити)</span></summary><div style="margin-top:8px;line-height:1.6"><b>AI&amp;ML.</b> <code>@dataclass</code> для конфігів і записів даних; <code>Enum</code> для режимів/статусів; власні винятки — для валідних пайплайнів обробки.<br><b>SE&amp;AI.</b> dataclasses/Enum — щодня у сервісах (DTO, статуси); композиція — структура доменних моделей; власні винятки — чисті помилки API.<br><b>CyberSec&amp;AI.</b> <code>Enum</code> для рівнів доступу/станів; власні винятки для політик; контейнери для спец-структур над логами.<br><b>PM&amp;AI.</b> Розуміння моделей даних, станів і звʼязків (композиція/агрегація) допомагає читати домен і оцінювати рішення команди.</div></details>`}
+     prompt:`У генераторі-менеджері бракує точки розділу «вхід/вихід». Замість <code>______</code> впишіть <code>yield</code>, щоб керування пішло в блок <code>with</code>. Має вийти <code>open</code>, <code>work</code>, <code>close</code>.`,
+     starter:'from contextlib import contextmanager\n\n@contextmanager\ndef resource():\n    print("open")\n    ______\n    print("close")\n\nwith resource():\n    print("work")\n',
+     expected:"open\nwork\nclose"},
+    {type:"note", text:`<details style="margin:0"><summary style="cursor:pointer;font-weight:600">🎯 Де це у твоєму напрямку <span style="opacity:.6;font-weight:400">(можна розгорнути або пропустити)</span></summary><div style="margin-top:8px;line-height:1.6"><b>AI&amp;ML.</b> Генератори — потокова обробка даних без завантаження всього в памʼять (батчі, читання великих файлів); менеджери контексту — сесії/девайси, які треба гарантовано звільнити.<br><b>SE&amp;AI.</b> Функтори — конфігуровані «колбеки»; ітератори/генератори — ліниві пайплайни; <code>with</code> — транзакції, зʼєднання, локи, які закриваються самі.<br><b>CyberSec&amp;AI.</b> Генератори — построкове сканування логів; <code>with</code> — надійне закриття сокетів/файлів навіть при винятку.<br><b>PM&amp;AI.</b> Розуміння «лінивості» та гарантованого прибирання ресурсів допомагає оцінювати надійність і продуктивність рішень.</div></details>`}
   ]},
 
   "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
     {type:"note", text:`Цей блок — для впевнених. Спершу <b>пастки</b>, далі — короткі <b>ідіоми</b>. Спробуйте відповісти самі — пояснення зʼявиться після відповіді.`},
-    {type:"mcq", q:`У <code>UserDict</code>/<code>UserList</code> самі дані зберігаються у полі...`,
-     opts:["self.data","self.dict","self.items"], answer:"self.data",
-     expl:`Саме тому власні методи працюють через <code>self.data</code>, а сам контейнер поводиться як звичайний.`},
-    {type:"mcq", q:`Що автоматично генерує <code>@dataclass</code>?`,
-     opts:["__init__ (і __repr__, порівняння) на основі полів","лише __repr__","нічого, це стиль"], answer:"__init__ (і __repr__, порівняння) на основі полів",
-     expl:`Тому не треба вручну писати конструктор і метод представлення — менше рутинного коду.`},
-    {type:"mcq", code:"from enum import Enum\nclass C(Enum):\n    A = 10\nprint(C.A.value)", opts:["10","A","C.A"], answer:"10",
-     expl:`<code>.value</code> дає значення члена (10), а <code>.name</code> дало б рядок "A".`},
-    {type:"mcq", q:`Проєкт, що сам створює й тримає свої задачі (без проєкту вони не існують), — це...`,
-     opts:["композиція","агрегація","наслідування"], answer:"композиція",
-     expl:`Сильний звʼязок «частина не існує без цілого» — це композиція. Якби задачі жили окремо — була б агрегація.`},
+    {type:"mcq", q:`Чим функтор (обʼєкт із <code>__call__</code>) кращий за звичайну функцію?`,
+     opts:["може зберігати стан між викликами","завжди швидший","коротший запис"], answer:"може зберігати стан між викликами",
+     expl:`Функція «забуває» все між викликами; функтор тримає стан у полях (лічильники, налаштування, кеш).`},
+    {type:"mcq", code:"def gen():\n    yield 1\n    yield 2\ng = gen()\nprint(next(g))\nprint(next(g))", opts:["1, потім 2","2, потім 1","помилка"], answer:"1, потім 2",
+     expl:`Кожен <code>next()</code> виконує функцію до наступного <code>yield</code>: спершу 1, потім 2. Третій <code>next()</code> дав би <code>StopIteration</code>.`},
+    {type:"mcq", q:`Генератор обчислює значення...`,
+     opts:["ліниво, по одному на вимогу","усі одразу й тримає в списку","у зворотному порядку"], answer:"ліниво, по одному на вимогу",
+     expl:`Саме лінивість дає економію памʼяті: можна проходити навіть «нескінченні» послідовності.`},
     {type:"note", text:`<b>Тепер ідіоми.</b>`},
     {type:"task",
-     prompt:`<b>Ідіома.</b> Сума полів dataclass. Допишіть <code>print(p.x + p.y)</code>. Має вийти <code>7</code>.`,
-     starter:'from dataclasses import dataclass\n\n@dataclass\nclass Point:\n    x: int\n    y: int\n\np = Point(2, 5)\n# виведіть суму x + y\n',
-     expected:"7"},
+     prompt:`<b>Ідіома.</b> Генераторний вираз без проміжного списку. Порахуйте суму квадратів <code>1..3</code>: допишіть <code>print(sum(x*x for x in range(1, 4)))</code>. Має вийти <code>14</code>.`,
+     starter:'# сума квадратів 1..3 через генераторний вираз (без [ ])\n',
+     expected:"14"},
     {type:"task",
-     prompt:`<b>Ідіома.</b> Значення члена Enum. Допишіть <code>print(Color.GREEN.value)</code>. Має вийти <code>2</code>.`,
-     starter:'from enum import Enum\n\nclass Color(Enum):\n    RED = 1\n    GREEN = 2\n\n# виведіть значення GREEN\n',
-     expected:"2"}
+     prompt:`<b>Ідіома.</b> Функтор-степінь. <code>square</code> підносить до квадрата. Викличте його з <code>9</code>: допишіть <code>print(square(9))</code>. Має вийти <code>81</code>.`,
+     starter:'class Power:\n    def __init__(self, exp):\n        self.exp = exp\n    def __call__(self, base):\n        return base ** self.exp\n\nsquare = Power(2)\n# викличте square з числом 9\n',
+     expected:"81"}
   ]},
 
   "review": {title:"Перевір себе — що повторити", items:[
     {type:"diagnostic",
      intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
      questions:[
-       {q:`Правильний спосіб зробити власний словник — наслідувати від...`, opts:["UserDict (з collections)","dict напряму","list"], answer:"UserDict (з collections)", section:"Класи-контейнери"},
-       {q:`У <code>UserList</code>/<code>UserDict</code> дані лежать у полі...`, opts:["data","items","value"], answer:"data", section:"Класи-контейнери"},
-       {q:`Що робить <code>@dataclass</code>?`, opts:["Автоматично генерує __init__ та інші методи","Прискорює клас","Робить клас приватним"], answer:"Автоматично генерує __init__ та інші методи", section:"dataclasses"},
-       {code:"from enum import Enum\nclass S(Enum):\n    A = 5\nprint(S.A.value)", opts:["5","A","S.A"], answer:"5", section:"Enum"},
-       {q:`<b>Агрегація</b> — це коли...`, opts:["частина може існувати без цілого","частина гине разом із цілим","класи однакові"], answer:"частина може існувати без цілого", section:"Асоціація: агрегація"},
-       {q:`<b>Композиція</b> — це коли...`, opts:["частина не існує без цілого","частина незалежна","це наслідування"], answer:"частина не існує без цілого", section:"Асоціація: композиція"},
-       {q:`Власний виняток наслідують від...`, opts:["Exception","object","BaseError"], answer:"Exception", section:"Власні винятки"},
-       {q:`Який оператор «кидає» виняток?`, opts:["raise","throw","except"], answer:"raise", section:"Власні винятки: raise"}
+       {q:`Який метод робить обʼєкт викликним, як функцію?`, opts:["__call__","__init__","__run__"], answer:"__call__", section:"Функтори (__call__)"},
+       {q:`Головна перевага функтора над функцією —`, opts:["зберігає стан між викликами","коротший код","не потребує аргументів"], answer:"зберігає стан між викликами", section:"Функтори: стан"},
+       {q:`Ітератор реалізує пару методів...`, opts:["__iter__ та __next__","__enter__ та __exit__","__str__ та __repr__"], answer:"__iter__ та __next__", section:"Ітератори"},
+       {q:`Коли елементи скінчились, <code>__next__</code> має...`, opts:["кинути StopIteration","повернути None","кинути ValueError"], answer:"кинути StopIteration", section:"Ітератори: StopIteration"},
+       {code:"def g():\n    yield 5\n    yield 6\ngen = g()\nprint(next(gen))", opts:["5","6","5 6"], answer:"5", section:"Генератори (yield)"},
+       {q:`<code>gen.send(x)</code> — це...`, opts:["передати значення всередину генератора","закрити генератор","перезапустити генератор"], answer:"передати значення всередину генератора", section:"Генератори: send"},
+       {q:`У менеджері контексту прибирання роблять у...`, opts:["__exit__","__enter__","__del__"], answer:"__exit__", section:"Менеджери контексту (__enter__/__exit__)"},
+       {q:`У <code>@contextmanager</code> код після <code>yield</code> — це...`, opts:["«вихід» (__exit__)","«вхід» (__enter__)","тіло with"], answer:"«вихід» (__exit__)", section:"@contextmanager"}
      ]}
   ]},
 };
@@ -409,15 +415,14 @@ function renderItem(item){
 
 /* ================= орієнтир теми ================= */
 const TOPIC = {
-  title:"Тема 9b — ООП на практиці: контейнери, dataclasses, Enum",
-  intro:`Тут ви розширюєте ООП-інструментарій: <b>класи-контейнери</b> (<code>UserDict</code>, <code>UserList</code>, <code>UserString</code>) для власних версій стандартних структур, <b>класи даних</b> (<code>@dataclass</code>), перелічуваний тип <b>Enum</b>, звʼязки між класами (<b>асоціація</b>: композиція та агрегація) і створення <b>власних винятків</b>. Усе запускається прямо тут.`,
+  title:"Тема 10b — функтори, ітератори, генератори та менеджери контексту",
+  intro:`Тут ви опановуєте «динамічні» можливості класів: <b>функтори</b> (обʼєкт-функція через <code>__call__</code>, що зберігає стан), <b>ітератори</b> (<code>__iter__</code>/<code>__next__</code>) та <b>генератори</b> (<code>yield</code>, а також двобічні <code>send()</code>/<code>close()</code>), і <b>менеджери контексту</b> (<code>with</code>: <code>__enter__</code>/<code>__exit__</code> та <code>@contextlib.contextmanager</code>) для гарантованого прибирання ресурсів. Усе запускається прямо тут.`,
   groups:[
-    {name:"📦 Класи-контейнери", desc:`Власні словник/список/рядок через <code>UserDict</code>, <code>UserList</code>, <code>UserString</code> — з даними в полі <code>self.data</code>.`, blocks:["cont-1","cont-2"]},
-    {name:"🧾 Класи даних (dataclasses)", desc:`Декоратор <code>@dataclass</code> сам генерує <code>__init__</code> та службові методи — менше рутинного коду для класів-сховищ даних.`, blocks:["dc-1"]},
-    {name:"🔢 Перелічуваний тип (Enum)", desc:`Іменовані константи замість «магічних» чисел і рядків: <code>auto()</code>, <code>.name</code>, <code>.value</code>.`, blocks:["enum-1"]},
-    {name:"🔗 Асоціація: композиція та агрегація", desc:`Звʼязок «має»: агрегація (частина живе окремо) vs композиція (частина не існує без цілого).`, blocks:["assoc-1","assoc-2"]},
-    {name:"🚨 Власні винятки", desc:`Свій клас від <code>Exception</code>, <code>raise</code> і обробка в <code>try/except</code> для зрозумілих помилок.`, blocks:["exc-1"]},
-    {name:"⚡ Для впевнених", desc:`Якщо базове дається легко — пастки (<code>self.data</code>, <code>@dataclass</code>, Enum, композиція) та ідіоми. Необовʼязково.`, blocks:["experienced"]},
+    {name:"🎯 Функтори (__call__)", desc:`Обʼєкт, який викликають як функцію; на відміну від функції — <b>зберігає стан</b> між викликами.`, blocks:["call-1","call-2"]},
+    {name:"🔁 Ітератори", desc:`<code>__iter__</code> + <code>__next__</code>; кінець послідовності — <code>StopIteration</code>.`, blocks:["iter-1"]},
+    {name:"🌀 Генератори (yield, send, close)", desc:`Ітератор у два рядки через <code>yield</code>; лінива генерація; двобічний обмін через <code>send()</code> і зупинка <code>close()</code>.`, blocks:["gen-1","gen-2"]},
+    {name:"🚪 Менеджери контексту", desc:`<code>with</code>: <code>__enter__</code>/<code>__exit__</code> для гарантованого прибирання, і коротка форма <code>@contextmanager</code>.`, blocks:["ctx-1","ctx-2"]},
+    {name:"⚡ Для впевнених", desc:`Якщо базове дається легко — пастки (стан функтора, лінивість, порядок <code>yield</code>) та ідіоми. Необовʼязково.`, blocks:["experienced"]},
     {name:"✅ Перевір себе", desc:`Коротка діагностика по всій темі. Наприкінці підкаже, які розділи конспекту варто повторити.`, blocks:["review"]}
   ]
 };
