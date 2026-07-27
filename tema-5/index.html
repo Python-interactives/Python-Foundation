@@ -190,7 +190,7 @@ const BLOCKS = {
 
   "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
     {type:"note", text:`Цей блок — для тих, хто вже впевнений. Спочатку <b>пастки</b> з файлами й pathlib; далі — короткі <b>ідіоми</b>. Спершу спробуйте відповісти самі — пояснення з'явиться після відповіді.`},
-    {type:"mcq", q:`Що станеться з наявним файлом, якщо відкрити його в режимі <code>"w"</code>?`, opts:["Уміст стирається (перезаписується)","Дописується в кінець","Помилка, бо файл існує"], answer:"Уміст стирається (перезаписується)",
+    {type:"mcq", q:`Що станеться з наявним файлом, якщо відкрити його в режимі <code>"w"</code>?`, opts:["Уміст стирається (перезаписується)","Дописується в кінець наявного файлу","Виникає помилка, бо файл уже існує"], answer:"Уміст стирається (перезаписується)",
      expl:"Режим \"w\" завжди створює файл заново — старий вміст зникає. Щоб зберегти й дописати, потрібен режим \"a\"."},
     {type:"mcq", code:"from pathlib import Path\nprint(Path(\"photo\").suffix)", opts:["(порожній рядок)","photo",".photo"], answer:"(порожній рядок)",
      expl:"Немає крапки-розширення — suffix порожній (\"\"), тож print виведе порожній рядок."},
@@ -217,7 +217,7 @@ const BLOCKS = {
      questions:[
        {scenario:"У файл записали \"hi\", потім прочитали його.", code:"with open(\"f.txt\", \"w\") as f:\n    f.write(\"hi\")\nwith open(\"f.txt\") as f:\n    print(f.read())", opts:["hi","(порожньо)","помилка"], answer:"hi", section:"Запис і читання (open)"},
        {q:`Що робить режим <code>"a"</code> при відкритті файлу?`, opts:["Дописує в кінець","Перезаписує все","Тільки читає"], answer:"Дописує в кінець", section:"Режими файлів (w / a)"},
-       {q:`Навіщо використовують <code>with open(...)</code>?`, opts:["Сам закриває файл у кінці","Пише швидше","Стискає файл"], answer:"Сам закриває файл у кінці", section:"Менеджер контексту (with)"},
+       {q:`Навіщо використовують <code>with open(...)</code>?`, opts:["Сам закриває файл у кінці","Пише у файл значно швидше","Автоматично стискає файл"], answer:"Сам закриває файл у кінці", section:"Менеджер контексту (with)"},
        {scenario:"from pathlib import Path", code:"print(Path(\"docs/report.txt\").name)", opts:["report.txt","docs","docs/report.txt"], answer:"report.txt", section:"pathlib: ім'я файлу (name)"},
        {scenario:"from pathlib import Path", code:"print(Path(\"photo.jpg\").suffix)", opts:[".jpg","jpg","photo"], answer:".jpg", section:"pathlib: розширення (suffix)"},
        {scenario:"from pathlib import Path", code:"print(Path(\"missing.txt\").exists())", opts:["False","True","помилка"], answer:"False", section:"pathlib: перевірка існування (exists)"}
