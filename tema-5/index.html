@@ -190,15 +190,15 @@ const BLOCKS = {
 
   "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
     {type:"note", text:`Цей блок — для тих, хто вже впевнений. Спочатку <b>пастки</b> з файлами й pathlib; далі — короткі <b>ідіоми</b>. Спершу спробуйте відповісти самі — пояснення з'явиться після відповіді.`},
-    {type:"mcq", q:`Що станеться з наявним файлом, якщо відкрити його в режимі <code>"w"</code>?`, opts:["Уміст стирається (перезаписується)","Дописується в кінець наявного файлу","Виникає помилка, бо файл уже існує"], answer:"Уміст стирається (перезаписується)",
+    {type:"mcq", q:`Що станеться з наявним файлом, якщо відкрити його в режимі <code>"w"</code>?`, opts:["Дописується в кінець наявного файлу","Уміст стирається (перезаписується)","Виникає помилка, бо файл уже існує"], answer:"Уміст стирається (перезаписується)",
      expl:"Режим \"w\" завжди створює файл заново — старий вміст зникає. Щоб зберегти й дописати, потрібен режим \"a\"."},
-    {type:"mcq", code:"from pathlib import Path\nprint(Path(\"photo\").suffix)", opts:["(порожній рядок)","photo",".photo"], answer:"(порожній рядок)",
+    {type:"mcq", code:"from pathlib import Path\nprint(Path(\"photo\").suffix)", opts:["photo",".photo","(порожній рядок)"], answer:"(порожній рядок)",
      expl:"Немає крапки-розширення — suffix порожній (\"\"), тож print виведе порожній рядок."},
     {type:"mcq", code:"from pathlib import Path\nprint(Path(\"data.tar.gz\").suffix)", opts:[".gz",".tar.gz",".tar"], answer:".gz",
      expl:"suffix — лише ОСТАННЄ розширення (.gz). Усі разом дає .suffixes → ['.tar', '.gz']."},
-    {type:"mcq", code:"from pathlib import Path\nprint(Path(\"docs\") / \"file.txt\")", opts:["docs/file.txt","docsfile.txt","помилка"], answer:"docs/file.txt",
+    {type:"mcq", code:"from pathlib import Path\nprint(Path(\"docs\") / \"file.txt\")", opts:["docsfile.txt","docs/file.txt","помилка"], answer:"docs/file.txt",
      expl:"Оператор / у pathlib об'єднує частини шляху — зручніше й безпечніше за ручне склеювання рядків."},
-    {type:"mcq", code:"print(len(\"рядок1\\nрядок2\\nрядок3\".splitlines()))", opts:["3","1","2"], answer:"3",
+    {type:"mcq", code:"print(len(\"рядок1\\nрядок2\\nрядок3\".splitlines()))", opts:["1","2","3"], answer:"3",
      expl:"splitlines() розбиває текст за переносами \\n у список рядків — тут їх 3."},
     {type:"note", text:`<b>Тепер ідіоми.</b> Короткі записи «по-пайтонічному».`},
     {type:"task",
@@ -216,11 +216,11 @@ const BLOCKS = {
      intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
      questions:[
        {scenario:"У файл записали \"hi\", потім прочитали його.", code:"with open(\"f.txt\", \"w\") as f:\n    f.write(\"hi\")\nwith open(\"f.txt\") as f:\n    print(f.read())", opts:["hi","(порожньо)","помилка"], answer:"hi", section:"Запис і читання (open)"},
-       {q:`Що робить режим <code>"a"</code> при відкритті файлу?`, opts:["Дописує в кінець","Перезаписує все","Тільки читає"], answer:"Дописує в кінець", section:"Режими файлів (w / a)"},
-       {q:`Навіщо використовують <code>with open(...)</code>?`, opts:["Сам закриває файл у кінці","Пише у файл значно швидше","Автоматично стискає файл"], answer:"Сам закриває файл у кінці", section:"Менеджер контексту (with)"},
+       {q:`Що робить режим <code>"a"</code> при відкритті файлу?`, opts:["Перезаписує все","Дописує в кінець","Тільки читає"], answer:"Дописує в кінець", section:"Режими файлів (w / a)"},
+       {q:`Навіщо використовують <code>with open(...)</code>?`, opts:["Пише у файл значно швидше","Автоматично стискає файл","Сам закриває файл у кінці"], answer:"Сам закриває файл у кінці", section:"Менеджер контексту (with)"},
        {scenario:"from pathlib import Path", code:"print(Path(\"docs/report.txt\").name)", opts:["report.txt","docs","docs/report.txt"], answer:"report.txt", section:"pathlib: ім'я файлу (name)"},
-       {scenario:"from pathlib import Path", code:"print(Path(\"photo.jpg\").suffix)", opts:[".jpg","jpg","photo"], answer:".jpg", section:"pathlib: розширення (suffix)"},
-       {scenario:"from pathlib import Path", code:"print(Path(\"missing.txt\").exists())", opts:["False","True","помилка"], answer:"False", section:"pathlib: перевірка існування (exists)"}
+       {scenario:"from pathlib import Path", code:"print(Path(\"photo.jpg\").suffix)", opts:["jpg",".jpg","photo"], answer:".jpg", section:"pathlib: розширення (suffix)"},
+       {scenario:"from pathlib import Path", code:"print(Path(\"missing.txt\").exists())", opts:["True","помилка","False"], answer:"False", section:"pathlib: перевірка існування (exists)"}
      ]}
   ]},
 };

@@ -219,13 +219,13 @@ const BLOCKS = {
 
   "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
     {type:"note", text:`Цей блок — для тих, хто вже впевнений. Спочатку <b>пастки</b> з рядками й regex; далі — короткі <b>ідіоми</b>. Спершу спробуйте відповісти самі — пояснення з'явиться після відповіді.`},
-    {type:"mcq", code:"print(\"abc\".replace(\"z\", \"!\"))", opts:["abc","a!c","помилка"], answer:"abc",
+    {type:"mcq", code:"print(\"abc\".replace(\"z\", \"!\"))", opts:["a!c","помилка","abc"], answer:"abc",
      expl:"Якщо підрядок не знайдено, replace нічого не міняє й повертає рядок як є (без помилки)."},
     {type:"mcq", code:"print(\"-5\".isdigit())", opts:["False","True","-5"], answer:"False",
      expl:"isdigit() перевіряє ЛИШЕ цифри; мінус — не цифра, тож False. Так само \"5.0\".isdigit() дає False."},
-    {type:"mcq", code:"print(\"abc\".find(\"z\"))", opts:["-1","0","помилка"], answer:"-1",
+    {type:"mcq", code:"print(\"abc\".find(\"z\"))", opts:["0","-1","помилка"], answer:"-1",
      expl:"find повертає -1, якщо не знайдено (не падає). А index у такому разі кинув би ValueError."},
-    {type:"mcq", code:"print(\"a,,b\".split(\",\"))", opts:["['a', '', 'b']","['a', 'b']","['a,,b']"], answer:"['a', '', 'b']",
+    {type:"mcq", code:"print(\"a,,b\".split(\",\"))", opts:["['a', 'b']","['a,,b']","['a', '', 'b']"], answer:"['a', '', 'b']",
      expl:"Два роздільники поспіль дають порожній рядок між ними. Щоб цього уникнути, з regex беруть re.split(r\",+\", ...)."},
     {type:"mcq", code:"import re\nprint(re.findall(r\"\\d\", \"a1b2c3\"))", opts:["['1', '2', '3']","['1b2c3']","['123']"], answer:"['1', '2', '3']",
      expl:"\\d без + матчить ПО ОДНІЙ цифрі, тож знаходить кожну окремо. \\d+ зібрало б суцільні числа разом."},
@@ -244,11 +244,11 @@ const BLOCKS = {
     {type:"diagnostic",
      intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
      questions:[
-       {code:"print(\"  hi  \".strip())", opts:["hi","'  hi  '","  hi"], answer:"hi", section:"Прибирання пробілів (strip)"},
-       {code:"print(len(\"a,b,c\".split(\",\")))", opts:["3","1","2"], answer:"3", section:"Розбиття рядка (split)"},
+       {code:"print(\"  hi  \".strip())", opts:["'  hi  '","hi","  hi"], answer:"hi", section:"Прибирання пробілів (strip)"},
+       {code:"print(len(\"a,b,c\".split(\",\")))", opts:["1","2","3"], answer:"3", section:"Розбиття рядка (split)"},
        {code:"print(\"-\".join([\"a\", \"b\"]))", opts:["a-b","ab","['a', 'b']"], answer:"a-b", section:"Обʼєднання рядків (join)"},
-       {scenario:"import re", code:"print(re.search(r\"\\d+\", \"код 42\").group())", opts:["42","код","4"], answer:"42", section:"Пошук (re.search)"},
-       {scenario:"import re", code:"print(len(re.findall(r\"\\d+\", \"1 і 22 і 333\")))", opts:["3","6","1"], answer:"3", section:"Усі збіги (re.findall)"},
+       {scenario:"import re", code:"print(re.search(r\"\\d+\", \"код 42\").group())", opts:["код","42","4"], answer:"42", section:"Пошук (re.search)"},
+       {scenario:"import re", code:"print(len(re.findall(r\"\\d+\", \"1 і 22 і 333\")))", opts:["6","1","3"], answer:"3", section:"Усі збіги (re.findall)"},
        {scenario:"import re", code:"print(re.sub(r\"\\s\", \"_\", \"a b\"))", opts:["a_b","ab","a b"], answer:"a_b", section:"Заміна за шаблоном (re.sub)"}
      ]}
   ]},

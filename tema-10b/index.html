@@ -135,7 +135,7 @@ const BLOCKS = {
      starter:'class CountDown:\n    def __init__(self, start):\n        self.n = start\n    def __iter__(self):\n        return self\n    def __next__(self):\n        if self.n <= 0:\n            raise StopIteration\n        value = self.n\n        self.n -= 1\n        return value\n\n# сума всіх чисел відліку від 5\n',
      expected:"15"},
     {type:"mcq", q:`Що має «кинути» <code>__next__</code>, коли елементи скінчились?`,
-     opts:["StopIteration","StopError","повернути None"], answer:"StopIteration",
+     opts:["StopError","StopIteration","повернути None"], answer:"StopIteration",
      expl:`<code>for</code> ловить саме <code>StopIteration</code> і на цьому спокійно завершує цикл. Повернути <code>None</code> — не спрацює як сигнал кінця.`}
   ]},
 
@@ -160,7 +160,7 @@ const BLOCKS = {
      starter:'def doubler():\n    while True:\n        x = yield\n        print(x * 2)\n\ng = doubler()\nnext(g)\n# надішліть 21 у генератор\n',
      expected:"42"},
     {type:"mcq", q:`Що робить <code>gen.close()</code>?`,
-     opts:["зупиняє генератор (усередині виникає GeneratorExit)","видаляє останнє віддане генератором значення","перезапускає весь генератор із початку"], answer:"зупиняє генератор (усередині виникає GeneratorExit)",
+     opts:["видаляє останнє віддане генератором значення","перезапускає весь генератор із початку","зупиняє генератор (усередині виникає GeneratorExit)"], answer:"зупиняє генератор (усередині виникає GeneratorExit)",
      expl:`<code>close()</code> завершує генератор: на місці <code>yield</code> «кидається» <code>GeneratorExit</code>, що дає змогу прибрати ресурси у <code>finally</code>.`}
   ]},
 
@@ -189,9 +189,9 @@ const BLOCKS = {
   "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
     {type:"note", text:`Цей блок — для впевнених. Спершу <b>пастки</b>, далі — короткі <b>ідіоми</b>. Спробуйте відповісти самі — пояснення зʼявиться після відповіді.`},
     {type:"mcq", q:`Чим функтор (обʼєкт із <code>__call__</code>) кращий за звичайну функцію?`,
-     opts:["може зберігати стан між викликами","завжди працює швидше","дає коротший запис коду"], answer:"може зберігати стан між викликами",
+     opts:["завжди працює швидше","може зберігати стан між викликами","дає коротший запис коду"], answer:"може зберігати стан між викликами",
      expl:`Функція «забуває» все між викликами; функтор тримає стан у полях (лічильники, налаштування, кеш).`},
-    {type:"mcq", code:"def gen():\n    yield 1\n    yield 2\ng = gen()\nprint(next(g))\nprint(next(g))", opts:["1, потім 2","2, потім 1","помилка"], answer:"1, потім 2",
+    {type:"mcq", code:"def gen():\n    yield 1\n    yield 2\ng = gen()\nprint(next(g))\nprint(next(g))", opts:["2, потім 1","помилка","1, потім 2"], answer:"1, потім 2",
      expl:`Кожен <code>next()</code> виконує функцію до наступного <code>yield</code>: спершу 1, потім 2. Третій <code>next()</code> дав би <code>StopIteration</code>.`},
     {type:"mcq", q:`Генератор обчислює значення...`,
      opts:["ліниво, по одному на вимогу","усі одразу й тримає в списку","у зворотному порядку"], answer:"ліниво, по одному на вимогу",
@@ -211,14 +211,14 @@ const BLOCKS = {
     {type:"diagnostic",
      intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
      questions:[
-       {q:`Який метод робить обʼєкт викликним, як функцію?`, opts:["__call__","__init__","__run__"], answer:"__call__", section:"Функтори (__call__)"},
-       {q:`Головна перевага функтора над функцією —`, opts:["зберігає стан між викликами","коротший код","не потребує аргументів"], answer:"зберігає стан між викликами", section:"Функтори: стан"},
+       {q:`Який метод робить обʼєкт викликним, як функцію?`, opts:["__init__","__call__","__run__"], answer:"__call__", section:"Функтори (__call__)"},
+       {q:`Головна перевага функтора над функцією —`, opts:["коротший код","не потребує аргументів","зберігає стан між викликами"], answer:"зберігає стан між викликами", section:"Функтори: стан"},
        {q:`Ітератор реалізує пару методів...`, opts:["__iter__ та __next__","__enter__ та __exit__","__str__ та __repr__"], answer:"__iter__ та __next__", section:"Ітератори"},
-       {q:`Коли елементи скінчились, <code>__next__</code> має...`, opts:["кинути StopIteration","повернути None","кинути ValueError"], answer:"кинути StopIteration", section:"Ітератори: StopIteration"},
-       {code:"def g():\n    yield 5\n    yield 6\ngen = g()\nprint(next(gen))", opts:["5","6","5 6"], answer:"5", section:"Генератори (yield)"},
+       {q:`Коли елементи скінчились, <code>__next__</code> має...`, opts:["повернути None","кинути StopIteration","кинути ValueError"], answer:"кинути StopIteration", section:"Ітератори: StopIteration"},
+       {code:"def g():\n    yield 5\n    yield 6\ngen = g()\nprint(next(gen))", opts:["6","5 6","5"], answer:"5", section:"Генератори (yield)"},
        {q:`<code>gen.send(x)</code> — це...`, opts:["передати значення всередину генератора","остаточно закрити генератор","перезапустити генератор з нуля"], answer:"передати значення всередину генератора", section:"Генератори: send"},
-       {q:`У менеджері контексту прибирання роблять у...`, opts:["__exit__","__enter__","__del__"], answer:"__exit__", section:"Менеджери контексту (__enter__/__exit__)"},
-       {q:`У <code>@contextmanager</code> код після <code>yield</code> — це...`, opts:["«вихід» (__exit__)","«вхід» (__enter__)","тіло with"], answer:"«вихід» (__exit__)", section:"@contextmanager"}
+       {q:`У менеджері контексту прибирання роблять у...`, opts:["__enter__","__exit__","__del__"], answer:"__exit__", section:"Менеджери контексту (__enter__/__exit__)"},
+       {q:`У <code>@contextmanager</code> код після <code>yield</code> — це...`, opts:["«вхід» (__enter__)","тіло with","«вихід» (__exit__)"], answer:"«вихід» (__exit__)", section:"@contextmanager"}
      ]}
   ]},
 };

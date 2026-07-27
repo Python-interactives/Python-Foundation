@@ -110,7 +110,7 @@ const BLOCKS = {
      starter:'class Cat:\n    def __init__(self, name):\n        self.name = name\n    def __str__(self):\n        return f"Cat: {self.name}"\n\nc = Cat("Simon")\n# виведіть обʼєкт\n',
      expected:"Cat: Simon"},
     {type:"mcq", q:`Яке представлення викличе <code>print(obj)</code>, якщо визначені обидва?`,
-     opts:["__str__ (людське)","__repr__ (технічне)","__init__"], answer:"__str__ (людське)",
+     opts:["__repr__ (технічне)","__init__","__str__ (людське)"], answer:"__str__ (людське)",
      expl:`<code>print()</code> віддає перевагу <code>__str__</code>. <code>__repr__</code> спрацював би, якби <code>__str__</code> не було, або через <code>repr(obj)</code> / в консолі.`}
   ]},
 
@@ -160,7 +160,7 @@ const BLOCKS = {
      starter:'class Box:\n    def __init__(self, volume):\n        self.volume = volume\n    def __gt__(self, other):\n        return self.volume > other.volume\n\na = Box(100)\nb = Box(50)\n# чи більший a за b?\n',
      expected:"True"},
     {type:"mcq", q:`Що краще повернути з <code>__eq__</code>, якщо тип іншого обʼєкта невідомий?`,
-     opts:["NotImplemented","False","None"], answer:"NotImplemented",
+     opts:["False","NotImplemented","None"], answer:"NotImplemented",
      expl:`Повертаючи <code>NotImplemented</code>, ви дозволяєте Python спробувати зворотне порівняння або коректно завершити. Жорсткий <code>False</code> це унеможливив би.`}
   ]},
 
@@ -174,7 +174,7 @@ const BLOCKS = {
      starter:'class Account:\n    def __init__(self, balance):\n        self._balance = balance\n    @property\n    def balance(self):\n        return self._balance\n\na = Account(500)\n# виведіть баланс через властивість\n',
      expected:"500"},
     {type:"mcq", q:`Навіщо сетеру <code>@property</code> частина з <code>if</code>?`,
-     opts:["перевіряти/контролювати значення перед присвоєнням","суттєво пришвидшити роботу всього класу","зробити приховане поле знову публічним"], answer:"перевіряти/контролювати значення перед присвоєнням",
+     opts:["суттєво пришвидшити роботу всього класу","зробити приховане поле знову публічним","перевіряти/контролювати значення перед присвоєнням"], answer:"перевіряти/контролювати значення перед присвоєнням",
      expl:`Головна цінність сетера — валідація: не пустити некоректне значення (напр. відʼємний вік), лишивши зовні звичний синтаксис <code>obj.age = ...</code>.`}
   ]},
 
@@ -196,9 +196,9 @@ const BLOCKS = {
   "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
     {type:"note", text:`Цей блок — для впевнених. Спершу <b>пастки</b>, далі — короткі <b>ідіоми</b>. Спробуйте відповісти самі — пояснення зʼявиться після відповіді.`},
     {type:"mcq", q:`Яка мета «хорошого» <code>__repr__</code>?`,
-     opts:["щоб <code>eval(repr(obj))</code> відтворював обʼєкт","щоб рядок був якнайкоротшим","щоб його бачив кінцевий користувач"], answer:"щоб <code>eval(repr(obj))</code> відтворював обʼєкт",
+     opts:["щоб рядок був якнайкоротшим","щоб <code>eval(repr(obj))</code> відтворював обʼєкт","щоб його бачив кінцевий користувач"], answer:"щоб <code>eval(repr(obj))</code> відтворював обʼєкт",
      expl:`<code>__repr__</code> — однозначне технічне представлення. Орієнтир: рядок, за яким обʼєкт можна відтворити. «Людське» — це <code>__str__</code>.`},
-    {type:"mcq", code:"class V:\n    def __init__(self, n):\n        self.n = n\n    def __mul__(self, k):\n        return V(self.n * k)\n    def __repr__(self):\n        return f\"V({self.n})\"\nprint(V(3) * 4)", opts:["V(12)","12","V(3)"], answer:"V(12)",
+    {type:"mcq", code:"class V:\n    def __init__(self, n):\n        self.n = n\n    def __mul__(self, k):\n        return V(self.n * k)\n    def __repr__(self):\n        return f\"V({self.n})\"\nprint(V(3) * 4)", opts:["12","V(3)","V(12)"], answer:"V(12)",
      expl:`<code>V(3) * 4</code> викликає <code>__mul__</code> і повертає новий <code>V(12)</code>; <code>print</code> показує його через <code>__repr__</code>.`},
     {type:"mcq", q:`Визначено лише <code>__eq__</code>, а <code>__ne__</code> — ні. Як працює <code>!=</code>?`,
      opts:["автоматично (Python інвертує __eq__)","повертає завжди тільки True","одразу викличе помилку виконання"], answer:"автоматично (Python інвертує __eq__)",
@@ -218,14 +218,14 @@ const BLOCKS = {
     {type:"diagnostic",
      intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
      questions:[
-       {q:`Яке представлення бере <code>print(obj)</code>, коли є обидва?`, opts:["__str__","__repr__","__init__"], answer:"__str__", section:"__str__ vs __repr__"},
-       {code:"class D:\n    def __init__(self):\n        self.data = {}\n    def __setitem__(self, k, v):\n        self.data[k] = v\n    def __getitem__(self, k):\n        return self.data[k]\nd = D()\nd[\"a\"] = 7\nprint(d[\"a\"])", opts:["7","a","{}"], answer:"7", section:"Індексація __getitem__/__setitem__"},
+       {q:`Яке представлення бере <code>print(obj)</code>, коли є обидва?`, opts:["__repr__","__str__","__init__"], answer:"__str__", section:"__str__ vs __repr__"},
+       {code:"class D:\n    def __init__(self):\n        self.data = {}\n    def __setitem__(self, k, v):\n        self.data[k] = v\n    def __getitem__(self, k):\n        return self.data[k]\nd = D()\nd[\"a\"] = 7\nprint(d[\"a\"])", opts:["a","{}","7"], answer:"7", section:"Індексація __getitem__/__setitem__"},
        {q:`Оператор <code>+</code> відповідає магічному методу...`, opts:["__add__","__plus__","__sum__"], answer:"__add__", section:"Перевантаження операторів"},
-       {q:`Вираз <code>3 * obj</code> (число зліва) викличе в obj...`, opts:["__rmul__","__mul__","__lmul__"], answer:"__rmul__", section:"__rmul__ (порядок операндів)"},
-       {q:`Оператор <code>&lt;</code> відповідає методу...`, opts:["__lt__","__less__","__cmp__"], answer:"__lt__", section:"Оператори порівняння"},
+       {q:`Вираз <code>3 * obj</code> (число зліва) викличе в obj...`, opts:["__mul__","__rmul__","__lmul__"], answer:"__rmul__", section:"__rmul__ (порядок операндів)"},
+       {q:`Оператор <code>&lt;</code> відповідає методу...`, opts:["__less__","__cmp__","__lt__"], answer:"__lt__", section:"Оператори порівняння"},
        {q:`<code>@property</code> дає змогу...`, opts:["звертатися до методу як до атрибута (без дужок)","прискорити роботу всього класу","зробити відкрите поле остаточно приватним"], answer:"звертатися до методу як до атрибута (без дужок)", section:"@property (getter/setter)"},
-       {q:`<code>@staticmethod</code> — це метод, який...`, opts:["не отримує ні self, ні cls","отримує self, як звичайний","отримує cls, як класовий"], answer:"не отримує ні self, ні cls", section:"Статичні методи"},
-       {q:`<code>@classmethod</code> зручний як...`, opts:["альтернативний конструктор (через cls)","звичайний приватний метод","обчислювана властивість"], answer:"альтернативний конструктор (через cls)", section:"Класові методи"}
+       {q:`<code>@staticmethod</code> — це метод, який...`, opts:["отримує self, як звичайний","не отримує ні self, ні cls","отримує cls, як класовий"], answer:"не отримує ні self, ні cls", section:"Статичні методи"},
+       {q:`<code>@classmethod</code> зручний як...`, opts:["звичайний приватний метод","обчислювана властивість","альтернативний конструктор (через cls)"], answer:"альтернативний конструктор (через cls)", section:"Класові методи"}
      ]}
   ]},
 };

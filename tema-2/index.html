@@ -193,15 +193,15 @@ const BLOCKS = {
 
   "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
     {type:"note", text:`Цей блок — для тих, хто вже програмує. Спочатку кілька <b>пасток</b> навколо циклів, винятків і функцій; далі — <b>ідіоми</b>, як пишуть по-пайтонічному. Спершу спробуйте відповісти самі — пояснення з'явиться після відповіді.`},
-    {type:"mcq", code:"def add(x, lst=[]):\n    lst.append(x)\n    return lst\nprint(add(1))\nprint(add(2))", opts:["[1] потім [1, 2]","[1] потім [2]","[1, 2] обидва рази"], answer:"[1] потім [1, 2]",
+    {type:"mcq", code:"def add(x, lst=[]):\n    lst.append(x)\n    return lst\nprint(add(1))\nprint(add(2))", opts:["[1] потім [2]","[1] потім [1, 2]","[1, 2] обидва рази"], answer:"[1] потім [1, 2]",
      expl:"Аргумент за замовчуванням створюється ОДИН раз при оголошенні функції. Той самий список зберігається між викликами й накопичує значення. Не використовуйте змінюваний тип (список, словник) як значення за замовчуванням — беріть None."},
-    {type:"mcq", code:"print(0 or 5)", opts:["5","0","True"], answer:"5",
+    {type:"mcq", code:"print(0 or 5)", opts:["0","True","5"], answer:"5",
      expl:"or повертає не True/False, а сам операнд: перший «істинний» (0 — хибний, тож повертається 5). Тому запис value or типове — зручний спосіб задати значення за замовчуванням."},
     {type:"mcq", code:"def greet():\n    msg = \"привіт\"\nprint(greet())", opts:["None","привіт","помилка"], answer:"None",
      expl:"Функція без return повертає None. Легко забути return і потім дивуватись, чому «нічого не повертається»."},
-    {type:"mcq", code:"print(sum(range(1, 5)))", opts:["10","15","1 2 3 4"], answer:"10",
+    {type:"mcq", code:"print(sum(range(1, 5)))", opts:["15","10","1 2 3 4"], answer:"10",
      expl:"range(1, 5) — це 1, 2, 3, 4: права межа НЕ включається. Сума = 10. Класична помилка «на одиницю»."},
-    {type:"mcq", code:"print(bool([]))", opts:["False","True","[]"], answer:"False",
+    {type:"mcq", code:"print(bool([]))", opts:["True","[]","False"], answer:"False",
      expl:"Порожні контейнери (список, рядок, словник) — «хибні». Тому пишуть if items:, а не if len(items) > 0:."},
     {type:"note", text:`<b>Тепер ідіоми.</b> Короткі завдання: записати щось «по-пайтонічному», одним рядком.`},
     {type:"task",
@@ -223,11 +223,11 @@ const BLOCKS = {
      intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
      questions:[
        {code:"print('a' if 3 > 5 else 'b')", opts:["b","a","помилка"], answer:"b", section:"Умовне виконання (if/elif/else)"},
-       {scenario:"total = 0", code:"for i in [1, 2, 3]:\n    total += i\nprint(total)", opts:["6","3","123"], answer:"6", section:"Цикли (for)"},
-       {code:"try:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    x = -1\nprint(x)", opts:["-1","0","помилка"], answer:"-1", section:"Винятки (try/except)"},
+       {scenario:"total = 0", code:"for i in [1, 2, 3]:\n    total += i\nprint(total)", opts:["3","6","123"], answer:"6", section:"Цикли (for)"},
+       {code:"try:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    x = -1\nprint(x)", opts:["0","помилка","-1"], answer:"-1", section:"Винятки (try/except)"},
        {code:"def double(n):\n    return n * 2\nprint(double(5))", opts:["10","5","None"], answer:"10", section:"Функції (def, return)"},
-       {code:"def f(a, b=10):\n    return a + b\nprint(f(5))", opts:["15","5","помилка"], answer:"15", section:"Аргументи за замовчуванням"},
-       {code:"def total(*nums):\n    return sum(nums)\nprint(total(1, 2, 3))", opts:["6","(1, 2, 3)","помилка"], answer:"6", section:"Змінна кількість аргументів (*args)"}
+       {code:"def f(a, b=10):\n    return a + b\nprint(f(5))", opts:["5","15","помилка"], answer:"15", section:"Аргументи за замовчуванням"},
+       {code:"def total(*nums):\n    return sum(nums)\nprint(total(1, 2, 3))", opts:["(1, 2, 3)","помилка","6"], answer:"6", section:"Змінна кількість аргументів (*args)"}
      ]}
   ]},
 };

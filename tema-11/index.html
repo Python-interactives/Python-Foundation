@@ -131,7 +131,7 @@ const BLOCKS = {
      starter:'import pickle\n\nsettings = {"theme": "dark", "language": "ukrainian"}\nwith open("settings.pickle", "wb") as f:\n    pickle.dump(settings, f)\n\nwith open("settings.pickle", "rb") as f:\n    loaded = pickle.load(f)\n\n# виведіть значення ключа "theme"\n',
      expected:"dark"},
     {type:"mcq", q:`Що станеться при <code>pickle.load</code>, якщо клас обʼєкта не оголошено в скрипті десеріалізації?`,
-     opts:["помилка (AttributeError) — клас має бути визначений","обʼєкт спокійно завантажиться навіть без класу","pickle сам відновить потрібний клас"], answer:"помилка (AttributeError) — клас має бути визначений",
+     opts:["обʼєкт спокійно завантажиться навіть без класу","помилка (AttributeError) — клас має бути визначений","pickle сам відновить потрібний клас"], answer:"помилка (AttributeError) — клас має бути визначений",
      expl:`<code>pickle</code> зберігає лише стан, а не код класу. Клас (з тією ж структурою) має бути доступний там, де відбувається <code>load</code>.`}
   ]},
 
@@ -145,7 +145,7 @@ const BLOCKS = {
      starter:'import json\n\noriginal = {"nums": (10, 20, 30)}\ns = json.dumps(original)\nback = json.loads(s)\n# виведіть тип значення ключа "nums" (буде list)\n',
      expected:"list"},
     {type:"mcq", q:`На що перетворюється <b>кортеж</b> Python при <code>json.dumps</code>?`,
-     opts:["на масив JSON (після loads — list)","так і залишається кортежем","перетворюється на рядок"], answer:"на масив JSON (після loads — list)",
+     opts:["так і залишається кортежем","перетворюється на рядок","на масив JSON (після loads — list)"], answer:"на масив JSON (після loads — list)",
      expl:`JSON не розрізняє список і кортеж — обидва стають масивом. Тому <code>(5, 6)</code> після round-trip стане <code>[5, 6]</code>.`}
   ]},
 
@@ -190,9 +190,9 @@ const BLOCKS = {
   "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
     {type:"note", text:`Цей блок — для впевнених. Спершу <b>пастки</b>, далі — короткі <b>ідіоми</b>. Спробуйте відповісти самі — пояснення зʼявиться після відповіді.`},
     {type:"mcq", q:`Ключ-число (<code>2</code>) у словнику після <code>json.dumps</code> → <code>loads</code> стане...`,
-     opts:["рядком","так само цілим числом","логічним значенням"], answer:"рядком",
+     opts:["так само цілим числом","рядком","логічним значенням"], answer:"рядком",
      expl:`Ключі в JSON — завжди рядки. Тому <code>2</code> неявно стає <code>"2"</code>, і після round-trip ключ буде рядковим.`},
-    {type:"mcq", code:"import json\nprint(json.dumps((1, 2)) == json.dumps([1, 2]))", opts:["True","False","помилка"], answer:"True",
+    {type:"mcq", code:"import json\nprint(json.dumps((1, 2)) == json.dumps([1, 2]))", opts:["False","помилка","True"], answer:"True",
      expl:`Кортеж і список серіалізуються однаково — обидва в масив JSON, тож рядки збігаються.`},
     {type:"mcq", q:`Чому небезпечно робити <code>pickle.load</code> даних із <b>ненадійного</b> джерела?`,
      opts:["десеріалізація може виконати шкідливий код","файл серіалізації стане надто великим","pickle взагалі не читає чужі файли"], answer:"десеріалізація може виконати шкідливий код",
@@ -212,14 +212,14 @@ const BLOCKS = {
     {type:"diagnostic",
      intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
      questions:[
-       {q:`Серіалізація — це...`, opts:["перетворення обʼєкта на потік байтів для зберігання/передачі","остаточне видалення обʼєкта з оперативної памʼяті програми","просте копіювання готового файлу на диску"], answer:"перетворення обʼєкта на потік байтів для зберігання/передачі", section:"Що таке серіалізація"},
-       {q:`У <code>pickle</code> для роботи <b>в памʼяті</b> (байти) використовують...`, opts:["dumps / loads","dump / load","read / write"], answer:"dumps / loads", section:"pickle: dumps/loads (памʼять) vs dump/load (файл)"},
+       {q:`Серіалізація — це...`, opts:["остаточне видалення обʼєкта з оперативної памʼяті програми","перетворення обʼєкта на потік байтів для зберігання/передачі","просте копіювання готового файлу на диску"], answer:"перетворення обʼєкта на потік байтів для зберігання/передачі", section:"Що таке серіалізація"},
+       {q:`У <code>pickle</code> для роботи <b>в памʼяті</b> (байти) використовують...`, opts:["dump / load","read / write","dumps / loads"], answer:"dumps / loads", section:"pickle: dumps/loads (памʼять) vs dump/load (файл)"},
        {code:"import pickle\nd = {\"n\": 7}\nprint(pickle.loads(pickle.dumps(d))[\"n\"])", opts:["7","d","байти"], answer:"7", section:"pickle: round-trip"},
-       {q:`Щоб розпакувати обʼєкт користувацького класу, клас має бути...`, opts:["оголошений у скрипті десеріалізації","повністю збережений усередині pickle","заздалегідь завантажений з мережі"], answer:"оголошений у скрипті десеріалізації", section:"pickle: класи користувача"},
-       {q:`Кортеж Python при <code>json.dumps</code> стає...`, opts:["масивом JSON (list після loads)","незмінним кортежем (tuple)","рядком"], answer:"масивом JSON (list після loads)", section:"JSON: відмінності типів"},
+       {q:`Щоб розпакувати обʼєкт користувацького класу, клас має бути...`, opts:["повністю збережений усередині pickle","оголошений у скрипті десеріалізації","заздалегідь завантажений з мережі"], answer:"оголошений у скрипті десеріалізації", section:"pickle: класи користувача"},
+       {q:`Кортеж Python при <code>json.dumps</code> стає...`, opts:["незмінним кортежем (tuple)","рядком","масивом JSON (list після loads)"], answer:"масивом JSON (list після loads)", section:"JSON: відмінності типів"},
        {q:`Щоб кирилиця в JSON-файлі не стала <code>\\uXXXX</code>, треба...`, opts:["ensure_ascii=False","параметр ascii=True","indent=0"], answer:"ensure_ascii=False", section:"JSON: кирилиця (ensure_ascii)"},
-       {q:`Значення, прочитані з CSV, за замовчуванням мають тип...`, opts:["рядок (str)","int","залежить від даних"], answer:"рядок (str)", section:"CSV: типи значень"},
-       {q:`<code>csv.DictReader</code> повертає кожен рядок як...`, opts:["словник","список","рядок"], answer:"словник", section:"CSV: DictReader/DictWriter"}
+       {q:`Значення, прочитані з CSV, за замовчуванням мають тип...`, opts:["int","рядок (str)","залежить від даних"], answer:"рядок (str)", section:"CSV: типи значень"},
+       {q:`<code>csv.DictReader</code> повертає кожен рядок як...`, opts:["список","рядок","словник"], answer:"словник", section:"CSV: DictReader/DictWriter"}
      ]}
   ]},
 };

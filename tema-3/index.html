@@ -220,13 +220,13 @@ const BLOCKS = {
     {type:"note", text:`Цей блок — для тих, хто вже впевнений. Спочатку <b>пастки</b> навколо округлення, чисел і дат; далі — кілька <b>ідіом</b> форматування. Спершу спробуйте відповісти самі — пояснення з'явиться після відповіді.`},
     {type:"mcq", code:"import math\nprint(math.floor(-3.5))", opts:["-4","-3","3"], answer:"-4",
      expl:"floor округлює ВНИЗ (до -∞), а не до нуля: -3.5 → -4. Якби обрізали дробову частину (int(-3.5)), було б -3."},
-    {type:"mcq", code:"print(round(2.5))", opts:["2","3","2.5"], answer:"2",
+    {type:"mcq", code:"print(round(2.5))", opts:["3","2","2.5"], answer:"2",
      expl:"Python округлює «до парного» (банківське округлення): round(0.5)=0, round(1.5)=2, round(2.5)=2. Тож не завжди «.5 вгору»."},
-    {type:"mcq", code:"print(-9 // 2)", opts:["-5","-4","-4.5"], answer:"-5",
+    {type:"mcq", code:"print(-9 // 2)", opts:["-4","-4.5","-5"], answer:"-5",
      expl:"Цілочисельне ділення // округлює вниз (до -∞): -9 // 2 = -5, а не -4."},
     {type:"mcq", q:`Чи може <code>random.randint(1, 6)</code> повернути <code>6</code>?`, opts:["Так, обидві межі включно","Ні, 6 не включається","Лише якщо seed = 6"], answer:"Так, обидві межі включно",
      expl:"randint(a, b) включає ОБИДВІ межі. На відміну від randrange(1, 6), яке 6 не включає — часта плутанина."},
-    {type:"mcq", code:"from datetime import timedelta\nprint(timedelta(hours=25).days)", opts:["1","0","25"], answer:"1",
+    {type:"mcq", code:"from datetime import timedelta\nprint(timedelta(hours=25).days)", opts:["0","1","25"], answer:"1",
      expl:"timedelta нормалізується: 25 годин = 1 день і 1 година, тож .days = 1 (а не 25 і не 0)."},
     {type:"note", text:`<b>Тепер ідіоми.</b> Форматування чисел у f-рядку.`},
     {type:"task",
@@ -243,12 +243,12 @@ const BLOCKS = {
     {type:"diagnostic",
      intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
      questions:[
-       {code:"from datetime import datetime\nprint(datetime(2026, 9, 1).month)", opts:["9","1","2026"], answer:"9", section:"Робота з датою (datetime)"},
+       {code:"from datetime import datetime\nprint(datetime(2026, 9, 1).month)", opts:["1","2026","9"], answer:"9", section:"Робота з датою (datetime)"},
        {scenario:"from datetime import datetime", code:"d1 = datetime(2026, 1, 1)\nd2 = datetime(2026, 1, 10)\nprint((d2 - d1).days)", opts:["9","10","1"], answer:"9", section:"Різниця дат (timedelta)"},
-       {code:"from datetime import datetime\nprint(datetime(2026, 12, 31).strftime(\"%d.%m.%Y\"))", opts:["31.12.2026","2026.12.31","12/31/2026"], answer:"31.12.2026", section:"Форматування дати (strftime)"},
-       {scenario:"import random", code:"team = random.sample([1, 2, 3, 4, 5], 2)\nprint(len(team))", opts:["2","5","1"], answer:"2", section:"Випадкові величини (random)"},
+       {code:"from datetime import datetime\nprint(datetime(2026, 12, 31).strftime(\"%d.%m.%Y\"))", opts:["2026.12.31","31.12.2026","12/31/2026"], answer:"31.12.2026", section:"Форматування дати (strftime)"},
+       {scenario:"import random", code:"team = random.sample([1, 2, 3, 4, 5], 2)\nprint(len(team))", opts:["5","1","2"], answer:"2", section:"Випадкові величини (random)"},
        {code:"import math\nprint(math.floor(7 / 2))", opts:["3","4","3.5"], answer:"3", section:"Модуль math (округлення)"},
-       {code:"import math\nprint(math.isclose(0.1 + 0.2, 0.3))", opts:["True","False","0.3"], answer:"True", section:"Порівняння дійсних чисел"}
+       {code:"import math\nprint(math.isclose(0.1 + 0.2, 0.3))", opts:["False","True","0.3"], answer:"True", section:"Порівняння дійсних чисел"}
      ]}
   ]},
 };
