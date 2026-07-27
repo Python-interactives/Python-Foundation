@@ -419,7 +419,7 @@ function findGroup(id){for(const g of TOPIC.groups){const i=g.blocks.indexOf(id)
 /* ================= ініціалізація ================= */
 function renderIndex(){
   const app=document.getElementById("app");
-  let html=`<div class="card"><h2 style="margin:0 0 8px;font-size:1.15rem">${esc(TOPIC.title)}</h2><p style="margin:0 0 10px">${TOPIC.intro}</p><p class="muted" style="margin:0">🔒 Код виконується у вашому браузері — нічого не надсилається. Проходьте по порядку: кожен крок додає щось нове.</p></div>`;
+  let html=`<div class="card"><h2 style="margin:0 0 8px;font-size:1.15rem">${esc(TOPIC.title)}</h2><p style="margin:0 0 10px">${TOPIC.intro}</p><p class="muted" style="margin:0">Проходьте по порядку: кожен крок додає щось нове.</p></div>`;
   TOPIC.groups.forEach(g=>{html+=`<div class="card"><strong>${g.name}</strong>${g.desc?`<p class="muted" style="margin:6px 0 10px">${g.desc}</p>`:""}<div class="idx"></div></div>`;});
   app.innerHTML=html;
   const idxs=app.querySelectorAll(".idx");
