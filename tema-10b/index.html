@@ -113,6 +113,7 @@ const BLOCKS = {
 
   "call-2": {title:"Функтори · крок 2 (стан між викликами)", items:[
     {type:"note", text:`Головна відмінність від функції — <b>памʼять</b>. Функтор тримає лічильники, кеш, налаштування у своїх полях, тож кожен виклик може залежати від попередніх.`},
+    {type:"mcq", code:"class Counter:\n    def __init__(self):\n        self.c = 0\n    def __call__(self):\n        self.c += 1\n        return self.c\nc = Counter()\nc()\nprint(c())", opts:["2","1","3"], answer:"2", expl:`Функтор тримає стан: перший виклик дав 1, другий — 2.`},
     {type:"run",
      prompt:`<code>Counter</code> памʼятає, скільки разів його викликали. Запустіть.`,
      code:'class Counter:\n    def __init__(self):\n        self.count = 0\n    def __call__(self):\n        self.count += 1\n        return self.count\n\nc = Counter()\nprint(c())\nprint(c())\nprint(c())\n'},
@@ -166,6 +167,7 @@ const BLOCKS = {
 
   "ctx-1": {title:"Менеджери контексту · крок 1 (__enter__/__exit__)", items:[
     {type:"note", text:`<b>🚪 Менеджер контексту</b> — обʼєкт для конструкції <code>with</code>, що гарантує «прибирання». <code>__enter__</code> виконується на вході (повертає ресурс — те, що після <code>as</code>), а <code>__exit__</code> — на виході, <b>навіть якщо всередині сталася помилка</b>. Класичний приклад — файли: відкрити на вході, закрити на виході.`},
+    {type:"mcq", code:"class M:\n    def __enter__(self):\n        print(\"in\")\n        return self\n    def __exit__(self, *a):\n        print(\"out\")\nwith M():\n    print(\"body\")", opts:["in → body → out","body → in → out","in → out → body"], answer:"in → body → out", expl:`__enter__ виконується на вході, потім тіло, потім __exit__ на виході.`},
     {type:"run",
      prompt:`Простий менеджер, що друкує «вхід» і «вихід» навколо тіла <code>with</code>. Запустіть.`,
      code:'class Managed:\n    def __enter__(self):\n        print("enter")\n        return self\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        print("exit")\n\nwith Managed() as m:\n    print("inside")\n'},

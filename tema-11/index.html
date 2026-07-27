@@ -112,6 +112,7 @@ const BLOCKS = {
 
   "pk-1": {title:"pickle · крок 1 (dumps / loads)", items:[
     {type:"note", text:`<b>🥒 <code>pickle</code></b> серіалізує обʼєкти Python у <b>байти</b> й назад — швидко, компактно, з підтримкою складних типів. Пара <code>dumps</code>/<code>loads</code> працює <b>у памʼяті</b> (байтовий рядок): зручно, коли байти треба, наприклад, відправити мережею. <code>dumps</code> — «в байти», <code>loads</code> — «з байтів».`},
+    {type:"mcq", code:"import pickle\nd = {\"n\": 7}\nprint(pickle.loads(pickle.dumps(d))[\"n\"])", opts:["7","d","0"], answer:"7", expl:`pickle пакує в байти й точно відновлює обʼєкт, тож значення 7 повертається.`},
     {type:"run",
      prompt:`Словник → байти → назад. Дивіться на тип та рівність відновленого. Запустіть.`,
      code:'import pickle\n\nmy_data = {"key": "value", "num": 42}\nserialized = pickle.dumps(my_data)\nprint("тип:", type(serialized).__name__)\nrestored = pickle.loads(serialized)\nprint(restored)\nprint("рівні?", restored == my_data)\n'},
@@ -137,6 +138,7 @@ const BLOCKS = {
 
   "js-1": {title:"JSON · крок 1 (dumps / loads, типи)", items:[
     {type:"note", text:`<b>🔤 JSON</b> — текстовий формат обміну даними (читабельний людиною, підтримується багатьма мовами). <code>json.dumps</code> перетворює обʼєкт на <b>рядок JSON</b>, <code>json.loads</code> — назад. Але типи збігаються не повністю: кортеж і список → <b>масив</b>, ключ-число → <b>рядок</b>, <code>None</code> → <code>null</code>, <code>True</code>/<code>False</code> → <code>true</code>/<code>false</code>.`},
+    {type:"mcq", code:"import json\nprint(json.dumps((1, 2, 3)))", opts:["[1, 2, 3]","(1, 2, 3)","{1, 2, 3}"], answer:"[1, 2, 3]", expl:`JSON не має кортежів, тож (1, 2, 3) стає масивом [1, 2, 3].`},
     {type:"run",
      prompt:`Помітьте два перетворення: кортеж стає масивом, а ключ-число <code>2</code> — рядком <code>"2"</code>. Запустіть.`,
      code:'import json\n\ndata = {"key": "value", 2: [1, 2, 3], "my_tuple": (5, 6)}\ns = json.dumps(data)\nprint(s)\nback = json.loads(s)\nprint(back)\nprint("тип my_tuple:", type(back["my_tuple"]).__name__)\n'},

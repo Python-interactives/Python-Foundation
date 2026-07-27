@@ -142,6 +142,7 @@ const BLOCKS = {
 
   "path-1": {title:"Шляхи й файли · крок 1 (ім'я і розширення)", items:[
     {type:"note", text:`<b>📁 Сучасний спосіб — pathlib.</b> <code>Path("шлях")</code> робить зі шляху зручний об'єкт, який «знає» свої частини: <code>.name</code> — ім'я файлу, <code>.suffix</code> — розширення.`},
+    {type:"mcq", code:"from pathlib import Path\nprint(Path(\"report.txt\").suffix)", opts:[".txt","txt","report"], answer:".txt", expl:`Властивість .suffix повертає розширення разом із крапкою.`},
     {type:"run",
      prompt:`Розберемо шлях на частини — ім'я файлу й розширення. Запустіть.`,
      code:'from pathlib import Path\np = Path("documents/report.txt")\nprint("Назва файлу:", p.name)\nprint("Розширення:", p.suffix)\n'},

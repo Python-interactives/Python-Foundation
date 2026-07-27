@@ -113,6 +113,7 @@ const BLOCKS = {
 
   "col-2": {title:"collections · крок 2 (Counter — підрахунок)", items:[
     {type:"note", text:`<b>Counter</b> — це словник, що сам рахує, скільки разів трапляється кожен елемент. Замість циклу з перевірками — один рядок. Передайте йому будь-що ітероване (список, рядок), а метод <code>most_common(n)</code> покаже <code>n</code> найчастіших.`},
+    {type:"mcq", code:"from collections import Counter\nprint(Counter(\"banana\")[\"a\"])", opts:["3","2","1"], answer:"3", expl:`Counter рахує входження: у banana три букви a.`},
     {type:"run",
      prompt:`Рахуємо оцінки одним рядком і дивимось топ-2. Запустіть.`,
      code:'from collections import Counter\n\nmarks = [4, 2, 4, 6, 7, 4, 2, 3, 4, 5, 6, 6, 7, 1, 1, 1, 3, 5]\ncounts = Counter(marks)\nprint(counts)\nprint("Топ-2:", counts.most_common(2))\n'},
@@ -149,6 +150,7 @@ const BLOCKS = {
 
   "ds-2": {title:"Структури даних · крок 2 (черга, FIFO через deque)", items:[
     {type:"note", text:`<b>Черга</b> працює за принципом <b>FIFO</b> — «першим прийшов, першим вийшов» (як черга в магазині). Її роблять через <code>deque</code> з <code>collections</code>: <code>append()</code> додає в кінець, <code>popleft()</code> бере з початку. Чому не звичайний список? Бо видалення з початку списку змушує Python зсунути всі елементи (повільно), а <code>deque</code> робить це миттєво.`},
+    {type:"mcq", code:"from collections import deque\nq = deque([1, 2, 3])\nprint(q.popleft())", opts:["1","3","[2, 3]"], answer:"1", expl:`popleft() бере й повертає перший елемент черги.`},
     {type:"run",
      prompt:`Додаємо трьох у чергу — і першим виходить той, хто прийшов першим. Запустіть.`,
      code:'from collections import deque\n\nqueue = deque()\nqueue.append("a")\nqueue.append("b")\nqueue.append("c")\nprint("Черга:", list(queue))\nprint("Вийшов першим:", queue.popleft())\nprint("Лишилось:", list(queue))\n'},
@@ -208,6 +210,7 @@ const BLOCKS = {
 
   "gen-1": {title:"Генератори · крок 1 (yield і next)", items:[
     {type:"note", text:`<b>🌀 Генератор</b> — функція, що віддає значення по одному «на льоту». Замість <code>return</code> вона використовує <code>yield</code>: віддає значення й <b>заморожує</b> свій стан, а при наступному виклику продовжує з того ж місця. Значення беруть функцією <code>next()</code> або циклом <code>for</code>.`},
+    {type:"mcq", code:"def g():\n    yield 1\n    yield 2\ngen = g()\nprint(next(gen))", opts:["1","2","1 2"], answer:"1", expl:`Перший next() виконує функцію до першого yield і повертає 1.`},
     {type:"run",
      prompt:`Найпростіший генератор і три виклики <code>next()</code>. Запустіть.`,
      code:'def my_gen():\n    yield 1\n    yield 2\n    yield 3\n\ng = my_gen()\nprint(next(g))\nprint(next(g))\nprint(next(g))\n'},

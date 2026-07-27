@@ -192,6 +192,7 @@ const BLOCKS = {
 
   "rnd-5": {title:"Розіграш призів · крок 5 (поділ призу, округлення)", items:[
     {type:"note", text:`<b>Трохи математики.</b> Приз ділять між переможцями, а результат округлюють до цілих гривень: <code>math.floor</code> — вниз, <code>math.ceil</code> — вгору.`},
+    {type:"mcq", code:"print(10 // 3)", opts:["3","3.33","4"], answer:"3", expl:`Оператор // — цілочислене ділення, дробову частину відкидає.`},
     {type:"run",
      prompt:`Ділимо приз <code>1000</code> грн між <code>3</code> переможцями. Ділення дає дріб — тож округлюємо. Запустіть.`,
      code:'import math\nprize = 1000 / 3\nprint("Точно:", prize)\nprint("Вниз (floor):", math.floor(prize))\nprint("Вгору (ceil):", math.ceil(prize))\n'},

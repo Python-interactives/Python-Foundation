@@ -113,6 +113,7 @@ const BLOCKS = {
 
   "mod-2": {title:"Модерація коментарів · крок 2 (цикл for)", items:[
     {type:"note", text:`<b>З теми.</b> Цикл <code>for</code> повторює дію для кожного елемента списку — тож можна перевірити не один коментар, а одразу всі.`},
+    {type:"mcq", code:"total = 0\nfor n in [1, 2, 3]:\n    total += n\nprint(total)", opts:["6","3","123"], answer:"6", expl:`Цикл додає кожен елемент: 1+2+3=6.`},
     {type:"run",
      prompt:`Тепер модеруємо цілий список коментарів — цикл проходить кожен і виводить рішення. Запустіть; додайте свій коментар у список і подивіться.`,
      code:'comments = ["все чудово", "це спам", "дякую"]\nfor comment in comments:\n    if "спам" in comment:\n        print("заблоковано:", comment)\n    else:\n        print("ок:", comment)\n'},
@@ -163,6 +164,7 @@ const BLOCKS = {
 
   "fn-3": {title:"Автоперевірка тесту · крок 3 (аргумент за замовчуванням)", items:[
     {type:"note", text:`<b>З теми.</b> Аргумент може мати значення <b>за замовчуванням</b>: <code>def grade(score, threshold=60)</code>. Тоді <code>grade(70)</code> візьме поріг 60, а <code>grade(70, 80)</code> — вкаже свій.`},
+    {type:"mcq", code:"def add(a, b=10):\n    return a + b\nprint(add(5))", opts:["15","5","510"], answer:"15", expl:`b має значення за замовчуванням 10, тож add(5)=5+10.`},
     {type:"run",
      prompt:`Той самий бал, але різні пороги проходження. Запустіть.`,
      code:'def grade(score, threshold=60):\n    return "склав" if score >= threshold else "не склав"\n\nprint(grade(70))\nprint(grade(70, 80))\n'},

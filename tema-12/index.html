@@ -102,6 +102,7 @@
 const BLOCKS = {
   "gs-1": {title:"__dict__ — словник атрибутів обʼєкта", items:[
     {type:"note", text:`<b>🗂 <code>__dict__</code></b> — спеціальний атрибут екземпляра: словник з <b>усіма його полями</b> (ключі — імена атрибутів, значення — їхні значення). Python створює його автоматично. Через нього можна навіть динамічно додавати чи видаляти атрибути — саме на <code>__dict__</code> спираються методи керування серіалізацією.`},
+    {type:"mcq", code:"class P:\n    def __init__(self):\n        self.x = 1\n        self.y = 2\np = P()\nprint(list(p.__dict__))", opts:["['x', 'y']","['P']","[1, 2]"], answer:"['x', 'y']", expl:`__dict__ містить імена атрибутів обʼєкта як ключі.`},
     {type:"run",
      prompt:`Дивимось <code>__dict__</code> і динамічно змінюємо його. Запустіть.`,
      code:'class Example:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nobj = Example("Gupalo Vasyl", 30)\nprint(obj.__dict__)\n\nobj.__dict__["city"] = "Poltava"\nprint(obj.city)\n\ndel obj.__dict__["age"]\nprint(obj.__dict__)\n'},
@@ -134,6 +135,7 @@ const BLOCKS = {
 
   "cp-1": {title:"Псевдонім чи копія?", items:[
     {type:"note", text:`<b>⚠️ Присвоєння не копіює.</b> <code>b = a</code> не створює новий обʼєкт — це лише <b>ще одне імʼя</b> для того самого. Тому зміна через одне імʼя видно й через інше. Особливо підступно, коли змінюваний обʼєкт (список, словник) передають у функцію, і вона його мутує.`},
+    {type:"mcq", code:"a = [1, 2, 3]\nb = a\nb.append(4)\nprint(a)", opts:["[1, 2, 3, 4]","[1, 2, 3]","[4]"], answer:"[1, 2, 3, 4]", expl:`b — друге ім'я того самого списку, тож зміна видно через обидва.`},
     {type:"run",
      prompt:`Псевдонім списку і функція, що мутує аргумент. Запустіть — і зверніть увагу, що оригінали змінюються.`,
      code:'my_list = [1, 2, 3]\ncopy_list = my_list\ncopy_list.append(4)\nprint(my_list)\n\ndef square_list(x):\n    for i, el in enumerate(x):\n        x[i] = el ** 2\n    return x\n\nnums = [1, 2, 3]\nsquare_list(nums)\nprint(nums)\n'},
@@ -144,6 +146,7 @@ const BLOCKS = {
 
   "cp-2": {title:"Поверхнева копія (copy.copy)", items:[
     {type:"note", text:`<b>🪞 Поверхнева копія</b> створює новий обʼєкт, але <b>вкладені</b> обʼєкти лишаються <b>спільними</b> (копіюються лише посилання на них). Для простих структур зручні <code>list[:]</code> та <code>{**d}</code>; для загального випадку — <code>copy.copy</code>. Якщо вкладеності немає — цього достатньо.`},
+    {type:"mcq", code:"import copy\na = [1, {\"n\": 5}]\nb = copy.copy(a)\nb[1][\"n\"] = 9\nprint(a[1][\"n\"])", opts:["9","5","None"], answer:"9", expl:`Поверхнева копія ділить вкладений словник, тож зміна через b видно в a.`},
     {type:"run",
      prompt:`Верхній рівень — новий, але вкладений словник спільний: зміна видно в обох. Запустіть.`,
      code:'import copy\n\nmy_list = [1, 2, {"name": "Vasyl"}]\ncopy_list = copy.copy(my_list)\ncopy_list[2]["age"] = 30\nprint(my_list)\nprint(copy_list)\n'},

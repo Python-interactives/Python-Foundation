@@ -135,6 +135,7 @@ const BLOCKS = {
 
   "enum-1": {title:"Перелічуваний тип · Enum", items:[
     {type:"note", text:`<b>🔢 Enum</b> — набір іменованих констант замість «магічних» чисел чи рядків (статуси, ролі, дні тижня). Наслідуються від <code>Enum</code>; <code>auto()</code> сам присвоює значення. У кожного члена є <code>.name</code> та <code>.value</code>. Обʼєкт може приймати лише визначені значення — менше помилок.`},
+    {type:"mcq", code:"from enum import Enum\nclass Color(Enum):\n    RED = 1\n    GREEN = 2\nprint(Color.GREEN.value)", opts:["2","GREEN","Color.GREEN"], answer:"2", expl:`Властивість .value дає значення члена; .name дало б "GREEN".`},
     {type:"run",
      prompt:`Статуси замовлення як <code>Enum</code> з <code>auto()</code>. Запустіть.`,
      code:'from enum import Enum, auto\n\nclass OrderStatus(Enum):\n    NEW = auto()\n    PROCESSING = auto()\n    SHIPPED = auto()\n\ns = OrderStatus.NEW\nprint(s)\nprint(s.name, s.value)\nprint(OrderStatus.SHIPPED.name)\n'},

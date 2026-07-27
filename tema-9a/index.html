@@ -113,6 +113,7 @@ const BLOCKS = {
 
   "oop-2": {title:"Клас, поля й методи · крок 2 (атрибут класу vs поле)", items:[
     {type:"note", text:`<b>Атрибут класу</b> — спільна змінна для всіх обʼєктів (оголошена в тілі класу). <b>Поле обʼєкта</b> — своя копія в кожному обʼєкті (задається через <code>self</code> у <code>__init__</code>). До атрибута класу звертаються як <code>Клас.attr</code>, до поля — як <code>self.field</code>.`},
+    {type:"mcq", code:"class Cat:\n    count = 0\n    def __init__(self):\n        Cat.count += 1\nCat()\nCat()\nprint(Cat.count)", opts:["2","1","0"], answer:"2", expl:`Атрибут класу спільний; кожен __init__ збільшує його на 1.`},
     {type:"run",
      prompt:`<code>count</code> — атрибут класу (спільний), <code>name</code> — поле обʼєкта. Запустіть.`,
      code:'class Person:\n    count = 0\n\n    def __init__(self, name):\n        self.name = name\n        Person.count += 1\n\n    def how_many(self):\n        print("Людей зараз:", Person.count)\n\nfirst = Person("Boris")\nfirst.how_many()\nsecond = Person("Alex")\nfirst.how_many()\n'},
@@ -147,6 +148,7 @@ const BLOCKS = {
 
   "inh-1": {title:"Наслідування · крок 1 (базовий і похідний клас)", items:[
     {type:"note", text:`<b>🧬 Наслідування</b> дозволяє одному класу перейняти поля й методи іншого. <b>Базовий</b> (батьківський) клас задає спільне, <b>похідні</b> класи його наслідують і можуть <b>перевизначати</b> методи. Тут <code>Cat</code>, <code>Dog</code>, <code>Cow</code> наслідують <code>Animal</code>, але кожен по-своєму реалізує <code>make_sound</code>.`},
+    {type:"mcq", code:"class A:\n    def sound(self):\n        return \"A\"\nclass B(A):\n    def sound(self):\n        return \"B\"\nprint(B().sound())", opts:["B","A","AB"], answer:"B", expl:`Похідний клас перевизначає метод, тож викликається його версія.`},
     {type:"run",
      prompt:`Три похідні класи перевизначають <code>make_sound</code>. Запустіть.`,
      code:'class Animal:\n    def __init__(self, nickname, age):\n        self.nickname = nickname\n        self.age = age\n\n    def make_sound(self):\n        pass\n\nclass Cat(Animal):\n    def make_sound(self):\n        return "Meow"\n\nclass Dog(Animal):\n    def make_sound(self):\n        return "Woof"\n\nprint(Cat("Simon", 4).make_sound())\nprint(Dog("Rex", 5).make_sound())\n'},

@@ -102,6 +102,7 @@
 const BLOCKS = {
   "str-1": {title:"Магічні методи · __str__ vs __repr__", items:[
     {type:"note", text:`<b>🎭 Магічні (dunder) методи</b> — методи з подвійними підкресленнями, які Python викликає сам. <code>__str__</code> — «людське» представлення для <code>print()</code> (читабельне для користувача). <code>__repr__</code> — «технічне» представлення для розробника (однозначне; в ідеалі <code>eval(repr(obj))</code> відтворює обʼєкт). Якщо <code>__str__</code> немає — <code>print()</code> бере <code>__repr__</code>.`},
+    {type:"mcq", code:"class Cat:\n    def __init__(self, name):\n        self.name = name\n    def __str__(self):\n        return \"Cat: \" + self.name\nprint(Cat(\"Tom\"))", opts:["Cat: Tom","Tom","<Cat>"], answer:"Cat: Tom", expl:`print бере рядок із методу __str__.`},
     {type:"run",
      prompt:`Один клас — два представлення. Запустіть і порівняйте, що виведе <code>print</code>, а що <code>repr</code>.`,
      code:'class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n    def __str__(self):\n        return f"{self.name}, {self.age} p."\n    def __repr__(self):\n        return f"Person({self.name!r}, {self.age})"\n\np = Person("Allen", 25)\nprint(p)\nprint(repr(p))\n'},
@@ -130,6 +131,7 @@ const BLOCKS = {
 
   "math-1": {title:"Перевантаження операторів · крок 1 (+)", items:[
     {type:"note", text:`<b>➕ Перевантаження операторів.</b> Оператори — це теж магічні методи: <code>+</code> → <code>__add__</code>, <code>-</code> → <code>__sub__</code>, <code>*</code> → <code>__mul__</code>, <code>/</code> → <code>__truediv__</code>. Визначивши їх, ви задаєте, що означає «додати» два ваші обʼєкти.`},
+    {type:"mcq", code:"class Money:\n    def __init__(self, amount):\n        self.amount = amount\n    def __add__(self, other):\n        return Money(self.amount + other.amount)\nprint((Money(50) + Money(30)).amount)", opts:["80","50","Money"], answer:"80", expl:`__add__ задає, що означає + для обʼєктів: 50+30=80.`},
     {type:"run",
      prompt:`<code>ComplexNumber</code> вміє додаватися через <code>+</code>. Запустіть.`,
      code:'class ComplexNumber:\n    def __init__(self, real, imag):\n        self.real = real\n        self.imag = imag\n    def __add__(self, other):\n        return ComplexNumber(self.real + other.real, self.imag + other.imag)\n    def __str__(self):\n        return f"{self.real} + {self.imag}i"\n\na = ComplexNumber(1, 2)\nb = ComplexNumber(3, 4)\nprint(a + b)\n'},
