@@ -6,7 +6,7 @@
 <script>try{var t=localStorage.getItem('pf-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<title>Python · Тема 5 — інтерактиви</title>
+<title>Python · Тема 6 — інтерактиви</title>
 <style>
   :root, [data-theme="light"]{
     --bg:#FFFFFF;--panel:#F6F7F9;--panel2:#ECEEF1;--border:#E4E5EA;
@@ -84,143 +84,139 @@
 <div class="wrap">
 <nav class="topnav" style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
   <a href="../" style="display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--blue);text-decoration:none;font-size:13.5px;font-weight:600">← На головну</a>
-  <span style="display:inline-flex;align-items:center;gap:10px"><span style="font-size:12.5px;color:var(--muted)">Тема 5 / 12</span><button class="themetoggle" id="themeToggle" aria-label="Перемкнути тему"><svg class="l-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="l-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg><span class="l-light">Темна</span><span class="l-dark">Світла</span></button></span>
+  <span style="display:inline-flex;align-items:center;gap:10px"><span style="font-size:12.5px;color:var(--muted)">Тема 6 / 12</span><button class="themetoggle" id="themeToggle" aria-label="Перемкнути тему"><svg class="l-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="l-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg><span class="l-light">Темна</span><span class="l-dark">Світла</span></button></span>
 </nav>
   <header>
-    <h1 id="title">🐍 Python · Тема 5 — інтерактиви</h1>
+    <h1 id="title">🐍 Python · Тема 6 — інтерактиви</h1>
   </header>
   <div id="app"></div>
 
 <nav class="botnav" style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:30px;padding-top:20px;border-top:1px solid var(--border)">
-  <div style="justify-self:start"><a href="../tema-4/" style="display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--white);text-decoration:none;font-size:13px;text-align:left;max-width:100%"><span style="color:var(--muted);font-size:11.5px">← Попередня</span><span>Тема 4. Рядки та регулярні вирази</span></a></div>
+  <div style="justify-self:start"><a href="../tema-5/" style="display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--white);text-decoration:none;font-size:13px;text-align:left;max-width:100%"><span style="color:var(--muted);font-size:11.5px">← Попередня</span><span>Тема 5. Файли та pathlib</span></a></div>
   <a href="../" style="justify-self:center;display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--blue);text-decoration:none;font-size:13.5px;font-weight:600">🏠 Усі теми</a>
-  <div style="justify-self:end"><a href="../tema-6/" style="display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--white);text-decoration:none;font-size:13px;text-align:right;max-width:100%"><span style="color:var(--muted);font-size:11.5px">Наступна →</span><span>Тема 6. Модулі, пакети та віртуальне оточення</span></a></div>
+  <div style="justify-self:end"></div>
 </nav>
 </div>
 
 <script>
 const BLOCKS = {
-  "file-1": {title:"Щоденник у файлі · крок 1 (запис і читання)", items:[
-    {type:"note", text:`<b>📄 Ведемо щоденник у файлі.</b> Коли програма закривається, змінні зникають — а файл лишається. <code>with open(шлях, режим)</code> безпечно відкриває файл і сам закриває його в кінці. Режим <code>"w"</code> — запис, <code>"r"</code> — читання. (Файли тут віртуальні, живуть під час запуску.)<br><br><details style="margin-top:4px"><summary style="cursor:pointer;font-weight:600">⚠️ Про кодування (на майбутнє)</summary><div style="margin-top:8px;line-height:1.6">Тут <code>open()</code> без <code>encoding</code> покладається на дефолт. У цій пісочниці це UTF-8, але на реальній машині (особливо Windows) дефолт може бути іншим — і кирилиця «попливе». Тому в справжньому коді краще завжди вказувати явно: <code>open(файл, encoding="utf-8")</code>.</div></details>`},
+  "imp-1": {title:"Аналізатор температур · крок 1 (import зі стандартної бібліотеки)", items:[
+    {type:"note", text:`<b>🌡 Будуємо аналізатор температур.</b> Замість писати все з нуля — підключаємо готове зі <b>стандартної бібліотеки</b>. <code>import</code> завантажує цілий модуль (тоді звертаємось <code>модуль.функція</code>), а <code>from ... import ...</code> бере лише потрібне.<br><br><b>З теми:</b> модуль — це файл із кодом, а пакет — тека з модулями. Стандартна бібліотека Python дає багато таких модулів «з коробки».`},
     {type:"run",
-     prompt:`Запишемо запис у файл і одразу прочитаємо його назад. Запустіть.`,
-     code:'with open("diary.txt", "w") as f:\n    f.write("Сьогодні почав вчити Python")\nwith open("diary.txt", "r") as f:\n    print(f.read())\n'},
+     prompt:`Підключаємо <code>statistics</code> та вбудовані <code>min</code>/<code>max</code> — і рахуємо показники. Запустіть, потім змініть числа й запустіть ще раз.`,
+     code:'import statistics\n\ntemps = [22.5, 23.1, 21.8, 24.1]\nprint("Середня:", round(statistics.mean(temps), 2))\nprint("Максимум:", max(temps))\n'},
     {type:"task",
-     prompt:`Запишіть свій запис і прочитайте його. У коді нижче замість <code>______</code> впишіть <code>f.write("Мій перший запис")</code>. Очікуваний вивід: <code>Мій перший запис</code>.`,
-     starter:'with open("diary.txt", "w") as f:\n    ______\nwith open("diary.txt", "r") as f:\n    print(f.read())\n',
-     expected:"Мій перший запис"}
+     prompt:`Виведіть <b>медіану</b> списку. Допишіть рядок <code>print(statistics.median(temps))</code>. Для <code>[21.0, 23.0, 25.0]</code> має вийти <code>23.0</code>.`,
+     starter:'import statistics\n\ntemps = [21.0, 23.0, 25.0]\n# допишіть рядок, що виведе медіану списку temps\n',
+     expected:"23.0"}
   ]},
 
-  "file-2": {title:"Щоденник у файлі · крок 2 (кілька рядків)", items:[
-    {type:"note", text:`<b>З теми.</b> У файлі може бути кілька рядків, розділених символом переносу <code>\\n</code>. <code>readlines()</code> читає їх у список, але лишає <code>\\n</code> в кінці кожного — тож його прибирають <code>strip()</code>.`},
+  "imp-2": {title:"Аналізатор температур · крок 2 (псевдонім as)", items:[
+    {type:"note", text:`<b>З теми.</b> Псевдонім <code>as</code> дає модулю чи функції коротше або зручніше ім'я: <code>import statistics as st</code>, далі <code>st.mean(...)</code>. Навіщо: уникнути конфлікту імен, скоротити довгі назви, легко підмінити модуль на схожий — змінивши лише рядок імпорту.`},
     {type:"run",
-     prompt:`Запишемо три рядки й прочитаємо їх у список (уже без <code>\\n</code>). Запустіть.`,
-     code:'with open("diary.txt", "w") as f:\n    f.write("рядок1\\nрядок2\\nрядок3")\nwith open("diary.txt", "r") as f:\n    lines = [line.strip() for line in f.readlines()]\nprint(lines)\n'},
+     prompt:`Той самий модуль, але під коротким ім'ям <code>st</code>. Запустіть.`,
+     code:'import statistics as st\n\ntemps = [22.5, 23.1, 21.8]\nprint("mean:", round(st.mean(temps), 2))\n'},
     {type:"task",
-     prompt:`Скільки рядків у файлі? Допишіть рядок <code>print(len(lines))</code>. Має вийти <code>3</code>.`,
-     starter:'with open("diary.txt", "w") as f:\n    f.write("рядок1\\nрядок2\\nрядок3")\nwith open("diary.txt", "r") as f:\n    lines = [line.strip() for line in f.readlines()]\n# допишіть рядок, що виведе, скільки рядків у файлі\n',
-     expected:"3"}
+     prompt:`Імпортуйте <code>sqrt</code> із <code>math</code> під ім'ям <code>root</code> і виведіть корінь зі 144. Допишіть рядок <code>print(root(144))</code>. Має вийти <code>12.0</code>.`,
+     starter:'from math import sqrt as root\n\n# допишіть рядок, що виведе корінь зі 144 через root\n',
+     expected:"12.0"}
   ]},
 
-  "file-3": {title:"Щоденник у файлі · крок 3 (дописати в кінець)", items:[
-    {type:"note", text:`<b>З теми.</b> Режим <code>"w"</code> <b>перезаписує</b> файл (стирає старе), а режим <code>"a"</code> (append) <b>дописує</b> в кінець, зберігаючи наявне.`},
+  "dry-1": {title:"Аналізатор температур · крок 3 (DRY: винести у функцію)", items:[
+    {type:"note", text:`<b>Принцип DRY</b> (Don't Repeat Yourself): якщо однакова логіка повторюється — винесіть її у функцію. Тоді зміна робиться в одному місці, а не в десятьох. Функцію потім легко перенести в окремий модуль і імпортувати.`},
     {type:"run",
-     prompt:`Спершу записуємо один рядок, потім дописуємо другий режимом <code>"a"</code>. Запустіть — у файлі опиняться обидва.`,
-     code:'with open("diary.txt", "w") as f:\n    f.write("перший запис\\n")\nwith open("diary.txt", "a") as f:\n    f.write("другий запис\\n")\nwith open("diary.txt", "r") as f:\n    print(f.read())\n'},
+     prompt:`Логіку аналізу зібрали в одну функцію <code>analyze</code> — і викликаємо її для різних списків. Запустіть.`,
+     code:'import statistics\n\ndef analyze(temps):\n    return {\n        "min": min(temps),\n        "max": max(temps),\n        "avg": round(statistics.mean(temps), 2),\n    }\n\nprint(analyze([22.5, 23.1, 21.8]))\nprint(analyze([18.0, 19.5, 20.0]))\n'},
     {type:"task",
-     prompt:`Зробіть так, щоб другий запис <b>дописався</b>, а не стер перший. Замість <code>______</code> впишіть режим додавання <code>"a"</code>. Мають лишитися обидва записи.`,
-     starter:'with open("diary.txt", "w") as f:\n    f.write("перший запис\\n")\nwith open("diary.txt", ______) as f:\n    f.write("другий запис\\n")\nwith open("diary.txt", "r") as f:\n    print(f.read())\n',
-     expected:"перший запис\nдругий запис"}
+     prompt:`Допишіть тіло функції: поверніть середнє, округлене до 1 знаку — <code>return round(statistics.mean(temps), 1)</code>. Для <code>[10, 20, 30]</code> має вийти <code>20.0</code>.`,
+     starter:'import statistics\n\ndef analyze(temps):\n    # поверніть середнє, округлене до 1 знаку\n    ______\n\nprint(analyze([10, 20, 30]))\n',
+     expected:"20.0"}
   ]},
 
-  "file-final": {title:"Щоденник у файлі · фінал", items:[
-    {type:"note", text:`<b>Міні-щоденник.</b> Записуємо кілька днів, дописуємо ще один, читаємо всі записи й рахуємо їх — усе разом.<br><br>🔗 <b>У фінальному проєкті</b> ви так само зберігатимете контакти й нотатки у файл, щоб дані не зникали після перезапуску програми — це і є персистентність.`},
+  "temp-final": {title:"Аналізатор температур · фінал (файл + main)", items:[
+    {type:"note", text:`<b>Збираємо все разом.</b> Дані читаємо з файлу, чистимо порожні рядки, рахуємо показники — і запускаємо через <b>точку входу</b> <code>main()</code> під захистом <code>if __name__ == "__main__"</code>. Цей рядок гарантує, що <code>main()</code> запуститься лише коли файл викликають напряму, а не коли його імпортують як модуль.<br><br>🔗 <b>У фінальному проєкті</b> код так само розкладають на модулі (окремо читання даних, окремо логіка, окремо <code>main.py</code>) — це і є хороша структура проєкту.`},
     {type:"run",
-     prompt:`Натисніть «Запустити» — щоденник заповниться й покаже всі записи. Додайте свій рядок у будь-який <code>f.write(...)</code> і запустіть ще раз. 📄`,
-     code:'with open("diary.txt", "w") as f:\n    f.write("Понеділок: почав курс\\n")\n    f.write("Вівторок: розібрав файли\\n")\nwith open("diary.txt", "a") as f:\n    f.write("Середа: написав щоденник сам\\n")\nwith open("diary.txt", "r") as f:\n    lines = [line.strip() for line in f.readlines()]\nprint("Записів у щоденнику:", len(lines))\nfor line in lines:\n    print(" -", line)\n'}
+     prompt:`Натисніть «Запустити» — файл <code>temperatures.txt</code> створиться, прочитається й проаналізується. Додайте свої значення в <code>f.write(...)</code> і запустіть ще раз. 🌡`,
+     code:'import statistics\n\ndef load(name):\n    with open(name, "r", encoding="utf-8") as f:\n        return f.readlines()\n\ndef clean(rows):\n    return [float(r.strip()) for r in rows if r.strip()]\n\ndef main():\n    with open("temperatures.txt", "w", encoding="utf-8") as f:\n        f.write("22.5\\n23.1\\n\\n21.8\\n24.1\\n")\n    temps = clean(load("temperatures.txt"))\n    print("Днів з даними:", len(temps))\n    print("Мінімум:", min(temps))\n    print("Максимум:", max(temps))\n    print("Медіана:", statistics.median(temps))\n\nif __name__ == "__main__":\n    main()\n'},
+    {type:"note", text:`<details style="margin:0"><summary style="cursor:pointer;font-weight:600">🎯 Де це у твоєму напрямку <span style="opacity:.6;font-weight:400">(можна розгорнути або пропустити)</span></summary><div style="margin-top:8px;line-height:1.6"><b>AI&amp;ML.</b> Проєкти діляться на модулі: підготовка даних, навчання, оцінка; сторонні пакети (numpy, pandas) ставлять у venv.<br><b>SE&amp;AI.</b> Структура пакетів, точка входу й <code>requirements.txt</code> — щоденна основа будь-якого сервісу.<br><b>CyberSec&amp;AI.</b> Ізоляція залежностей у venv і фіксація версій — це ще й про відтворюваність і безпеку ланцюжка постачання.<br><b>PM&amp;AI.</b> Розуміння структури проєкту й залежностей допомагає оцінювати обсяг і ризики роботи команди.</div></details>`}
   ]},
 
-  "path-1": {title:"Шляхи й файли · крок 1 (ім'я і розширення)", items:[
-    {type:"note", text:`<b>📁 Сучасний спосіб — pathlib.</b> <code>Path("шлях")</code> робить зі шляху зручний об'єкт, який «знає» свої частини: <code>.name</code> — ім'я файлу, <code>.suffix</code> — розширення.`},
-    {type:"run",
-     prompt:`Розберемо шлях на частини — ім'я файлу й розширення. Запустіть.`,
-     code:'from pathlib import Path\np = Path("documents/report.txt")\nprint("Назва файлу:", p.name)\nprint("Розширення:", p.suffix)\n'},
-    {type:"task",
-     prompt:`Виведіть <b>розширення</b> файлу. Допишіть рядок <code>print(p.suffix)</code>. Для <code>photo.jpg</code> має вийти <code>.jpg</code>.`,
-     starter:'from pathlib import Path\np = Path("photo.jpg")\n# допишіть рядок, що виведе розширення файлу\n',
-     expected:".jpg"}
+  "pkg-1": {title:"Модулі та пакети · що є що", items:[
+    {type:"note", text:`<b>Модуль</b> — це один файл <code>.py</code> з кодом. <b>Пакет</b> — це тека з модулями (і зазвичай службовим файлом <code>__init__.py</code>). Розкладаючи модулі по теках, ви структуруєте проєкт, і потрібний код легше знайти.`},
+    {type:"classify",
+     prompt:`Позначте те, що є <b>пакетом</b> (тека з модулями), а не окремим модулем:`,
+     items:[
+       {label:"math.py", correct:false, note:"це модуль — окремий файл .py"},
+       {label:"calculations/ (тека з файлами)", correct:true},
+       {label:"utils.py", correct:false, note:"теж модуль, один файл"},
+       {label:"joke/ з __init__.py", correct:true}
+     ]},
+    {type:"mcq", q:`Який файл історично робив теку <b>пакетом</b> (щоб з неї можна було імпортувати)?`,
+     opts:["__init__.py","package.json","main.py"], answer:"__init__.py",
+     expl:`До Python 3.3 тека без <code>__init__.py</code> не вважалася пакетом. Зараз не обов'язково, але файл часто лишають для сумісності та зручних імпортів (через <code>__all__</code>).`}
   ]},
 
-  "path-2": {title:"Шляхи й файли · крок 2 (змінити розширення)", items:[
-    {type:"note", text:`<b>З теми.</b> <code>.with_suffix(".нове")</code> повертає новий шлях зі зміненим розширенням (сам файл на диску не чіпає — це лише новий об'єкт-шлях).`},
-    {type:"run",
-     prompt:`Змінимо розширення <code>.txt</code> на <code>.md</code>. Запустіть.`,
-     code:'from pathlib import Path\np = Path("report.txt")\nprint(p.with_suffix(".md"))\n'},
-    {type:"task",
-     prompt:`Змініть розширення на <code>.pdf</code>. Допишіть рядок <code>print(p.with_suffix(".pdf"))</code>. Має вийти <code>report.pdf</code>.`,
-     starter:'from pathlib import Path\np = Path("report.txt")\n# допишіть рядок, що виведе шлях зі зміненим розширенням на .pdf\n',
-     expected:"report.pdf"}
+  "pkg-2": {title:"Як Python шукає модулі · пастка імен", items:[
+    {type:"note", text:`<b>Порядок пошуку.</b> Коли ви пишете <code>import щось</code>, Python шукає модуль так: спершу в директорії запуску (робочій), потім у шляхах зі змінної оточення <code>PYTHONPATH</code>, і нарешті у стандартних теках, куди встановлено Python. <b>Перший збіг перемагає.</b>`},
+    {type:"mcq", q:`Ви назвали свій файл <code>random.py</code> і в ньому написали <code>import random</code>. Що імпортується?`,
+     opts:["Ваш файл random.py","Стандартна бібліотека random","Помилка імпорту"], answer:"Ваш файл random.py",
+     expl:`Робоча директорія переглядається ПЕРШОЮ, тож ваш <code>random.py</code> перекриє стандартний модуль. Тому не називайте файли іменами стандартних модулів.`},
+    {type:"mcq", q:`Чому не радять <code>from module import *</code>?`,
+     opts:["Можливі конфлікти імен і гірша читабельність","Це працює в рази повільніше","Це синтаксична помилка"], answer:"Можливі конфлікти імен і гірша читабельність",
+     expl:`Зірочка тягне у ваш простір імен усе підряд — легко випадково перекрити свою змінну й важче зрозуміти, звідки взялося ім'я. Що саме віддає зірочка, регулює список <code>__all__</code>.`}
   ]},
 
-  "path-3": {title:"Шляхи й файли · крок 3 (запис і читання через Path)", items:[
-    {type:"note", text:`<b>З теми.</b> <code>Path</code> уміє сам писати й читати текст: <code>write_text(текст)</code> записує, <code>read_text()</code> читає — коротше, ніж <code>with open</code>.`},
-    {type:"run",
-     prompt:`Запишемо й прочитаємо файл через <code>Path</code>, без <code>with open</code>. Запустіть.`,
-     code:'from pathlib import Path\np = Path("note.txt")\np.write_text("Привіт від pathlib", encoding="utf-8")\nprint(p.read_text(encoding="utf-8"))\n'},
-    {type:"task",
-     prompt:`Прочитайте вміст файлу. Допишіть рядок <code>print(p.read_text(encoding="utf-8"))</code>. Має вийти <code>Моя нотатка</code>.`,
-     starter:'from pathlib import Path\np = Path("note.txt")\np.write_text("Моя нотатка", encoding="utf-8")\n# допишіть рядок, що прочитає й виведе вміст файлу\n',
-     expected:"Моя нотатка"}
-  ]},
-
-  "path-4": {title:"Шляхи й файли · крок 4 (чи існує файл)", items:[
-    {type:"note", text:`<b>З теми.</b> <code>.exists()</code> перевіряє, чи файл (або директорія) реально існує — повертає <code>True</code> або <code>False</code>. Зручно перевірити перед читанням.`},
-    {type:"run",
-     prompt:`Перевіримо існування двох файлів: створеного й вигаданого. Запустіть.`,
-     code:'from pathlib import Path\np = Path("note.txt")\np.write_text("є", encoding="utf-8")\nprint("Існує note.txt?", p.exists())\nprint("Існує nope.txt?", Path("nope.txt").exists())\n'}
-  ]},
-
-  "path-final": {title:"Шляхи й файли · фінал", items:[
-    {type:"note", text:`<b>Паспорт файлу.</b> Через <code>Path</code> дізнаємось про файл усе: ім'я, розширення, чи існує, і його вміст — усе разом.`},
-    {type:"run",
-     prompt:`Натисніть «Запустити» — ось повний «паспорт» файлу. Поміняйте ім'я в <code>Path("report.txt")</code> чи текст і запустіть ще раз. 📁`,
-     code:'from pathlib import Path\np = Path("report.txt")\np.write_text("Квартальний звіт", encoding="utf-8")\nprint("Назва:    ", p.name)\nprint("Розширення:", p.suffix)\nprint("Існує:    ", p.exists())\nprint("Вміст:    ", p.read_text(encoding="utf-8"))\n'},
-    {type:"note", text:`<details style="margin:0"><summary style="cursor:pointer;font-weight:600">🎯 Де це у твоєму напрямку <span style="opacity:.6;font-weight:400">(можна розгорнути або пропустити)</span></summary><div style="margin-top:8px;line-height:1.6"><b>AI&amp;ML.</b> Читання/запис датасетів і чекпойнтів моделі; обхід директорій із даними.<br><b>SE&amp;AI.</b> Конфіги, логи, персистентність стану — основа будь-якого сервісу.<br><b>CyberSec&amp;AI.</b> Читання лог-файлів, обхід директорій, перевірка шляхів та існування файлів.<br><b>PM&amp;AI.</b> Збереження звітів, читання вивантажень, персистентність даних без бази.</div></details>`}
+  "pkg-3": {title:"pip, venv і requirements.txt", items:[
+    {type:"note", text:`<b>pip</b> ставить сторонні пакети з <a href="https://pypi.org/" target="_blank" rel="noopener">PyPI</a>. Ставити їх глобально — погана ідея: пакети різних проєктів конфліктують. Тому кожному проєкту роблять <b>віртуальне оточення</b> (<code>venv</code>) — ізольовану теку із власним Python і пакетами. А <code>requirements.txt</code> фіксує список залежностей із версіями.`},
+    {type:"mcq", q:`Що робить команда <code>pip freeze > requirements.txt</code>?`,
+     opts:["Записує встановлені пакети з версіями у файл","Оновлює всі пакети до останніх версій","Видаляє віртуальне оточення"], answer:"Записує встановлені пакети з версіями у файл",
+     expl:`Так фіксують залежності проєкту. Потім на іншій машині роблять <code>pip install -r requirements.txt</code> — і отримують ті самі версії.`},
+    {type:"mcq", q:`Навіщо потрібне віртуальне оточення (<code>venv</code>)?`,
+     opts:["Щоб ізолювати залежності проєкту й уникнути конфліктів","Щоб код виконувався швидше","Щоб не писати import"], answer:"Щоб ізолювати залежності проєкту й уникнути конфліктів",
+     expl:`У venv пакети ставляться локально для проєкту й не впливають на систему та інші проєкти. Різні проєкти можуть мати різні версії тих самих бібліотек.`},
+    {type:"classify",
+     prompt:`Позначте команди, які стосуються <b>віртуального оточення</b> (venv), а не встановлення пакетів:`,
+     items:[
+       {label:"python -m venv .venv", correct:true},
+       {label:"pip install requests", correct:false, note:"це встановлення пакета через pip"},
+       {label:"source .venv/bin/activate", correct:true},
+       {label:"deactivate", correct:true},
+       {label:"pip freeze", correct:false, note:"показує встановлені пакети"}
+     ]}
   ]},
 
   "experienced": {title:"Для впевнених — нюанси та ідіоми", items:[
-    {type:"note", text:`Цей блок — для тих, хто вже впевнений. Спочатку <b>пастки</b> з файлами й pathlib; далі — короткі <b>ідіоми</b>. Спершу спробуйте відповісти самі — пояснення з'явиться після відповіді.`},
-    {type:"mcq", q:`Що станеться з наявним файлом, якщо відкрити його в режимі <code>"w"</code>?`, opts:["Уміст стирається (перезаписується)","Дописується в кінець","Помилка, бо файл існує"], answer:"Уміст стирається (перезаписується)",
-     expl:"Режим \"w\" завжди створює файл заново — старий вміст зникає. Щоб зберегти й дописати, потрібен режим \"a\"."},
-    {type:"mcq", code:"from pathlib import Path\nprint(Path(\"photo\").suffix)", opts:["(порожній рядок)","photo",".photo"], answer:"(порожній рядок)",
-     expl:"Немає крапки-розширення — suffix порожній (\"\"), тож print виведе порожній рядок."},
-    {type:"mcq", code:"from pathlib import Path\nprint(Path(\"data.tar.gz\").suffix)", opts:[".gz",".tar.gz",".tar"], answer:".gz",
-     expl:"suffix — лише ОСТАННЄ розширення (.gz). Усі разом дає .suffixes → ['.tar', '.gz']."},
-    {type:"mcq", code:"from pathlib import Path\nprint(Path(\"docs\") / \"file.txt\")", opts:["docs/file.txt","docsfile.txt","помилка"], answer:"docs/file.txt",
-     expl:"Оператор / у pathlib об'єднує частини шляху — зручніше й безпечніше за ручне склеювання рядків."},
-    {type:"mcq", code:"print(len(\"рядок1\\nрядок2\\nрядок3\".splitlines()))", opts:["3","1","2"], answer:"3",
-     expl:"splitlines() розбиває текст за переносами \\n у список рядків — тут їх 3."},
-    {type:"note", text:`<b>Тепер ідіоми.</b> Короткі записи «по-пайтонічному».`},
+    {type:"note", text:`Цей блок — для впевнених. Спершу <b>пастки</b> навколо імпортів і аргументів, далі — короткі <b>ідіоми</b> (KISS). Спробуйте відповісти самі — пояснення з'явиться після відповіді.`},
+    {type:"mcq", code:"import statistics as st\nprint(st.__name__)", opts:["statistics","st","__main__"], answer:"statistics",
+     expl:`Псевдонім (<code>as st</code>) — це лише локальне ім'я. Справжнє ім'я модуля (<code>__name__</code>) лишається <code>statistics</code>.`},
+    {type:"mcq", q:`Скрипт запустили як <code>python app.py 5 hello</code>. Чому дорівнює <code>sys.argv[0]</code>?`,
+     opts:["app.py","5","hello"], answer:"app.py",
+     expl:`Перший елемент <code>sys.argv</code> — це завжди ім'я самого скрипта. Аргументи йдуть далі: <code>argv[1]</code> це "5", <code>argv[2]</code> це "hello".`},
+    {type:"mcq", q:`Скрипт запустили як <code>python app.py 5</code>. Якого типу <code>sys.argv[1]</code>?`,
+     opts:["рядок (str)","ціле (int)","помилка"], answer:"рядок (str)",
+     expl:`Усі аргументи командного рядка приходять рядками. Якщо потрібне число — перетворюйте самі: <code>int(sys.argv[1])</code>.`},
+    {type:"note", text:`<b>Тепер ідіоми (KISS).</b> Простіше — краще.`},
     {type:"task",
-     prompt:`<b>Ідіома.</b> Зберіть шлях оператором <code>/</code>. Допишіть <code>print(folder / "report.pdf")</code>. Має вийти <code>docs/report.pdf</code>.`,
-     starter:'from pathlib import Path\nfolder = Path("docs")\n# зберіть шлях docs/report.pdf оператором /\n',
-     expected:"docs/report.pdf"},
+     prompt:`<b>KISS.</b> Замість <code>if ...: return True else: return False</code> поверніть вираз напряму. Впишіть замість <code>______</code> вираз <code>number % 2 == 0</code>. Для <code>10</code> має вийти <code>True</code>.`,
+     starter:'def is_even(number):\n    return ______\n\nprint(is_even(10))\n',
+     expected:"True"},
     {type:"task",
-     prompt:`<b>Ідіома.</b> Порахуйте рядки в тексті. Допишіть <code>print(len(text.splitlines()))</code>. Має вийти <code>3</code>.`,
-     starter:'text = "перший\\nдругий\\nтретій"\n# скільки рядків у тексті?\n',
-     expected:"3"}
+     prompt:`<b>KISS.</b> Перевірка на паліндром через зріз. Впишіть замість <code>______</code> вираз <code>s == s[::-1]</code>. Має вийти <code>True</code>.`,
+     starter:'def is_palindrome(s):\n    s = "".join(c.lower() for c in s if c.isalnum())\n    return ______\n\nprint(is_palindrome("Козак з казок"))\n',
+     expected:"True"}
   ]},
 
   "review": {title:"Перевір себе — що повторити", items:[
     {type:"diagnostic",
      intro:`Коротка перевірка по всій темі. Дайте відповідь на всі питання — наприкінці підкажемо, які розділи конспекту варто повторити (саме ті, де ви помилитесь).`,
      questions:[
-       {scenario:"У файл записали \"hi\", потім прочитали його.", code:"with open(\"f.txt\", \"w\") as f:\n    f.write(\"hi\")\nwith open(\"f.txt\") as f:\n    print(f.read())", opts:["hi","(порожньо)","помилка"], answer:"hi", section:"Запис і читання (open)"},
-       {q:`Що робить режим <code>"a"</code> при відкритті файлу?`, opts:["Дописує в кінець","Перезаписує все","Тільки читає"], answer:"Дописує в кінець", section:"Режими файлів (w / a)"},
-       {q:`Навіщо використовують <code>with open(...)</code>?`, opts:["Сам закриває файл у кінці","Пише швидше","Стискає файл"], answer:"Сам закриває файл у кінці", section:"Менеджер контексту (with)"},
-       {scenario:"from pathlib import Path", code:"print(Path(\"docs/report.txt\").name)", opts:["report.txt","docs","docs/report.txt"], answer:"report.txt", section:"pathlib: ім'я файлу (name)"},
-       {scenario:"from pathlib import Path", code:"print(Path(\"photo.jpg\").suffix)", opts:[".jpg","jpg","photo"], answer:".jpg", section:"pathlib: розширення (suffix)"},
-       {scenario:"from pathlib import Path", code:"print(Path(\"missing.txt\").exists())", opts:["False","True","помилка"], answer:"False", section:"pathlib: перевірка існування (exists)"}
+       {code:"import math\nprint(math.sqrt(9))", opts:["3.0","9","math.sqrt"], answer:"3.0", section:"Імпорт зі стандартної бібліотеки"},
+       {code:"from math import pi as P\nprint(round(P, 2))", opts:["3.14","3","pi"], answer:"3.14", section:"Псевдоніми (import ... as)"},
+       {q:`Скрипт запускають напряму: <code>python file.py</code>. Чому дорівнює <code>__name__</code>?`, opts:["__main__","file","module"], answer:"__main__", section:"Змінна __name__ і точка входу main"},
+       {q:`Що таке <b>модуль</b> у Python?`, opts:["Файл .py з кодом","Тека з файлами","Віртуальне оточення"], answer:"Файл .py з кодом", section:"Модулі та пакети"},
+       {q:`Навіщо службовий файл <code>__init__.py</code>?`, opts:["Позначає теку як пакет","Запускає програму","Встановлює залежності"], answer:"Позначає теку як пакет", section:"Пакети та __init__.py"},
+       {q:`Навіщо віртуальне оточення (<code>venv</code>)?`, opts:["Ізолює залежності проєкту","Пришвидшує код","Замінює import"], answer:"Ізолює залежності проєкту", section:"venv, pip і requirements.txt"},
+       {q:`Ви назвали файл <code>random.py</code> і зробили <code>import random</code>. Що імпортується?`, opts:["Ваш файл","Стандартна бібліотека","Нічого"], answer:"Ваш файл", section:"Порядок пошуку модулів"}
      ]}
   ]},
 };
@@ -417,12 +413,12 @@ function renderItem(item){
 
 /* ================= орієнтир теми ================= */
 const TOPIC = {
-  title:"Тема 5 — файли та pathlib",
-  intro:`Тут ви працюєте з файлами — і це справжній файловий I/O прямо в браузері (файли живуть під час запуску). Спершу ведемо щоденник у файлі: зберігаємо записи й читаємо назад через <code>with open</code>. Потім переходимо на сучасний <code>pathlib</code>: розбираємо шляхи, міняємо розширення, пишемо й читаємо файли об'єктом <code>Path</code>.`,
+  title:"Тема 6 — модулі, пакети та віртуальне оточення",
+  intro:`Тут ви структуруєте код: розбиваєте великий файл на модулі й пакети, підключаєте готове зі стандартної бібліотеки та ізолюєте залежності у віртуальному оточенні. Спершу зберемо аналізатор температур — з <code>import</code>, псевдонімами (<code>as</code>), принципом DRY і точкою входу <code>main</code>. Далі розберемо, як влаштовані пакети, <code>__init__.py</code>, пошук модулів, <code>pip</code> і <code>venv</code>.`,
   groups:[
-    {name:"📄 Кейс · Щоденник у файлі", desc:`Основи файлів: безпечно відкрити й закрити (<code>with open</code>), записати (<code>write</code>) і прочитати (<code>read</code>, <code>readlines</code>), дописати в кінець (режим <code>"a"</code>). У фіналі — міні-щоденник.`, blocks:["file-1","file-2","file-3","file-final"]},
-    {name:"📁 Кейс · Шляхи й файли (pathlib)", desc:`Сучасний <code>pathlib</code>: ім'я та розширення шляху (<code>.name</code>, <code>.suffix</code>), зміна розширення (<code>.with_suffix</code>), запис/читання (<code>write_text</code>, <code>read_text</code>), перевірка існування (<code>.exists</code>). У фіналі — «паспорт файлу».`, blocks:["path-1","path-2","path-3","path-4","path-final"]},
-    {name:"⚡ Для впевнених", desc:`Якщо базове дається легко — пастки з файлами й pathlib та ідіоми Python. Необов'язково.`, blocks:["experienced"]},
+    {name:"🌡 Кейс · Аналізатор температур", desc:`Підключаємо стандартну бібліотеку (<code>math</code>, <code>statistics</code>), даємо псевдоніми, виносимо логіку у функції (DRY) і додаємо точку входу <code>main</code> з <code>if __name__ == "__main__"</code>. У фіналі — читання з файлу.`, blocks:["imp-1","imp-2","dry-1","temp-final"]},
+    {name:"📦 Модулі, пакети, оточення", desc:`Як влаштовано структуру: модуль-файл vs пакет-тека, службовий <code>__init__.py</code>, порядок пошуку модулів і навіщо <code>pip</code>, <code>venv</code> та <code>requirements.txt</code>.`, blocks:["pkg-1","pkg-2","pkg-3"]},
+    {name:"⚡ Для впевнених", desc:`Якщо базове дається легко — пастки з імпортами й аргументами та ідіоми KISS. Необов'язково.`, blocks:["experienced"]},
     {name:"✅ Перевір себе", desc:`Коротка діагностика по всій темі. Наприкінці підкаже, які розділи конспекту варто повторити.`, blocks:["review"]}
   ]
 };
