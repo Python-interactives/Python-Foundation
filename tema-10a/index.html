@@ -442,7 +442,7 @@ function findGroup(id){for(const g of TOPIC.groups){const i=g.blocks.indexOf(id)
 /* ================= ініціалізація ================= */
 function renderIndex(){
   const app=document.getElementById("app");
-  let html=`<div class="card"><h2 style="margin:0 0 8px;font-size:1.15rem">${esc(TOPIC.title)}</h2><p style="margin:0 0 10px">${TOPIC.intro}</p><p class="muted" style="margin:0">Проходьте по порядку: кожен крок додає щось нове.</p></div>`;
+  let html=`<div class="card"><h2 style="margin:0 0 8px;font-size:1.15rem">${esc(TOPIC.title)}</h2><p style="margin:0 0 10px">${TOPIC.intro}</p><p class="muted" style="margin:0">Проходьте по порядку: кожен крок додає щось нове.</p><p class="muted" style="margin:10px 0 0">Завдання перевіряються за виводом програми, тому пишіть саме те, що просить крок — без зайвого тексту чи підписів. Якщо вивід має інший формат, перевірка покаже розбіжність: це особливість автоперевірки за форматом, і код при цьому може бути цілком правильним.</p></div>`;
   TOPIC.groups.forEach(g=>{html+=`<div class="card"><strong>${g.name}</strong>${g.desc?`<p class="muted" style="margin:6px 0 10px">${g.desc}</p>`:""}<div class="idx"></div></div>`;});
   app.innerHTML=html;
   const idxs=app.querySelectorAll(".idx");
